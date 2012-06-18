@@ -1,0 +1,78 @@
+
+task downloadLessCssRhino(type: UrlDownload) {
+    ext.filename = "less-rhino-1.1.3.js"
+    url "https://raw.github.com/erwan/less.js/rhino/dist/$filename"
+    destination file("$downloadDir/$filename")
+}
+
+class UrlDownload extends DefaultTask {
+
+    @Input
+    String url
+    
+    @OutputFile
+    File destination
+
+    @TaskAction
+    void doDownload() {
+        getDestination().withOutputStream { out -> 
+            new URL(getUrl()).withInputStream { out << it }
+        }
+    }
+}
+
+task downloadDeckJs(type: DownloadZipAndUnpack) {
+    zipUrl "https://github.com/imakewebthings/deck.js/zipball/c77cfb7148114873bc9b682ba73288c5275b6175"
+    destination file("$downloadDir/deck.js")
+    nested true
+}
+
+task downloadDeckExtJs(type: DownloadZipAndUnpack) {
+    zipUrl "https://github.com/barraq/deck.ext.js/zipball/a4d2d7f9fc5773186e45713f35a221f596345c86"
+    destination file("$downloadDir/deck.ext.js")
+    nested true
+}
+
+class DownloadZipAndUnpack extends DefaultTask {
+
+    @Input
+    String zipUrl
+
+    @OutputDirectory
+    File destination
+
+    @Input
+    boolean force
+
+    @Input
+    boolean nested // is the real content in the only dir at the root of the zip?
+
+    DownloadZipAndUnpack() {
+        outputs.upToDateWhen { !getForce() }
+    }
+
+    @TaskAction
+    void doDownloadZipAndUnpack() {
+        def url = new URL(getZipUrl())
+        def tmp = temporaryDir
+        def zipDestination = new File(tmp, "zip.zip")
+        url.withInputStream { zipBytes ->
+            zipDestination.withOutputStream { it << zipBytes }
+        }
+
+        def unzipDestination = nested ? new File(tmp, "unzipped") : destination
+
+        // GRADLE-2158 workaround
+        ant.unzip(src: zipDestination, dest: unzipDestination)
+
+        if (nested) {
+            def files = unzipDestination.listFiles()
+            assert files.size() == 1 : "expecting downloaded zip @ $unzipDestination to have one root dir"
+
+            project.copy {
+                from files.first()
+                into getDestination()
+            }
+        }
+    }
+}

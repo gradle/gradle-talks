@@ -1,0 +1,59 @@
+import org.grails.gradle.plugin.*
+
+apply plugin: "base"
+
+buildscript {
+  repositories { maven { url "http://repo.grails.org/grails/core" } }
+  dependencies.classpath "org.grails:grails-gradle-plugin:1.1.1-SNAPSHOT"
+}
+
+System.setProperty("spock.building", "true")
+System.setProperty("grails.full.stacktrace", "true")
+
+class SetupGrailsProject extends Sync {
+  Map props = [:]
+  
+  SetupGrailsProject() {
+    eachFile { file ->
+      if (file.name.endsWith(".in")) {
+        file.expand props
+        file.name = file.name[0..-4]
+      }
+    }
+    
+    doLast {
+      project.file("$destinationDir/src/java").mkdirs()
+    }
+  }
+}
+
+project.ext.SetupGrailsProject = SetupGrailsProject
+project.ext.GrailsTask = GrailsTask
+
+ext {
+  grailsDependency = { module, grailsVersion -> "org.grails:grails-$module:$grailsVersion" }
+  configureBaseGrailsClasspath = { grailsVersion, configuration ->
+    GrailsDependenciesUtil.configureBootstrapClasspath(project, grailsVersion, configuration)
+  }
+}
+
+ext {
+  pluginVersion = version
+  pluginGrailsVersion = "2.0.0"
+  pluginSpockGroovyVersion = "1.8"
+  pluginSpockVersion = spockVersion(pluginSpockGroovyVersion)
+}
+
+if (isSnapshot) {
+  pluginVersion += "-SNAPSHOT"
+  pluginSpockVersion += "-SNAPSHOT"
+}
+
+apply from: "gradle/plugin.gradle"
+apply from: "gradle/testWithGrails2.gradle"
+apply from: "gradle/testWithGrails13.gradle"
+
+task test(dependsOn: tasks.withType(GrailsTask).matching { it.command == "test-app" })
+task check(dependsOn: test)
+task assemble(dependsOn: packagePlugin, overwrite: true)
+task build(dependsOn: [check, assemble])

@@ -1,0 +1,20 @@
+grails.project.work.dir = "target"
+grails.project.dependency.resolution = {
+  inherits "global" 
+  log "warn"
+
+  repositories {
+    grailsHome()
+    grailsCentral()
+  }
+
+  dependencies {
+    test("hsqldb:hsqldb:1.8.0.7") {
+      export = false
+    }
+  }
+
+  plugins {
+    compile (":tomcat:$grailsVersion", ":hibernate:$grailsVersion") 
+  }
+}

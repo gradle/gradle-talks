@@ -1,0 +1,15 @@
+dependencies {
+	compile project(':module:geb-core')
+	compile "junit:junit:4.8.1"
+	testCompile project(":module:test-support")
+}
+
+modifyPom { pom ->
+	pom.project {
+		name "Geb for JUnit 4"
+		description "Geb (pronounced \"jeb\") integration with the JUnit 4 test framework."
+	}
+	
+	// User provides their own junit
+	pom.dependencies.removeAll(pom.dependencies.findAll { it.groupId == "junit" })
+}

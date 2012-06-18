@@ -1,0 +1,40 @@
+buildscript {
+    repositories.mavenCentral()
+    dependencies { classpath 'org.pegdown:pegdown:1.1.0' }
+}
+
+apply plugin: "base"
+
+task md(type: PegDown) {
+    input = file("some.md")
+    output = file("$buildDir/tokenized/some.html")
+}
+
+task detokenize(type: Copy) {
+    dependsOn md
+    from "$buildDir/tokenized"
+    into "$buildDir/detokenized"
+    expand version: "1.0"
+}
+
+import org.pegdown.Extensions
+import org.pegdown.PegDownProcessor
+
+class PegDown extends DefaultTask {
+
+    // @InputFile
+    File input
+
+    // @OutputFile
+    File output
+
+    @TaskAction
+    void process() {
+        PegDownProcessor processor = new PegDownProcessor()
+        String markdown = input.text
+        String html = processor.markdownToHtml(markdown)
+        assert output.parentFile.mkdirs() || output.parentFile.exists()
+        output.write(html)
+    }
+
+}

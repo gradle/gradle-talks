@@ -1,0 +1,4 @@
+#Sun Apr 03 16:45:40 EST 2011
+app.version=${pluginVersion}
+app.grails.version=${grailsVersion}
+app.name=spock-grails

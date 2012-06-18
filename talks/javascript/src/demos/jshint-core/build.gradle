@@ -1,0 +1,33 @@
+// Requires Gradle 1.1
+
+import org.gradle.plugins.javascript.jshint.*
+
+apply plugin: "jshint"
+
+configurations {
+	rhino
+}
+
+dependencies {
+	rhino 'rhino:js:1.7R1'
+}
+
+javaScript {
+	rhino {
+		//classpath = configurations.rhino
+	}
+	jsHint {
+		// js = files("jshint-r05.js")
+		// version "r06" // default is r07
+	}
+}
+
+repositories {
+	mavenCentral()
+	add javaScript.gradlePublicJavaScriptRepository
+}
+
+task jshint(type: JsHint) {
+	source fileTree("js")
+	jsonReport "$buildDir/jshint.json"
+}

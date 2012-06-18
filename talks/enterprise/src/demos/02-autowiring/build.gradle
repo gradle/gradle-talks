@@ -1,0 +1,69 @@
+apply plugin: "base"
+
+// -- TERRIBLE -- 
+
+/*task generate << {
+    def file = file("$buildDir/generated.txt")
+    file.parentFile.mkdirs()
+    file.createNewFile()
+    file.text = '$token'
+}
+
+task process(type: Copy, dependsOn: generate) {
+    from "$buildDir/generated.txt"
+    into "$buildDir/processed"
+    expand token: "value"
+}*/
+
+// -- BAD --
+
+/*def file = file("$buildDir/generated.txt")
+
+task generate << {
+    file.parentFile.mkdirs()
+    file.createNewFile()
+    file.text = '$token'
+}
+
+task process(type: Copy, dependsOn: generate) {
+    from file
+    into "$buildDir/processed"
+    expand token: "value"
+}
+*/
+
+// -- BETTER --
+
+/*def file = files("$buildDir/generated.txt") {
+    builtBy "generate"
+}
+
+task generate << {
+    file.singleFile.parentFile.mkdirs()
+    file.singleFile.createNewFile()
+    file.singleFile.text = '$token'
+}
+
+task process(type: Copy) {
+    from file
+    into "$buildDir/processed"
+    expand token: "value"
+}*/
+
+
+// -- GOOD --
+
+/*task generate << {
+    def file = file("$buildDir/generated.txt")
+    file.parentFile.mkdirs()
+    file.createNewFile()
+    file.text = '$token'
+    
+    outputs.file(file)
+}
+
+task process(type: Copy) {
+    from generate
+    into "$buildDir/processed"
+    expand token: "value"
+}*/

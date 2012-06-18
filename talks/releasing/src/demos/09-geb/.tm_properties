@@ -1,0 +1,4 @@
+projectDirectory = "$CWD"
+
+[ source.groovy ]
+softTabs = false

@@ -1,0 +1,11 @@
+apply plugin: "groovy"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy localGroovy()
+    compile gradleApi()
+    compile 'org.jsoup:jsoup:1.6.1'
+}

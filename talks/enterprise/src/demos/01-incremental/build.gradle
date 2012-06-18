@@ -1,0 +1,64 @@
+buildscript {
+    repositories.mavenCentral()
+    dependencies { classpath 'org.pegdown:pegdown:1.1.0' }
+}
+
+apply plugin: "base"
+
+task md(type: PegDown) {
+    input = file("some.md")
+    output = file("$buildDir/tokenized/some.html")
+    // options "smarts", "quotes"
+}
+
+task detokenize(type: Copy) {
+    //from md
+    
+    dependsOn md
+    from "$buildDir/tokenized"
+    
+    into "$buildDir/detokenized"
+    expand version: "1.0"
+}
+
+import org.pegdown.Extensions
+import org.pegdown.PegDownProcessor
+
+class PegDown extends DefaultTask {
+
+    @Input
+    @Optional
+    List<String> options = []
+
+    // @InputFile
+    File input
+
+    // @OutputFile
+    File output
+
+    @TaskAction
+    void process() {
+        int optionsValue = getCalculatedOptions()
+        PegDownProcessor processor = new PegDownProcessor(optionsValue)
+        String markdown = input.text
+        String html = processor.markdownToHtml(markdown)
+        output.write(html)
+    }
+
+    int getCalculatedOptions() {
+        getOptions().inject(0) { acc, val -> acc | toOptionValue(val) } as int
+    }
+
+    protected int toOptionValue(String optionName) {
+        String upName = optionName.toUpperCase()
+        try {
+            Extensions."$upName"
+        } catch (MissingPropertyException e) {
+            throw new InvalidUserDataException("$optionName is not a valid PegDown extension name")
+        }
+    }
+
+    void options(String... options) {
+        this.options.addAll(options)
+    }
+}

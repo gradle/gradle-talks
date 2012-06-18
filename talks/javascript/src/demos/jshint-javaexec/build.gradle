@@ -1,0 +1,17 @@
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	rhino
+}
+
+dependencies {
+	rhino 'org.mozilla:rhino:1.7R3'
+}
+
+task jsHint(type: JavaExec) {
+	classpath configurations.rhino
+	main "org.mozilla.javascript.tools.shell.Main"
+	args file("jshint.js"), file("some.js")
+}

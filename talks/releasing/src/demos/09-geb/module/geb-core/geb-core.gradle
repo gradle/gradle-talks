@@ -1,0 +1,18 @@
+dependencies {
+	compile seleniumDependency, seleniumSupportDependency
+	
+	// This is not strictly a compile dependency.
+	// We list it as one so that it becomes a transitive dependency of geb-core and therefore
+	// making it available at compile time of client code, assuming that their dependency mangement
+	// system makes transitive compile dependencies first class compile dependencies.
+	compile project(":module:geb-implicit-assertions")
+}
+
+modifyPom { pom ->
+	pom.project {
+		name "Geb Core"
+		description "Geb (pronounced \"jeb\") is a browser automation solution. It brings together the power of WebDriver, the elegance of jQuery content selection, the robustness of Page Object modelling and the expressiveness of the Groovy language."
+	}
+	
+	pom.dependencies.findAll { it.groupId == "org.seleniumhq.selenium" }*.scope = "provided"
+}

@@ -1,0 +1,24 @@
+apply plugin: "base"
+
+def jsSource = fileTree("src/main/js") { include "**/*.js" }
+def csSource = fileTree("src/main/coffeescript") { include "**/*.coffee" }
+
+// not a real compiler
+task compileCoffeeScript(type: Copy) {
+	from csSource
+	into "$buildDir/coffeescript/main"
+	rename "(.+).coffee", "\$1.js"
+}
+
+def allJs = jsSource + files(compileCoffeeScript).asFileTree
+
+task zip(type: Zip) {
+	from allJs
+	destinationDir buildDir
+	archiveName "all.zip"
+}
+
+task unzip(type: Copy, dependsOn: zip) {
+	from zipTree(zip.archivePath)
+	into "$buildDir/unzip"
+}

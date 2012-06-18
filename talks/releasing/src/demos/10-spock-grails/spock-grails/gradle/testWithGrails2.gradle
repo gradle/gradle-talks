@@ -1,0 +1,55 @@
+def grails2Version = "2.0.0"
+
+task setupTestAppGrails2(type: SetupGrailsProject, dependsOn: packagePlugin) {
+  from "test-app"
+  into "$buildDir/test-app-grails-2"
+  from ("$setupPlugin.destinationDir") {
+    include "*.zip"
+    into "lib"
+    rename "^grails-(.+)", "\$1"
+  }
+  props grailsVersion: grails2Version, pluginVersion: pluginVersion
+}
+
+configurations {
+  compileGrails2 {
+    exclude module: 'xml-apis'
+    exclude module: 'slf4j-log4j12'
+  }
+  runtimeGrails2.extendsFrom compileGrails2
+  testGrails2.extendsFrom runtimeGrails2
+  configureBaseGrailsClasspath(grails2Version, bootstrapGrails2)
+}
+
+dependencies {
+  ["plugin-tomcat", "plugin-datasource", "plugin-services", "hibernate"].each { module ->
+    compileGrails2 grailsDependency(module, grails2Version)
+  }
+  compileGrails2 files("log4j")
+  testGrails2 project(path: ":spock-grails-support", configuration: "groovy18Runtime")  
+}
+
+tasks.withType(GrailsTask).matching { it.name.endsWith("Grails2") }.all {
+  dependsOn setupTestAppGrails2
+  projectDir setupTestAppGrails2.destinationDir
+  targetDir "${setupTestAppGrails2.destinationDir}/target"
+  
+  bootstrapClasspath = configurations.bootstrapGrails2
+  bootstrapRuntimeClasspath = configurations.bootstrapGrails2
+  compileClasspath = configurations.compileGrails2
+  runtimeClasspath = configurations.runtimeGrails2
+  testClasspath = configurations.testGrails2
+}
+
+task installPluginGrails2(type: GrailsTask) {
+  command "install-plugin"
+  args "$setupPlugin.destinationDir/grails-spock-${pluginVersion}.zip"
+  doFirst { 
+    delete "~/.grails/ivy-cache/org.spockframework" 
+    delete "~/.grails/2.0.0/cached-installed-plugins/spock-${version}.zip"
+  }
+}
+
+task testGrails2(type: GrailsTask, dependsOn: installPluginGrails2) {
+  command "test-app"
+}

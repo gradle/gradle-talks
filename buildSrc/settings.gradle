@@ -1,0 +1,6 @@
+include \
+    "utils",
+    "pegdown",
+    "jsoup",
+    "lesscss",
+    "xhtmlrenderer"

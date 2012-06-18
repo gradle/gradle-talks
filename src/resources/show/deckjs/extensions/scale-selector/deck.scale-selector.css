@@ -1,0 +1,18 @@
+div.scale-selector {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  width: 180px;
+  left: 50%;
+  top: 50%;
+  margin-left: -90px;
+  margin-top: -20px;
+  z-index: 20;
+  background-color: white;
+  border: 1px solid #999;
+  padding: 10px;
+}
+
+div.scale-selector select {
+  width: 100%;
+}

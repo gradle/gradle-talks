@@ -1,0 +1,242 @@
+import org.gradle.plugins.jsoup.Jsoup
+import org.gradle.plugins.pegdown.PegDown
+import org.gradle.plugins.lesscss.LessCss
+import org.gradle.plugins.xhtmlrenderer.XhtmlToPdf
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.0"
+}
+
+// Put the downloads in a different place so clean doesn't wipe them outs
+ext.downloadDir = file("downloads")
+task cleanDownloads(type: Delete) {
+    delete downloadDir
+}
+
+apply from: "gradle/downloads.gradle"
+
+allprojects {
+    apply plugin: "base"
+    apply plugin: "idea"
+    apply plugin: "jsoup"
+    apply plugin: "lesscss"
+
+    if (project == rootProject) {
+        apply from: "idea/idea.gradle"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        rhino
+    }
+
+    dependencies {
+        rhino "rhino:js:1.7R2"
+    }
+
+    lesscss {
+        rhinoClasspath = configurations.rhino
+        lessCssRhinoJs = files(downloadLessCssRhino)
+    }
+
+    // Common output settings for all html transforms
+    tasks.withType(Jsoup) {
+        destination "$buildDir/html/${name}.html"
+        inputEncoding "utf-8"
+        transform {
+            outputSettings().indentAmount(2).prettyPrint(true)
+        }
+    }
+
+    ext.copyWithLess = { String name, String dir, Closure config = null ->
+        def lessTask = task("${name}Less", type: LessCss) {
+            source fileTree("$dir/style", { include "*.less" })
+            destination "$buildDir/less/$name"
+        }
+
+        def copyTask = task("${name}Files", type: Sync) {
+            into "$buildDir/$name"
+            from(dir) {
+                exclude "**/*.less"
+            }
+
+            from lessTask, {
+                into "style"
+            }
+        }
+
+        configure(copyTask, config)
+    }
+}
+
+copyWithLess("base", "src/resources/base")  {
+    from "src/fonts/lato", {
+        into "style/fonts"
+        include "Lato-Regular.ttf"
+        include "Lato-Bold.ttf"
+    }
+}
+
+copyWithLess("pdf1up", "src/resources/pdf1up")
+copyWithLess("pdf2up", "src/resources/pdf2up")
+copyWithLess("show", "src/resources/show")
+
+project(":talks").subprojects {
+    apply plugin: "pegdown"
+    apply plugin: "xhtmlrenderer"
+
+    task concatSlidesMd(type: FileConcatTask) {
+        source (fileTree("src/slides") { include "*.md" })
+        destination "$buildDir/slides.md"
+        joiner "\n\n"
+    }
+
+    task rawHtml(type: PegDown) {
+        source concatSlidesMd
+        destination "$buildDir/html/slides-raw.html"
+    }
+
+    ["base", "pdf1up", "pdf2up", "show"].each { transformType ->
+        task ("${transformType}Html", type: Jsoup) { task ->
+            def path = "src/transforms/${transformType}.groovy"
+
+            def global = "$rootDir/$path"
+            inputs.file global
+            apply from: global, to: task
+
+            def local = "$projectDir/$path"
+            if (file(local).exists()) {
+                inputs.file local
+                apply from: local, to: task
+            }
+        }
+    }
+
+    baseHtml.source rawHtml
+    [pdf1upHtml, pdf2upHtml, showHtml]*.source baseHtml
+
+    copyWithLess("base", "src/resources/base") {
+        from rootProject.baseFiles
+        from(baseHtml) {
+            rename ".*", "index.html"
+        }
+    }
+
+    copyWithLess("pdf1up", "src/resources/pdf1up") {
+        from rootProject.pdf1upFiles
+        from(baseFiles) {
+            exclude "index.html"
+        }
+
+        from(pdf1upHtml) {
+            rename ".*", "index.html"
+        }
+    }
+
+    copyWithLess("pdf2up", "src/resources/pdf2up") {
+        from rootProject.pdf2upFiles
+        from(baseFiles) {
+            exclude "index.html"
+        }
+
+        from(pdf2upHtml) {
+            rename ".*", "index.html"
+        }
+    }
+
+
+    copyWithLess("show", "src/resources/show") {
+        from rootProject.showFiles
+        from(baseFiles) {
+            exclude "index.html"
+        }
+
+        from(showHtml) {
+            rename ".*", "index.html"
+        }
+
+        into ("deckjs") {
+            from(rootProject.downloadDeckJs) {
+                include "core/**/*"
+                include "themes/transition/**/*"
+                include "jquery*"
+                include "modernizr*"
+                include "*license*"
+                include "extensions/hash/**/*"
+            }
+            from(rootProject.downloadDeckExtJs) {
+                include "extensions/notes/**/*"
+                include "extensions/clone/**/*"
+            }
+        }
+    }
+
+    task pdf
+
+    ["1up": pdf1upFiles, "2up": pdf2upFiles].each { name, filesTask ->
+        pdf.dependsOn task("pdf$name", type: XhtmlToPdf) {
+            inputs.files filesTask
+            source "$filesTask.destinationDir/index.html"
+            pdf = file("$buildDir/${name}.pdf")
+            fonts = fileTree("$filesTask.destinationDir/style/fonts") {
+                include "*.ttf"
+            }
+        }
+    }
+
+    task "package"(overwrite: true, type: Sync) {
+        into "$buildDir/package"
+        from showFiles, {
+            into "slides"
+        }
+        from pdf1up, {
+            rename ".*", "slides.pdf"
+        }
+        from "src/demos", {
+            into "demos"
+            exclude \
+                "**/*/build",
+                "**/*/.gradle",
+                "**/*/out",
+                "**/*/*.ipr",
+                "**/*/*.iws",
+                "**/*/*.iml"
+        }
+        includeEmptyDirs = false
+    }
+
+    task packageZip(type: Zip) {
+        from tasks.package
+        archiveName "gradle-${project.name}.zip"
+        destinationDir buildDir
+    }
+}
+
+["package", "packageZip", "pdf"].each {
+    task(it, dependsOn: getTasksByName(it, true))
+}
+
+class FileConcatTask extends SourceTask {
+    @Input @Optional String joiner
+
+    private destination
+    @OutputFile File getDestination() { project.file(destination) }
+    void setDestination(destination) { this.destination = destination }
+
+    @TaskAction
+    void doFileConcat() {
+        getDestination().withOutputStream { out ->
+            getSource().files.sort { it.name }.each {
+                it.withInputStream { out << it }
+                if (joiner) {
+                    out << joiner
+                }
+            }
+        }
+    }
+}
+
+

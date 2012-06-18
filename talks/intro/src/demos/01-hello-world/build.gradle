@@ -1,0 +1,35 @@
+apply plugin: "java"
+apply plugin: "application"
+apply plugin: "findbugs"
+apply plugin: "maven"
+apply plugin: "idea"
+
+version = 1.0
+group = "demo"
+
+mainClassName = "pkg.Main"
+
+repositories {
+    mavenCentral()
+    // maven { url = "http://my.org/repo" }
+}
+
+dependencies {
+    compile 'com.google.code.findbugs:jsr305:2.0.0'
+    testCompile 'junit:junit:4.10'
+}
+
+findbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://$buildDir/repo")
+        }
+    }
+}

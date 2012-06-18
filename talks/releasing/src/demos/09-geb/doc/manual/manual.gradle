@@ -1,0 +1,84 @@
+buildscript {
+	repositories {
+		mavenRepo (name: "Alkemist's GitHub", url: "http://cloud.github.com/downloads/alkemist") {
+			pattern = "[organisation]/[module]-[revision].[ext]"
+		}
+		mavenRepo name: "scala-tools", url: "http://scala-tools.org/repo-releases"
+		mavenCentral()
+	}
+	dependencies {
+		classpath "markdown2book:markdown2book:1.0-SNAPSHOT"
+	}
+}
+
+archivesBaseName = "geb-manual"
+
+modifyPom { pom ->
+	pom.project {
+		name "Geb Manual - The Book of Geb"
+		description "Geb (pronounced \"jeb\") manual, user guide and API reference."
+	}
+}
+
+task tokeniseManual(type: Copy) {
+	from "src"
+	into "$buildDir/manual-tokenised"
+
+	ext.substitutionProperties = [
+		"geb-version": project.version,
+		"spock-version": "0.5-groovy-1.7",
+		"selenium-version": seleniumVersion,
+		"groovy-version": groovyVersion,
+		"created-at": new java.text.SimpleDateFormat("MMMM, yyyy").format(new Date()),
+		"home-page": "www.gebish.org"
+	]
+
+	inputs.properties(substitutionProperties)
+
+	def tokenisableExtensions = ["md", "html"]
+	inputs.property("tokenisableExtensions", tokenisableExtensions)
+
+	eachFile { file ->
+		if (tokenisableExtensions.any { file.name.endsWith(it) }) {
+			file.filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: substitutionProperties)
+		}
+	}
+}
+
+task compileManual {
+	dependsOn tokeniseManual
+
+	ext.source = tokeniseManual.destinationDir
+	inputs.dir(source)
+
+	ext.destination = file("$buildDir/manual-compiled")
+	outputs.dir(destination)
+
+	ext.encoding = "UTF-8"
+	inputs.property("encoding", encoding)
+
+	doLast {
+		new markdown2book.Generator(source, destination, encoding).generate()
+	}
+}
+
+task packageManual(type: Sync) {
+	into "$buildDir/manual"
+	from compileManual
+	
+	publishedGroovyModules.collect { project(it) }.each { project ->
+		into ("api/$project.name") {
+			from project.groovydoc
+		}
+	}
+}
+
+task manualZip(type: Zip) {
+	from packageManual
+}
+
+artifacts {
+	archives manualZip
+}
+
+task build(dependsOn: manualZip)

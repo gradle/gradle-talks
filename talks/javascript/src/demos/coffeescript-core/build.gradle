@@ -1,0 +1,21 @@
+// Requires Gradle 1.1
+
+import org.gradle.plugins.javascript.coffeescript.*
+
+apply plugin: "coffeescript-base"
+
+repositories {
+	mavenCentral()
+	add javaScript.gradlePublicJavaScriptRepository
+}
+
+javaScript {
+	coffeeScript {
+		// js = files("coffee-script-1.2.0.js")
+	}
+}
+
+task compileCoffeeScript(type: CoffeeScriptCompile) {
+	source fileTree("src/main/coffeescript")
+	destinationDir "$buildDir/compiled-coffeescript"
+}

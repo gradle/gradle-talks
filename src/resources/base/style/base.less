@@ -1,0 +1,89 @@
+@slideBaseWidth: 1024px;
+@slideMargin: 0px;
+@slideWidth: @slideBaseWidth - (@slideMargin * 2);
+@slideHeight: (@slideBaseWidth / (4 / 3)) - (@slideMargin * 2);
+
+@baseFontSize: 26px;
+
+@slideHeightPadding: 30px;
+@slideWidthPadding: 50px;
+
+body {
+  font-family: 'Lato', Arial, serif;
+  font-size: @baseFontSize !important;
+}
+
+section.slide {
+  color: #333;
+  line-height: 1.25 !important;
+
+  .inner {
+    overflow: hidden;
+    width: @slideWidth - (@slideWidthPadding * 2);
+    height: @slideHeight - (@slideHeightPadding * 2);
+    padding: @slideHeightPadding @slideWidthPadding;
+    background: white url(logo.png) (@slideWidth - 210px) (@slideHeight - 55px) no-repeat;
+  }
+
+  .title-slide-content {
+    padding-top: (@slideHeight / 2) - 140px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #007042;
+  }
+  
+  h1, h2 {
+    margin: 0;
+    padding: 0;
+  }
+
+
+  h2 {
+    padding-bottom: .1em;
+    margin-bottom: .5em;
+    font-size: @baseFontSize + 38px;
+  }
+
+  aside.notes {
+    display:none;
+  }
+
+  pre {
+    border: none;
+    padding: 0;
+  }
+
+  code {
+    font-family: "Consolas", "Monaco", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    font-size: 90%;
+    line-height: 1.4;
+  }
+
+  pre.code {
+    background-color: #FFFAE0;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, .8);
+    padding: 8px;
+  }
+
+  blockquote {
+    font-family: "Hoefler Text", Constantia, Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    border-left: 3px solid #CCC;
+    padding-left: 1em;
+
+    > :first-child:before {
+      content: "“";
+    }
+
+    > :last-child:after {
+      content: "”";
+    }
+  }
+  
+  h1 {
+    font-size: @baseFontSize + 88px;
+  }
+  
+}

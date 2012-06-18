@@ -1,0 +1,85 @@
+apply plugin: "java"
+apply plugin: "maven"
+
+archivesBaseName = "apiAndImpl"
+group = "myorg"
+version = 1.0
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    api
+    impl {
+        compileClasspath += api.output
+        runtimeClasspath += api.output
+    }
+    test {
+        compileClasspath = api.output + impl.output + configurations.testCompile
+        runtimeClasspath = test.output + api.output + impl.output + configurations.testRuntime
+    }
+}
+
+task apiJar(type: Jar) {
+    appendix "api"
+    from sourceSets.api.output
+}
+
+task implJar(type: Jar) {
+    appendix "impl"
+    from sourceSets.impl.output
+}
+
+artifacts {
+    archives apiJar, implJar
+}
+
+dependencies {
+    apiCompile 'commons-codec:commons-codec:1.5'
+    implCompile 'commons-lang:commons-lang:2.6'
+    testCompile 'junit:junit:4.9'
+
+    compile "$group:$archivesBaseName-api:$version"
+    runtime "$group:$archivesBaseName-impl:$version"
+}
+
+configurations {
+    testCompile {
+        extendsFrom = extendsFrom - compile
+        extendsFrom apiCompile, implCompile
+    }
+    testRuntime {
+        extendsFrom = extendsFrom - runtime
+        extendsFrom apiRuntime, implRuntime
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("${buildDir}/repo"))
+
+            addFilter("main") { artifact, file -> artifact.name == project.archivesBaseName }
+            pom("main").whenConfigured {
+                it.dependencies.removeAll { it.scope == "test" }
+            }
+
+            ["api", "impl"].each { type ->
+                addFilter(type) { artifact, file -> artifact.name.endsWith("-$type") }
+
+                // Remove the standard configuration -> scope mappings
+                def scopeMappings = pom(type).scopeMappings
+                ["compile", "runtime", "testCompile", "testRuntime"].each {
+                    scopeMappings.mappings.remove(configurations[it])
+                }
+
+                // Add mappings for our specific configurations
+                ["compile", "runtime"].each { scope ->
+                    configuration = configurations[type + scope.capitalize()]
+                    scopeMappings.addMapping 1, configurations[type + scope.capitalize()], scope
+                }
+            }
+        }
+    }
+}

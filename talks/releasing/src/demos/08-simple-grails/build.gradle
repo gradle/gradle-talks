@@ -1,0 +1,77 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://repo.grails.org/grails/repo' }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:1.1.1-SNAPSHOT"
+    }
+}
+
+version = "1.0"
+ext.grailsVersion = "2.0.4"
+
+apply plugin: "grails"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:1.8.6'
+    
+    ["plugin-tomcat", "plugin-datasource", "plugin-services", "hibernate", "logging"].each { module ->
+        compile "org.grails:grails-$module:$grailsVersion"
+    }
+}
+
+configurations {
+    all {
+        exclude module: 'xml-apis'
+        exclude group: 'org.springframework.uaa'
+        exclude group: 'org.eclipse.jdt.core.compiler'
+    }
+}
+
+task clean(overwrite: true, type: Delete) {
+    delete "application.properties",
+        "grails-app",
+        "lib",
+        "scripts",
+        "src",
+        "target",
+        "test",
+        "web-app",
+        "build"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

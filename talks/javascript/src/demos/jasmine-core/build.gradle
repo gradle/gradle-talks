@@ -1,0 +1,79 @@
+// Requires Gradle 1.1
+
+// only needed for ChromeBrowserEvaluator below
+buildscript {
+	repositories.mavenCentral()
+	dependencies { classpath 'org.seleniumhq.selenium:selenium-chrome-driver:2.21.0' }
+}
+
+import org.gradle.plugins.javascript.envjs.browser.*
+
+apply plugin: "envjs"
+
+repositories {
+	mavenCentral()
+	add javaScript.gradlePublicJavaScriptRepository
+}
+
+task downloadJasmine(type: UrlDownload) {
+	url "http://pivotal.github.com/jasmine/downloads/jasmine-standalone-1.2.0.zip"
+	destination file("$buildDir/jasmine.zip")
+}
+
+task unpackJasmine(type: Copy, dependsOn: downloadJasmine) {
+	from zipTree(files(downloadJasmine).singleFile)
+	into "$buildDir/jasmine"
+}
+
+task runJasmineExample(type: BrowserEvaluate) {
+	content unpackJasmine.destinationDir
+	resource "SpecRunner.html"
+	result "$buildDir/result.html"
+	// evaluator = new ChromeBrowserEvaluator()
+	
+	doLast {
+		def spec = copy {
+			into "$buildDir/results"
+			from unpackJasmine, { include "lib/**/*" }
+			from result
+		}
+		
+		def resultFile = file("$spec.destinationDir/$result.name")
+		if (resultFile.text.contains('<div class="suite failed">')) {
+			throw new GradleException("There are failing jasmine tests. See: $resultFile.absolutePath")
+		}
+	}
+}
+
+task openResults() << {
+	new java.awt.Desktop().open(file("$buildDir/results/result.html"))
+}
+
+class ChromeBrowserEvaluator implements BrowserEvaluator {
+	void evaluate(String url, Writer writer) {
+		def chrome = new org.openqa.selenium.chrome.ChromeDriver()
+		try {
+			chrome.get(url)
+			writer << chrome.pageSource
+		} finally {
+			chrome.quit()
+		}
+	}
+}
+
+class UrlDownload extends DefaultTask {
+
+	@Input
+	String url
+	
+	@OutputFile
+	File destination
+
+	@TaskAction
+	void doDownload() {
+		getDestination().withOutputStream { out -> 
+			new URL(getUrl()).withInputStream { out << it }
+		}
+	}
+
+}

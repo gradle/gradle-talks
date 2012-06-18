@@ -1,0 +1,51 @@
+def grails13Version = "1.3.7"
+
+task setupTestAppGrails13(type: SetupGrailsProject, dependsOn: packagePlugin) {
+  from "test-app"
+  into "$buildDir/test-app-grails-1.3"
+  from ("$setupPlugin.destinationDir") {
+    include "*.zip"
+    into "lib"
+    rename "^grails-(.+)", "\$1"
+  }
+  props grailsVersion: grails13Version, pluginVersion: pluginVersion
+}
+
+configurations {
+  compileGrails13.exclude module: 'xml-apis'
+  runtimeGrails13.extendsFrom compileGrails13
+  testGrails13.extendsFrom runtimeGrails13
+  configureBaseGrailsClasspath(grails13Version, bootstrapGrails13)
+}
+
+dependencies {
+  bootstrapGrails13 grailsDependency("core", grails13Version)
+  testGrails13 project(path: ":spock-grails-support", configuration: "groovy17Runtime")  
+  runtimeGrails13 "org.grails:grails-crud:${grails13Version}"
+  runtimeGrails13 "org.grails:grails-gorm:${grails13Version}"
+  runtimeGrails13 "hsqldb:hsqldb:1.8.0.5"
+  runtimeGrails13 "net.sf.ehcache:ehcache-core:1.7.1"
+  runtimeGrails13 "org.aspectj:aspectjrt:1.6.6"
+}
+
+tasks.withType(GrailsTask).matching { it.name.endsWith("Grails13") }.all {
+  dependsOn setupTestAppGrails13
+  projectDir setupTestAppGrails13.destinationDir
+  targetDir "${setupTestAppGrails13.destinationDir}/target"
+  
+  bootstrapClasspath = configurations.bootstrapGrails13
+  bootstrapRuntimeClasspath = configurations.bootstrapGrails13
+  compileClasspath = configurations.compileGrails13
+  runtimeClasspath = configurations.runtimeGrails13
+  testClasspath = configurations.testGrails13
+}
+
+task installPluginGrails13(type: GrailsTask) {
+  command "install-plugin"
+  args "$setupPlugin.destinationDir/grails-spock-${pluginVersion}.zip"
+  doFirst { delete "~/.ivy2/cache/org.spockframework" }
+}
+
+task testGrails13(type: GrailsTask, dependsOn: installPluginGrails13) {
+  command "test-app"
+}

@@ -1,0 +1,51 @@
+configurations {
+  configureBaseGrailsClasspath(pluginGrailsVersion, pluginBootstrap)
+}
+
+dependencies {
+  pluginBootstrap files("log4j")
+  pluginBootstrap "org.apache.maven:maven-ant-tasks:2.1.0"
+  pluginBootstrap "org.codehaus.groovy.modules.http-builder:http-builder:0.5.0", {
+    exclude module: "xml-apis"
+    exclude module: "groovy"
+  }
+  pluginBootstrap "org.tmatesoft.svnkit:svnkit:1.3.5", {
+    exclude module: "jna"
+    exclude module: "trilead-ssh2"
+    exclude module: "sqljet"
+  }
+}
+
+task setupPlugin(type: SetupGrailsProject) {
+  from "plugin"
+  into "$buildDir/plugin"
+  props grailsVersion: pluginGrailsVersion,
+        spockVersion: pluginSpockVersion,
+        pluginVersion: pluginVersion
+}
+
+tasks.withType(GrailsTask).matching { it.name.endsWith("Plugin") }.all {
+  dependsOn setupPlugin
+  projectDir setupPlugin.destinationDir
+  targetDir "${setupPlugin.destinationDir}/target"
+  
+  bootstrapClasspath = configurations.pluginBootstrap
+  bootstrapRuntimeClasspath = configurations.pluginBootstrap
+  compileClasspath = project.files()
+  runtimeClasspath = project.files()
+  testClasspath = project.files()
+}
+
+task packagePlugin(type: GrailsTask, dependsOn: setupPlugin) {
+  command "package-plugin"
+}
+
+task releasePlugin(type: GrailsTask, dependsOn: packagePlugin) {
+  command "publish-plugin"
+
+  args "--non-interactive --noScm --repository=grailsCentral --portal=grailsCentral"
+  if (pluginVersion.endsWith("-SNAPSHOT")) args += " --snapshot"
+
+  doFirst { System.setProperty("spock.releasing", "true") }
+  doLast { System.clearProperty("spock.releasing") }
+}

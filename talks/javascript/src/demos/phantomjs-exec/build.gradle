@@ -1,0 +1,15 @@
+// requires phantomjs installed
+
+task phantom(type: Exec) {
+	ext.outputFile = file("$buildDir/output.html")
+	outputs.file outputFile
+	
+	executable "phantomjs"
+	args file("script.js"), "http://google.com"
+	
+	doFirst {
+		outputFile.parentFile.mkdirs()
+		outputFile.createNewFile()
+		standardOutput outputFile.newOutputStream()
+	}
+}

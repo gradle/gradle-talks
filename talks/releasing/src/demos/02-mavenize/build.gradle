@@ -1,0 +1,25 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+apply plugin: "maven"
+
+version = "1.0"
+group = "conf.gr8"
+archivesBaseName = "foo"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:1.8.6'
+    compile 'commons-logging:commons-logging:1.1.1'
+    testCompile 'org.spockframework:spock-core:0.6-groovy-1.8' 
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://${buildDir}/m2repo")
+        }
+    }
+}

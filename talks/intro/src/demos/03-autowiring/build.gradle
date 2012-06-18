@@ -1,0 +1,38 @@
+/*
+def file = file("$buildDir/generated.txt")
+
+task generate << {
+    file.parentFile.mkdirs()
+    file.createNewFile()
+    file.text = '$token'
+}
+
+task process(type: Copy, dependsOn: generate) {
+    from file
+    into "$buildDir/processed"
+    expand token: "value"
+}
+*/
+
+class Generator extends DefaultTask {
+
+    @OutputFile File output
+    @Input String text
+
+    @TaskAction generate() {
+        file.parentFile.mkdirs()
+        file.createNewFile()
+        file.text = text
+    }
+}
+
+task generate(type: Generator) {
+    output = file("$buildDir/generated.txt")
+    text = '$token'
+}
+
+task process(type: Copy) {
+    from generate
+    into "$buildDir/processed"
+    expand token: "value"
+}

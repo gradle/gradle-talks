@@ -1,0 +1,129 @@
+import org.grails.gradle.plugin.GrailsTask
+
+buildscript {
+	repositories {
+		mavenCentral()
+		maven { url 'http://repo.grails.org/grails/repo' }
+	}
+	dependencies {
+		classpath "org.grails:grails-gradle-plugin:1.1.1-SNAPSHOT"
+	}
+}
+
+apply plugin: "grails"
+
+configurations {
+	all {
+		exclude module: "commons-logging"
+		exclude module: 'xml-apis'
+	}
+	test {
+		exclude module: "groovy-all"
+	}
+	releaseBootstrap.extendsFrom bootstrap
+}
+
+repositories {
+	maven { url 'http://repo.grails.org/grails/repo' }
+}
+
+dependencies {
+	["plugin-tomcat", "plugin-datasource", "plugin-services", "hibernate"].each { module ->
+		compile "org.grails:grails-$module:$grailsVersion"
+	}
+	
+	bootstrap "org.codehaus.groovy:groovy-all:1.8.6"
+	
+	test project(':module:geb-junit4')
+	test htmlUnitDriverDependency
+	test project(':module:geb-spock'), {
+		exclude module: "spock-core"
+		exclude module: "groovy-all"
+	}
+	releaseBootstrap "org.codehaus.groovy.modules.http-builder:http-builder:0.5.0", {
+		exclude module: "xml-apis"
+		exclude module: "groovy"
+		exclude module: "httpclient"
+		exclude module: "nekohtml"
+		exclude module: "httpcore"
+		exclude module: "groovy"
+	}
+	releaseBootstrap ("org.apache.maven:maven-ant-tasks:2.1.0") {
+		exclude group: "nekohtml"
+	}
+}
+
+System.setProperty("server.port", "8010")
+
+def findTemplatedFiles = {
+	def files = [:]
+	projectDir.eachFileRecurse { inputFile ->
+		if (!inputFile.name.endsWith(".in")) return
+		files[inputFile] = new File(inputFile.parentFile, inputFile.name[0..-4])
+	}
+	files
+}
+
+task createTemplatedFiles << {
+	def templateVariables = [
+		"grails-version": project.grailsVersion,
+		"geb-version": project.version
+	]
+	
+	findTemplatedFiles().each { inputFile, outputFile ->
+		def input = inputFile.getText("UTF-8")
+		templateVariables.each { k, v ->
+			input = input.replace("@$k@", v)
+		}
+		outputFile.setText(input, "UTF-8")
+	}
+}
+
+tasks.withType(GrailsTask) { task ->
+	if (task.name != "clean") task.dependsOn(createTemplatedFiles)
+}
+
+task clean(type: Delete, overwrite: true) { task ->
+	delete buildDir
+	delete "target"
+	delete "plugin.xml"
+	
+	projectDir.eachFile {
+		if (it.name.endsWith(".zip")) {
+			task.delete(it)
+		}
+	}
+
+	findTemplatedFiles().each { inputFile, outputFile ->
+		task.delete(outputFile)
+	}
+	
+	projectDir.eachDirRecurse {
+		if (it.exists() && it.list().size() == 0) {
+			task.delete(it)
+		}
+	}
+}
+
+task packagePlugin(type: GrailsTask) {
+	command "package-plugin"
+}
+
+task dumpClassloaders(type: GrailsTask) {
+	command "dump-classloaders"
+}
+
+test.dependsOn packagePlugin
+
+task release(type: GrailsTask, dependsOn: packagePlugin) {
+	bootstrapClasspath = configurations.releaseBootstrap
+	command "publish-plugin"
+
+	args "--non-interactive --noScm --repository=grailsCentral --portal=grailsCentral"
+	if (isSnapshot) args += " --snapshot"
+
+	doFirst { System.setProperty("geb.releasing", "true") }
+	doLast { System.clearProperty("geb.releasing") }
+}
+
+task build(dependsOn: [test, assemble])

@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('fonts/Lato-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url('fonts/Lato-Bold.ttf') format('truetype');
+}
+
+body {
+  background-color: #ECF4E2;
+}
+
+@slideBaseWidth: 1024px;
+@slideMargin: 0px;
+@slideWidth: @slideBaseWidth - (@slideMargin * 2);
+@slideHeight: (@slideBaseWidth / (4 / 3)) - (@slideMargin * 2);
+
+@slideHeightPadding: 30px;
+@slideWidthPadding: 50px;
+
+section.slide {
+  color: #333;
+
+  .inner {
+    position: absolute;
+    overflow: hidden;
+    left: 50%;
+    top: 50%;
+    margin-left: 0px - (@slideWidth / 2);
+    margin-top: 0px - (@slideHeight / 2);
+    
+    width: @slideWidth;
+    height: @slideHeight;
+    
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-radius: 0px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .8);
+    border: 1px solid rgba(0, 0, 0, .3);
+  }
+  
+  h1, h2 {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+  }
+
+  h1 {
+    /* reset styles from deck.js core styling */
+    top: 0 !important;
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+    transform: none !important;
+    position: relative !important;
+  }
+}
+
+div.scale-selector {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 2px solid #666;
+  background-color: #ECF4E2;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+div.deck-notes {
+  position:absolute;
+  z-index:15;
+  bottom:0;
+  left:0;
+  right:0;
+  display:none;
+  overflow-y:auto;
+  overflow-x:none;
+
+  font-size: 80%;
+  background-color: #FFF;
+  border: 2px solid #666;
+  border-bottom: none;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+
+  div.deck-notes-header {
+    width:100%;
+    font-size:1.2em;
+    padding: .3em .25em .15em .5em;
+  }
+
+  div.deck-notes-container {
+    margin-top: 2px;
+    border-top: 1px solid #CCC;
+    padding: .625em;
+  }
+
+  .notes {
+    display:block;
+  }
+}

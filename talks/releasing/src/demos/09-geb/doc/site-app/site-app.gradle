@@ -1,0 +1,154 @@
+import org.apache.ivy.plugins.resolver.URLResolver
+import org.apache.tools.ant.filters.*
+
+apply plugin: "groovy"
+apply plugin: "gae"
+
+buildscript {
+	ext.gitHub = {
+		def resolver = new URLResolver()
+
+		resolver.with {
+			name = 'GitHub'
+			addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+		}
+
+		resolver
+	}
+
+	repositories {
+		add gitHub()
+	}
+
+	dependencies {
+		classpath 'bmuschko:gradle-gae-plugin:0.5.2'
+		classpath 'bmuschko:gradle-gaelyk-plugin:0.1'
+	}
+}
+
+repositories {
+	add gitHub()
+}
+
+ext.appEngineVersion = "1.6.3"
+
+dependencies {
+	groovy "org.codehaus.groovy:groovy-all:1.8.0"
+	
+	compile "com.google.appengine:appengine-api-1.0-sdk:$appEngineVersion",
+	        "com.google.appengine:appengine-api-labs:$appEngineVersion",
+	        "glaforge:gaelyk:0.7"
+	
+	compile "oauth.signpost:signpost-core:1.2.1.1"
+	gaeSdk "com.google.appengine:appengine-java-sdk:$appEngineVersion"
+}
+
+gaeDownloadSdk.doLast {
+	copy {
+		def sdk = configurations.gaeSdk.singleFile
+		def dest = file("build/exploded-gae-sdk/$sdk.name" - ".zip")
+		from zipTree(sdk)
+		into dest
+		
+		System.setProperty("appengine.sdk.root", dest.canonicalPath)
+	}
+}
+
+ext {
+	// The version of manual to put under the “current” label
+	stableVersion = "0.7.0"
+
+	// The old versions of Geb we are including manuals for
+	oldManualVersions = ["0.6.0.RC1", "0.6.0", "0.6.1", "0.6.2", "0.6.3"]
+}
+
+def manualDependency = { "org.codehaus.geb:geb-manual:$it@zip" }
+configurations {
+	currentManual
+	
+	oldManualVersions.each {
+		delegate."manual-$it"
+	}
+}
+
+repositories {
+	maven { url "https://nexus.codehaus.org/content/repositories/snapshots" }
+	maven { url "https://nexus.codehaus.org/content/repositories/releases" }
+}
+
+dependencies {
+	currentManual manualDependency(stableVersion)
+	
+	oldManualVersions.each {
+		delegate."manual-$it" manualDependency(it)
+	}
+}
+
+task configureWarManuals << {
+	configure(war) {
+		ext.explodeManual = { configuration, label ->
+			def artifacts = configuration.resolvedConfiguration.resolvedArtifacts.findAll {
+				it.name == "geb-manual" && it.type == "zip"
+			}.unique {
+				// sometimes there are two of the same artifact in the configuration
+				it.name
+			}
+
+			def size = artifacts.size()
+			assert size == 1 : "$configuration should have one manual artifact, not $size"
+			def artifactFile = artifacts.toList().first().file
+
+			assert artifactFile.exists()
+			into ("manual/$label") {
+				from zipTree(artifactFile)
+			}
+		}
+
+		oldManualVersions.each {
+			explodeManual(configurations["manual-$it"], it)
+		}
+		explodeManual(configurations.currentManual, stableVersion)
+		explodeManual(configurations.currentManual, "current")
+	}
+}
+
+evaluationDependsOn ":doc:manual"
+
+war {
+	dependsOn configureWarManuals
+
+	from (project(":doc:manual").packageManual) {
+		into("manual/snapshot")
+	}
+	
+	def siteVersion = project.hasProperty("liveSite") ? stableVersion.replace(".", "-") : "snapshot" 
+	def properties = [version: siteVersion]
+
+	["consumerKey", "consumerSecret", "accessToken", "secretToken"].each {
+		def propertyName = "geb.twitter.$it"
+		properties[propertyName] = project.hasProperty(propertyName) ? project.getProperty(propertyName) : ""
+	}
+
+	properties["geb.manual.oldManualVersions"] = oldManualVersions.reverse().join(',')
+	properties["geb.manual.currentManualVersion"] = stableVersion
+	properties["geb.manual.snapshotManualVersion"] = project.version
+
+	def filterableExtensions = ["xml", "properties"]
+	inputs.properties(properties)
+	inputs.property('filterableExtensions', filterableExtensions)
+	
+	eachFile { file ->
+		if (filterableExtensions.any { file.name.endsWith(it) }) {
+			file.filter(ReplaceTokens, tokens: properties)
+		}
+	}
+}
+
+gae {
+	downloadSdk = true
+	appcfg {
+		if (project.hasProperty('gaeEmail')) {
+			email = gaeEmail
+		}
+	}
+}

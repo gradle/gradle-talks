@@ -1,0 +1,6 @@
+apply plugin: org.gradle.samples.ProductModulePlugin
+
+dependencies {
+    compile project(':identityManagement')
+    compile 'commons-lang:commons-lang:2.4'
+}

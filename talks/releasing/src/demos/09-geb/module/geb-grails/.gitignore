@@ -1,0 +1,9 @@
+target
+*.log
+*.zip
+.DS_Store
+plugin.xml
+docs
+build
+application.properties
+GebGrailsPlugin.groovy

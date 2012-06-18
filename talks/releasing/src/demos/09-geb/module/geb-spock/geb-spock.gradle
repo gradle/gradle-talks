@@ -1,0 +1,15 @@
+dependencies {
+	compile spockDependency
+	compile project(':module:geb-core')
+	testCompile project(":module:test-support")
+}
+
+modifyPom { pom ->
+	pom.project {
+		name "Geb for Spock"
+		description "Geb (pronounced \"jeb\") integration with the Spock test framework."
+	}
+	
+	// User provides their own spock
+	pom.dependencies.removeAll(pom.dependencies.findAll { it.groupId == "org.spockframework" })
+}

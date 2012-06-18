@@ -1,0 +1,53 @@
+description = "Spock Framework support for Grails"
+
+apply plugin: "idea"
+
+allprojects { project ->
+  version = '0.6'
+  group = "org.spockframework"
+  ext {
+    isSnapshot = false
+    isStagingBuild = false // should we pull spock from the dependency repo?
+    isCiBuild = project.hasProperty("ciBuild")
+    spockVersion = { groovyVersion ->
+      "0.6-groovy-$groovyVersion" + (isSnapshot ? "-SNAPSHOT" : "")
+    }
+  }
+
+
+  if (isCiBuild) {
+    configurations.all { resolutionStrategy.cacheChangingModulesFor 1, "seconds" }
+  }
+
+  repositories {
+    maven { url "http://repo.grails.org/grails/core" }
+    if (isSnapshot) {
+      maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+    } else if (isStagingBuild) {
+      maven { url "«staging repo here»" }
+    } else {
+      mavenCentral()
+    }
+  }
+}
+
+idea {
+  project {
+    jdkName "1.6"
+    ipr {
+      withXml { provider ->
+        def node = provider.asNode()
+        node.component.find { it.'@name' == 'VcsDirectoryMappings' }?.mapping[0].'@vcs' = 'Git'
+        node.append(new XmlParser().parse(file("ideaCodeStyle.xml")))
+      }
+    }
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = "1.0-rc-3"
+}
+
+task release {
+  dependsOn ":spock-grails-support:uploadArchives", ":spock-grails:releasePlugin"
+}

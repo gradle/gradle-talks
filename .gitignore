@@ -1,0 +1,10 @@
+build
+downloads
+.gradle
+*.ipr
+*.iml
+*.iws
+.DS_Store
+out
+*.log
+*.hprof

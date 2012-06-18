@@ -1,0 +1,4 @@
+def talksDir = new File(settingsDir, "talks")
+talksDir.eachDir {
+    include "talks:$it.name"
+}

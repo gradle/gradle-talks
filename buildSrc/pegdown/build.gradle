@@ -1,0 +1,12 @@
+apply plugin: "groovy"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy localGroovy()
+    compile gradleApi()
+    compile "org.pegdown:pegdown:1.1.0"
+}
+
