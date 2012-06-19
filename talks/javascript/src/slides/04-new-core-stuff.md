@@ -14,13 +14,29 @@ Will be part of Gradle 1.1.
 
 ## What does it do?
 
-* Provde repository definitions
+* Provide repository definitions
     * [http://repo.gradle.org/gradle/javascript-public/](http://repo.gradle.org/gradle/javascript-public/)
     * [https://ajax.googleapis.com/ajax/libs/](https://ajax.googleapis.com/ajax/libs/)
 * Deep [RhinoJS](http://www.mozilla.org/rhino/) integration
 * CoffeeScript compilation
 * JsHint support
 * EnvJs support (JavaScript based headless browser)
+
+## New Repos
+
+    repositories {
+        add javaScript.gradlePublicJavaScriptRepository
+        add javaScript.googleApisRepository
+    }
+    
+    dependencies {
+        jquery "jquery:jquery.min:1.7.2@js" // from google repo
+    }
+    
+    war {
+        from configurations.jquery
+        into "scripts"
+    }
 
 ## Rhino Integration
 
@@ -36,7 +52,7 @@ Provides support for running Rhino code in forked JVMs with arbitrary versions o
 
     }
 
-## Why?
+## Rhino - Why?
 
 * Not tied to a Rhino version (via forked JVM)
 * Allows access to the JavaScript runtime
@@ -44,23 +60,31 @@ Provides support for running Rhino code in forked JVMs with arbitrary versions o
 
 Designed to make it cheap to support JavaScript based tooling in a forward compatible way.
 
-## Browser Evaluation
+## CoffeeScript
 
-Abstractions for “executing” a document inside a scriptable browser. Will allow specific testing plugins to decouple from the execution environment.
+Alternative JavaScript language. Transpiles to JavaScript.
 
-    public interface BrowserEvaluator {
-        void evaluate(String url, Writer writer);
-    }
-    
-    // Gather together test files
-    task buildTestSuite(type: Copy) {}
-    
-    task jasmineExec(type: BrowserEvaluate) {
-        content buildTestSuite
-        resource "index.html"
-        result "$buildDir/jasmineResults.html"
-        evaluator (isCi() ? envJsEvaluator : firefoxEvaluator)
-    }
+Plugin configures everything out of the box, allows user to override CoffeeScript impl/version.
+
+# Demo
+
+CoffeeScript compilation
+
+## JsHint
+
+Static analysis for JavaScript.
+
+Example of the benefits of deep integration with the JS runtime.
+
+# Demo
+
+JsHint
+
+## EnvJs
+
+A JavaScript DOM implementation.
+
+A completely portable headless browser environment, 100% JVM.
 
 ## BrowserEvaluate
 
@@ -78,14 +102,21 @@ Abstractions for “executing” a document inside a scriptable browser. Will al
         evaluator (isCi() ? envJsEvaluator : firefoxEvaluator)
     }
 
-# DEMO
+## Swappable “evaluators”
 
-coffeescript-core
+`BrowserEvaluator` objects are responsible for “executing” a document inside a scriptable browser. 
 
-# DEMO
+Will allow specific testing plugins to decouple from the execution environment.
 
-jshint-core
+    public interface BrowserEvaluator {
+        void evaluate(String url, Writer writer);
+    }
+    
+    task jasmineExec(type: BrowserEvaluate) {
+        // …
+        evaluator (isCi() ? envJsEvaluator : firefoxEvaluator)
+    }
 
-# DEMO
+# Demo
 
-jasmine-core
+Automated Jasmine tests
