@@ -1,0 +1,21 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.pegdown:pegdown:1.1.0"
+    }    
+}
+
+import org.pegdown.PegDownProcessor
+
+task markdown << {
+    PegDownProcessor processor = new PegDownProcessor()
+    String markdown = file("src/some.md").text
+    String html = processor.markdownToHtml(markdown)
+    
+    def htmlFile = file("$buildDir/some.html")
+    htmlFile.parentFile.mkdirs()
+    htmlFile.text = html
+}

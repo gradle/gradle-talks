@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.pegdown:pegdown:1.1.0"
+    }
+}
+
+import org.pegdown.PegDownProcessor
+
+interface MarkdownProcessor {
+    void markdown(Reader markdown, Writer html)
+}
+
+class PegdownMarkdownProcessor implements MarkdownProcessor {
+    void markdown(Reader markdown, Writer html) {
+        def processor = new PegDownProcessor()
+        html << processor.markdownToHtml(markdown.text)
+    }
+}
+
+class Markdown extends SourceTask {
+    @OutputFile File html
+    
+    @Input String encoding
+    
+    MarkdownProcessor processor = new PegdownMarkdownProcessor()
+    
+    @TaskAction
+    void markdown() {
+        getSource().singleFile.withReader(encoding) { markdownReader ->
+            html.parentFile.mkdirs()
+            html.withWriter(encoding) { htmlWriter ->
+                processor.markdown(markdownReader, htmlWriter)
+            }
+        }
+    }
+}
+
+task writeMarkdown {
+    ext.md = file("$buildDir/generated/some.md")
+
+    outputs.files md
+    doLast {
+        md.parentFile.mkdirs() 
+        md.text = "This is a **paragraph**."
+    }
+}
+
+task markdown(type: Markdown) {
+    source writeMarkdown
+    html file("$buildDir/some.html")
+    encoding "utf8"
+}
