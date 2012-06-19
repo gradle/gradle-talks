@@ -213,6 +213,18 @@ project(":talks").subprojects {
         archiveName "gradle-${project.name}.zip"
         destinationDir buildDir
     }
+    
+    task openShow() {
+        dependsOn tasks.package
+        doLast {
+            try {
+                def desktop = getClass().classLoader.loadClass("java.awt.Desktop").newInstance()
+                desktop.browse(file("${tasks.package.destinationDir}/slides/index.html").toURI())
+            } catch (ClassNotFoundException e) {
+                throw new Exception("Must be Java 6+ to use this task")
+            }
+        }
+    }
 }
 
 ["package", "packageZip", "pdf"].each {
