@@ -85,6 +85,7 @@ copyWithLess("pdf2up", "src/resources/pdf2up")
 copyWithLess("show", "src/resources/show")
 
 project(":talks").subprojects {
+    apply plugin: "base"
     apply plugin: "pegdown"
     apply plugin: "xhtmlrenderer"
 
@@ -223,6 +224,13 @@ project(":talks").subprojects {
             } catch (ClassNotFoundException e) {
                 throw new Exception("Must be Java 6+ to use this task")
             }
+        }
+    }
+    
+    clean {
+        file("src/demos").eachDir {
+            delete file("$it/build")
+            delete file("$it/.gradle")
         }
     }
 }
