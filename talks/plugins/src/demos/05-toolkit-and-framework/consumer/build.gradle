@@ -1,0 +1,11 @@
+buildscript {
+    repositories {
+        maven { url "file://$projectDir/../plugin/build/m2repo" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.gradle.plugins:gradle-markdown:1.0"
+    }
+}
+
+apply plugin: "markdown"

@@ -8,31 +8,12 @@ buildscript {
     }
 }
 
-import org.pegdown.PegDownProcessor
-
-class Markdown extends SourceTask {
-    @OutputFile File html
-    
-    @Input String encoding
-    
-    @TaskAction
-    void markdown() {
-        PegDownProcessor processor = new PegDownProcessor()
-        File markdownFile = getSource().singleFile
-        String markdownText = markdownFile.getText(encoding)
-        String htmlText = processor.markdownToHtml(markdownText)
-
-        html.parentFile.mkdirs()
-        html.write(htmlText, encoding)
-    }
-}
-
 task writeMarkdown {
     ext.md = file("$buildDir/generated/some.md")
 
     outputs.files md
     doLast {
-        md.parentFile.mkdirs() 
+        md.parentFile.mkdirs()
         md.text = "This is a **paragraph**."
     }
 }
@@ -41,4 +22,26 @@ task markdown(type: Markdown) {
     source writeMarkdown
     html file("$buildDir/some.html")
     encoding "utf8"
+}
+
+import org.pegdown.PegDownProcessor
+
+class Markdown extends SourceTask {
+    @OutputFile File html
+
+    @Input String encoding
+
+    @TaskAction
+    void markdown() {
+        PegDownProcessor processor = new PegDownProcessor()
+        File markdownFile = getMarkdown()
+        String markdownText = markdownFile.getText(encoding)
+        String htmlText = processor.markdownToHtml(markdownText)
+
+        html.write(htmlText, encoding)
+    }
+
+    File getMarkdown() {
+        getSource().singleFile
+    }
 }

@@ -23,18 +23,19 @@ Gradle ships with many task types (e.g. `Copy`, `Exec`, `Delete`).
 
 Adding your own is easy.
 
+    task helloWorld(type: Echo) {
+        message = "Hello World!"
+    }
+
+<!-- -->
+    
     import org.gradle.api.tasks.*
+    
     class Echo extends DefaultTask {
         String message
         @TaskAction void echo() {
             println message
         }
-    }
-
-<!-- -->
-
-    task helloWorld(type: Echo) {
-        message = "Hello World!"
     }
 
 # Demo
@@ -59,7 +60,7 @@ They can be declared by annotating properties and getters in the task class.
 
 Demo: `"03-custom-task/build-incremental.gradle"`
 
-## Autowiring
+## Task Dependency Inference
 
 Objects in Gradle can be [`Buildable`](http://gradle.org/docs/current/javadoc/org/gradle/api/Buildable.html).
 
@@ -74,7 +75,7 @@ Tasks expose their output files as a `FileCollection`.
         into "some-dir"
     }
 
-Demo: `"03-custom-task/build-autowiring.gradle"`
+Demo: `"03-custom-task/build-inference.gradle"`
 
 ## SourceTask
 

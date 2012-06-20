@@ -1,0 +1,29 @@
+apply plugin: "groovy"
+apply plugin: "maven"
+apply plugin: "idea"
+
+archivesBaseName = "gradle-markdown"
+version = "1.0"
+group "org.gradle.plugins"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy localGroovy()
+    compile gradleApi()
+    compile "org.pegdown:pegdown:1.1.0"
+    testCompile "org.spockframework:spock-core:0.6-groovy-1.8", {
+        exclude module: "groovy-all"
+    }
+
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://$buildDir/m2repo")
+        }
+    }
+}

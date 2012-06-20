@@ -8,6 +8,12 @@ buildscript {
     }
 }
 
+task markdown(type: Markdown) {
+    markdown file("src/some.md")
+    html file("$buildDir/some.html")
+    encoding "utf8"
+}
+
 import org.pegdown.PegDownProcessor
 
 class Markdown extends DefaultTask {
@@ -22,13 +28,6 @@ class Markdown extends DefaultTask {
         String markdownText = markdown.getText(encoding)
         String htmlText = processor.markdownToHtml(markdownText)
 
-        html.parentFile.mkdirs()
         html.write(htmlText, encoding)
     }
-}
-
-task markdown(type: Markdown) {
-    markdown file("src/some.md")
-    html file("$buildDir/some.html")
-    encoding "utf8"
 }

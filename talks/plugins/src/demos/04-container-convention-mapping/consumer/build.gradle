@@ -1,0 +1,31 @@
+buildscript {
+    repositories {
+        maven { url "file://$projectDir/../plugin/build/m2repo" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.gradle.plugins:gradle-markdown:1.0"
+    }
+}
+
+apply plugin: "markdown"
+
+markdown {
+    source {
+        index {} // use defaults
+        custom {
+            markdown = "src/custom.md"
+        }
+    }
+}
+
+task zip(type: Zip) {
+    destinationDir buildDir
+    archiveName "package.zip"
+
+    from markdown.source.index.html
+    from markdown.source.custom.html
+    from "src/package"
+}
+
+// buildDir = file("target")

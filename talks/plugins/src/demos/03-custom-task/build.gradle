@@ -8,6 +8,11 @@ buildscript {
     }
 }
 
+task markdown(type: Markdown) {
+    markdown file("src/some.md")
+    html file("$buildDir/some.html")
+}
+
 import org.pegdown.PegDownProcessor
 
 class Markdown extends DefaultTask {
@@ -23,9 +28,4 @@ class Markdown extends DefaultTask {
         html.parentFile.mkdirs()
         html.text = htmlText
     }
-}
-
-task markdown(type: Markdown) {
-    markdown file("src/some.md")
-    html file("$buildDir/some.html")
 }

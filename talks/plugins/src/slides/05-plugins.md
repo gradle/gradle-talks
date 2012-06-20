@@ -72,13 +72,17 @@ Avoid having plugins do too much.
 
 Consider breaking them up.
 
-## Capability vs. Convention
+## Tookit vs. Framework
 
 Plugins should either provide capabilities, or conventions. Not both.
 
-* **Capability** plugins (toolkit) add new task types, model elements and wire up sensible defaults (e.g. `java-base` plugin).
-* **Convention** plugins (framework) are opinionated and pre-configure the project to work a certain way (e.g. `java` plugin).
+* **Toolkit** plugins add new task types, model elements and wire up sensible defaults (e.g. `java-base` plugin).
+* **Framework** plugins are opinionated and pre-configure the project to work a certain way (e.g. `java` plugin).
 
-Convention plugins stack on top of related capability plugins.
+Framework plugins stack on top of related capability plugins.
 
-Users can escape your conventions by using the capability layer and implementing their own conventions.
+Users can escape the opinions of your framework by using the toolkit layer and implementing their own framework.
+
+# Demo
+
+Toolkit vs. Framework

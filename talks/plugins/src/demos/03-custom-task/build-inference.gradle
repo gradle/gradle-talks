@@ -8,6 +8,22 @@ buildscript {
     }
 }
 
+task writeMarkdown {
+    ext.md = file("$buildDir/generated/some.md")
+
+    outputs.files md
+    doLast {
+        md.parentFile.mkdirs() 
+        md.text = "This is a **paragraph**."
+    }
+}
+
+task markdown(type: Markdown) {
+    markdown = files(writeMarkdown)
+    html file("$buildDir/some.html")
+    encoding "utf8"
+}
+
 import org.pegdown.PegDownProcessor
 
 class Markdown extends DefaultTask {
@@ -26,20 +42,4 @@ class Markdown extends DefaultTask {
         html.parentFile.mkdirs()
         html.write(htmlText, encoding)
     }
-}
-
-task writeMarkdown {
-    ext.md = file("$buildDir/generated/some.md")
-
-    outputs.files md
-    doLast {
-        md.parentFile.mkdirs() 
-        md.text = "This is a **paragraph**."
-    }
-}
-
-task markdown(type: Markdown) {
-    markdown = files(writeMarkdown)
-    html file("$buildDir/some.html")
-    encoding "utf8"
 }

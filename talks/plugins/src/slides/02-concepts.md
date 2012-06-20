@@ -37,6 +37,8 @@ command line…
 
 While still Groovy code, the best build scripts are a Domain Specific Language.
 
+    apply plugin: "java"
+
     sourceSets {
         main {
             java {
@@ -85,37 +87,18 @@ Literally fragments of build script.
 `"plugins/helloWorld.gradle"`:
 
     task helloWorld << {
-        println "Hello world!"
+        println "Hello world! (from $project.name)"
     }
 
 `"build.gradle"`:
 
-    apply from: "plugins/helloWorld.gradle"
-
-Like an include mechanism.
+    allprojects {
+        apply from: "plugins/helloWorld.gradle"
+    }
 
 # Demo
 
 Script Plugins
-
-## Script Plugin Classes
-
-Any classes defined in a script plugin are not accessible to the applying script. They must be exported as variables.
-
-`"plugins/customClass.gradle"`:
-
-    class HelloWorlder {
-        void sayIt() { println "Hello World!" }
-    }
-
-    ext.HelloWorlder = HelloWorlder
-
-`"build.gradle"`:
-
-    apply from: "plugins/customClass.gradle"
-    task helloWorld << {
-        HelloWorlder.newInstance().sayIt()
-    }
 
 ## Script Plugin Distribution
 
@@ -128,36 +111,38 @@ Distribute them via:
 
 <!-- -->
 
-    apply from: "http://my.org/build-plugins/awesome-1.0.gradle"
+    apply from: "http://my.org/build-plugins/hello-world-1.0.gradle"
 
-## Binary Plugins
+Currently, it's downloaded (but not recompiled) each time. Future versions of Gradle will be smart about caching.
+
+## Object Plugins
 
 They come in an object wrapper.
 
     package org.gradle.api
 
-    public interface Plugin<T> {
-        void apply(T thing);
+    public interface Plugin<Project> {
+        void apply(Project project);
     }
 
 Just a class loaded from the classpath.
 
-## Binary Plugins (cont.)
+## Object Plugins (cont.)
 
 Applied with a different syntax.
 
-    apply plugin: "awesome" // identifier
-    apply plugin: org.my.plugins.AwesomePlugin // or Class object
+    apply plugin: "java" // identifier
+    apply plugin: org.gradle.api.plugins.JavaPlugin // or Class
 
 The identifier is resolved by looking for a certain properties file on the classpath.
 
-`META-INF/gradle-plugins/awesome.properties`:
+`META-INF/gradle-plugins/java.properties`:
 
-    implementation-class=org.my.plugins.AwesomePlugin
+    implementation-class=org.gradle.api.plugins.JavaPlugin
 
-## Binary Plugin Distribution
+## Object Plugin Distribution
 
-Binary plugins need to be on the build script classpath.
+Object plugins need to be on the build script classpath.
 
 Distribution:
 
@@ -169,9 +154,9 @@ Distribution:
 
     buildscript {
         repositories { mavenCentral() }
-        dependencies { classpath "org.my.plugins:awesome:1.0" }
+        dependencies { classpath "org.my.plugins:hello-world:1.0" }
     }
 
 # Demo
 
-Binary Plugins
+Object Plugins
