@@ -80,8 +80,7 @@ copyWithLess("base", "src/resources/base")  {
     }
 }
 
-copyWithLess("pdf1up", "src/resources/pdf1up")
-copyWithLess("pdf2up", "src/resources/pdf2up")
+copyWithLess("pdf", "src/resources/pdf")
 copyWithLess("show", "src/resources/show")
 
 project(":talks").subprojects {
@@ -100,7 +99,7 @@ project(":talks").subprojects {
         destination "$buildDir/html/slides-raw.html"
     }
 
-    ["base", "pdf1up", "pdf2up", "show"].each { transformType ->
+    ["base", "pdf", "show"].each { transformType ->
         task ("${transformType}Html", type: Jsoup) { task ->
             def path = "src/transforms/${transformType}.groovy"
 
@@ -117,7 +116,7 @@ project(":talks").subprojects {
     }
 
     baseHtml.source rawHtml
-    [pdf1upHtml, pdf2upHtml, showHtml]*.source baseHtml
+    [pdfHtml, showHtml]*.source baseHtml
 
     copyWithLess("base", "src/resources/base") {
         from rootProject.baseFiles
@@ -126,28 +125,16 @@ project(":talks").subprojects {
         }
     }
 
-    copyWithLess("pdf1up", "src/resources/pdf1up") {
-        from rootProject.pdf1upFiles
+    copyWithLess("pdf", "src/resources/pdf") {
+        from rootProject.pdfFiles
         from(baseFiles) {
             exclude "index.html"
         }
 
-        from(pdf1upHtml) {
+        from(pdfHtml) {
             rename ".*", "index.html"
         }
     }
-
-    copyWithLess("pdf2up", "src/resources/pdf2up") {
-        from rootProject.pdf2upFiles
-        from(baseFiles) {
-            exclude "index.html"
-        }
-
-        from(pdf2upHtml) {
-            rename ".*", "index.html"
-        }
-    }
-
 
     copyWithLess("show", "src/resources/show") {
         from rootProject.showFiles
@@ -175,16 +162,12 @@ project(":talks").subprojects {
         }
     }
 
-    task pdf
-
-    ["1up": pdf1upFiles, "2up": pdf2upFiles].each { name, filesTask ->
-        pdf.dependsOn task("pdf$name", type: XhtmlToPdf) {
-            inputs.files filesTask
-            source "$filesTask.destinationDir/index.html"
-            pdf = file("$buildDir/${name}.pdf")
-            fonts = fileTree("$filesTask.destinationDir/style/fonts") {
-                include "*.ttf"
-            }
+    task pdf(type: XhtmlToPdf) {
+        inputs.files pdfFiles
+        source "$pdfFiles.destinationDir/index.html"
+        pdf = file("$buildDir/${name}.pdf")
+        fonts = fileTree("$pdfFiles.destinationDir/style/fonts") {
+            include "*.ttf"
         }
     }
 
@@ -193,7 +176,7 @@ project(":talks").subprojects {
         from showFiles, {
             into "slides"
         }
-        from pdf1up, {
+        from pdf, {
             rename ".*", "slides.pdf"
         }
         from "src/demos", {
