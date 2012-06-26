@@ -228,9 +228,12 @@ project(":talks").subprojects {
     }
     
     clean {
-        file("src/demos").eachDir {
-            delete file("$it/build")
-            delete file("$it/.gradle")
+        def demos = file("src/demos")
+        if (demos.exists()) {
+            demos.eachDir {
+                delete file("$it/build")
+                delete file("$it/.gradle")
+            }
         }
     }
 }
