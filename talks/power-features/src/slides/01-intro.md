@@ -18,5 +18,7 @@ To help new and experienced users alike:
  * The Gradle Book: free HTML version of the first O'Reilly Gradle book: [http://gradleware.com/resources](http://gradleware.com/resources)
  * More events: [http://gradle.org/events](http://gradle.org/events)
 
+## This Webinar
 
-
+ * Mechanics
+ * Gotowebinar
