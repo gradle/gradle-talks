@@ -1,37 +1,40 @@
 # Power Features
 
+## Power Features
+
+* New cache
+* Dependency management highlights
+* Sneek preview of The Gradle daemon
+* Coming soon in a 'Power Features II' webinar:
+    * The Gradle daemon
+    * Monitoring code quality
+    * IDE integration
+    * DSL extensions for plugin development
+
 ## New Cache
 
 * origin aware
 * concurrency-safe
+* dependency absence is cached
 * improved change detection and reduced artifact downloads
+* reuse previously downloaded artifacts from m2 repository and older Gradle caches
 * consistent caching for dynamic dependencies and changing modules
 
 ## Dependency Mgt Highlights
 
-* --refresh-dependencies, --offline
+* --refresh-dependencies
+* --offline
 * strict conflict resolution and forced versions
+
+questions?
 
 ## The Gradle Daemon
 
-* org.gradle.daemon
+* the daemon
 * future plans
 
-## Monitoring Code Quality
-
-* pmd
-* sonar
-* findBugs
-* checkstyle
-* codeNarc
-
-## IDE integration
-
-* IDEA and multi-level API
-* STS Eclipse integration
-
-## Plugin development
-
-* DSL extensions
+questions?
 
 ## Q & A
+
+questions?
