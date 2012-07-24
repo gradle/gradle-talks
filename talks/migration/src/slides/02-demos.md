@@ -2,23 +2,41 @@
 
 ## Migrating and Upgrading with Gradle
 
-* migrating from ant
-    * deep import
-    * black-box reuse
-* migrating from maven
-    * black-box reuse
-    * migration helper
-    * deep import
-* migrating from other build tool
-* test driven build migration
-* Gradle's own migration plugin
-    * current features
-    * planned features
+* migration best practices
+* from ant (deep and shallow import)
+* from maven (migration helper, deep and shallow import)
+* upgrading Gradle
 
-## The Gradle Daemon
+## Migration best practices
 
-* org.gradle.daemon
-* future plans
+* the decision to migrate
+* incremental migration
+* build output comparison
+* team preparation
+* Gradle Wrapper
+
+questions?
+
+## Migrating from ant
+
+* shallow import
+* deep import
+
+questions?
+
+## Migrating from maven
+
+* migration helper
+* shallow import
+* deep import
+
+questions?
+
+## Upgrading Gradle
+
+* Gradle Wrapper
+* Migration plugin
+* Build output comparison
 
 questions?
 
