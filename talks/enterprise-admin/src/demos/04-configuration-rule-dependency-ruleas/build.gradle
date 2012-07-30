@@ -1,0 +1,23 @@
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    all { Configuration configuration ->
+        configuration.incoming.afterResolve {
+            def hibernateDependencies = configuration.resolvedConfiguration.resolvedArtifacts.findAll {
+                it.moduleVersion.id.group == "org.hibernate"
+            }
+
+            if (hibernateDependencies) {
+                throw new Exception("Found hibernate dependencies on configuration $configuration.name! - ${hibernateDependencies*.moduleVersion*.id}")
+            }
+        }
+    }
+}
+
+dependencies {
+    testRuntime 'com.google.code.guice-repository:guice-repository:1.0.0'
+}

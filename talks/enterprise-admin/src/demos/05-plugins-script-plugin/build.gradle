@@ -1,0 +1,10 @@
+apply from: "plugins/corporate.gradle"
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+compileTestJava {
+    // sourceCompatibility = "1.7"
+}
