@@ -130,10 +130,12 @@ Plugins are just reusable build script code. That is, there is no functionality 
 
 Plugins can:
 
-* Add new capabilities/tools
+* Add new capabilities/tools (often with defaults)
 * Add new conventions or extend tighten existing conventions
 
 Ideally, they do only one of those.
+
+Combining these two inseparably leads to rigidity.
 
 ## Adding new capabilities
 
@@ -179,19 +181,25 @@ The canonical example of an extension would be the [SourceSetContainer](http://g
 
 * *[demos/08-dsl-extensions]*
 
-## Your own 'java' plugin
+## Plugin Stacks
 
 Sophisticated plugins, like the Java plugin, are comprised of stacks.
 
 `BasePlugin` ← `JavaBasePlugin` ← `JavaPlugin`
 
-The `JavaBasePlugin` is the unopinionated toolkit for Java development. The `JavaPlugin` applies a convention on top of this that configures the toolkit to compile, build and test a jar (among other things).
+* `BasePlugin` = general build features (language agnostic)
+* `JavaBasePlugin` = sensible defaults for Java tools
+* `JavaPlugin` = conventions for a Java project
+
+## Your own 'java' plugin
 
 If those conventions don't suit, you can just apply the `java-base` plugin and build your own conventions.
 
     apply plugin: 'java-base'
 
-However, not a lot of documentation on this at this time. The [source code](https://github.com/gradle/gradle/blob/master/subprojects/plugins/src/main/groovy/org/gradle/api/plugins/JavaBasePlugin.java) and the [Gradle Forums](http://forums.gradle.org/ "Community-powered support for Gradle") are your friends.
+However, not a lot of documentation on this at this time. 
+
+The [source code](https://github.com/gradle/gradle/blob/master/subprojects/plugins/src/main/groovy/org/gradle/api/plugins/JavaBasePlugin.java) and the [Gradle Forums](http://forums.gradle.org/ "Community-powered support for Gradle") are your friends.
 
 ## Init Scripts
 
@@ -221,6 +229,21 @@ Can also do _anything_ that you can do in a build script.
 
 * *[09-init-script-plugin-repo]*
 
+## The Gradle Wrapper
+
+The Gradle Wrapper allows you to start Gradle via some scripts that you check in to source control. These scripts will go ahead and download Gradle if the user does not have it installed on their machine.
+
+<p style="text-align: center">
+  <a href="http://gradleware.com/registered/screencasts/the-gradle-wrapper">
+    <img src="img/wrapper.gif" style="box-shadow: 0px 0px 6px #888;"/>
+    Check out the Gradle Wrapper screencast!
+  </a>
+</p>
+
+The wrapper doesn't have to download Gradle from our servers, it can download it from yours.
+
+**And the distribution may be customised.**
+
 ## Custom Distributions
 
 You can build a custom distribution by packaging your init script inside the Gradle distribution.
@@ -235,8 +258,8 @@ In the future, this will be simpler. Something like…
 
     task(type: Wrapper) {
       gradleVersion "1.0"
-      initScript "http://corporate.com/init-scripts/corporate-plugin.gradle"
-      initScript "http://corporate.com/init-scripts/other-init-script.gradle"
+      initScript "http://com.com/init/corporate-plugin.gradle"
+      initScript "http://com.com/init/other-init-script.gradle"
     }
 
 Then the Gradle wrapper will be responsible for fetching and managing the init scripts.

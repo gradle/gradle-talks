@@ -42,3 +42,11 @@ The first of these three books was launched in July of 2011 and is 80 pages of t
 <img src="img/building-and-testing-with-gradle-book.gif" style="box-shadow: 0px 0px 6px #888;" />
 
 <p style="text-align: center">Free HTML version online @ <a href="http://gradleware.com/resources" title="Gradleware - Resources">http://gradleware.com/resources</a>.</p>
+
+## Webinar Mechanics
+
+Use the question feature of the UI to ask questions.
+
+I'll stop periodically to review the questions.
+
+If you don't get your question answered, email me afterwards.
