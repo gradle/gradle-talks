@@ -27,7 +27,7 @@ Contains:
 
 Upcoming Webinars can always be found @ [http://gradle.org/webinars](http://gradle.org/webinars).
 
- * [Migrating and Upgrading to Gradle](http://gradleware.com/news/100) by [Szczepan Faber](http://www.gradleware.com/team#szczepan-faber)
+* [Migrating and Upgrading to Gradle](http://gradleware.com/news/100) by [Szczepan Faber](http://www.gradleware.com/team#szczepan-faber)
 
 Past webinar recordings can always be found at [http://gradleware.com/resources](http://gradleware.com/resources).
 

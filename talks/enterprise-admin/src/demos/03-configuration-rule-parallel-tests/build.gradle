@@ -16,14 +16,15 @@ task otherTest(type: Test) {
 def forks = Math.max(2, (int) (Runtime.runtime.availableProcessors() / 2))
 
 // Attempt 1.
-/*
+
 test {
     maxParallelForks = forks
 }
-*/
+
 
 // Attempt 2.
-
+/*
 tasks.withType(Test) {
     maxParallelForks = forks
 }
+*/

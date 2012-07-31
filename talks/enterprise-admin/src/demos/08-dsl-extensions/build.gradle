@@ -1,0 +1,25 @@
+class CorporateRepos {
+    private final Project project
+
+    CorporateRepos(Project project) {
+        this.project = project
+    }
+
+    void useLibs() {
+        project.repositories {
+            maven { url "http://corporate.com/repo/libs" }
+        }
+    }
+}
+
+extensions.create("corporateRepos", CorporateRepos, project)
+
+corporateRepos {
+    useLibs()
+}
+
+task showRepos << {
+    repositories.each {
+        println "url: $it.url"
+    }
+}

@@ -1,0 +1,7 @@
+configure(demosSpec) {
+    exclude \
+        "**/repo/**",
+        "**/wrapper-*/**",
+        "**/gradlew*",
+        "**/gradle/**"
+}

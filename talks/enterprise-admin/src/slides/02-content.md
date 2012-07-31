@@ -4,6 +4,13 @@ What are we talking about?
 
 ## Automation is personal
 
+* Only the simplest of software can be built in _near identical_ ways. 
+* Convention over configuration let us stop inventing the wheel.
+* Rigid conventions inhibit innovation and efficiency.
+* Modern automation needs to be ambitious, effective and pervasive.
+
+--- 
+
 Only the simplest of software can be built in _near identical_ ways. However, “convention over configuration” let us stop inventing the wheel.
 
 On the other hand, rigid conventions very quickly inhibit innovation and efficiency. Building real world software is very often not a generally prescriptable affair, with custom functionality or compliance requirements.
@@ -12,7 +19,7 @@ In the modern software world of continuous delivery and frequent releases, autom
 
 ## Whose conventions?
 
-Conventions are great, and Gradle embraces them. However, whose conventions are these? 
+Conventions are great, and Gradle embraces them. However, whose conventions are these?
 
 **You might want to extend the conventions.**
 
@@ -26,7 +33,7 @@ Conventions are great, and Gradle embraces them. However, whose conventions are 
 
 Gradle is a collection of tools, like Ant.
 
-Unlike Ant, Gradle also contains tools for standardisation, reuse and conventions. 
+Unlike Ant, Gradle also contains tools for standardisation, reuse and conventions.
 
 * Plugins
 * Plugin stacks
@@ -48,11 +55,11 @@ Many aspects of Gradle are configurable. It pays to dig through the API doc.
 
 **Example:** How do I enforce that no one can compile against Hibernate?
 
-*[demos/01-deep-api-dependency-rules]*
+* *[demos/01-deep-api-dependency-rules]*
 
 **Example**: How do I verify the existence of a “`test`” task?
 
-*[demos/02-deep-api-require-task]*
+* *[demos/02-deep-api-require-task]*
 
 ## Deep API (cont.)
 
@@ -70,11 +77,11 @@ You often want to configure things that you don't know about.
 
 **Example:** How do configure all test tasks to be as parallel as they can be?
 
-*[demos/03-configuration-rule-parallel-tests]*
+* *[demos/03-configuration-rule-parallel-tests]*
 
-**Example:** How do I disallow Hibernate as a first level dependency at all (e.g. `compile`, `test`, `runtime`)?
+**Example:** How do I disallow Hibernate as a dependency at all (e.g. `compile`, `test`, `runtime`)?
 
-*[demos/04-configuration-rule-dependency-rules]*
+* *[demos/04-configuration-rule-dependency-rules]*
 
 ## Configuration Rules (cont.)
 
@@ -83,10 +90,10 @@ Based on [`DomainObjectCollection`](http://gradle.org/docs/current/javadoc/org/g
 Java Collections that support “liveness.”
 
     def numbers = new DefaultDomainObjectCollection(Number, [1, 2])
-    
+
     def evenNumbers = numbers.matching { it % 2 == 0 }
     assert evenNumbers == [2]
-    
+
     numbers << 4
     assert evenNumbers == [2, 4]
 
@@ -112,7 +119,7 @@ Run some code against all things that exist now and in the future:
 Do something when new things are added:
 
     repositories.whenObjectAdded { }
-    
+
 Do something when things are removed:
 
     repositories.whenObjectRemoved { }
@@ -123,7 +130,7 @@ Plugins are just reusable build script code. That is, there is no functionality 
 
 Plugins can:
 
-* Add new capabilitiies/tools
+* Add new capabilities/tools
 * Add new conventions or extend tighten existing conventions
 
 Ideally, they do only one of those.
@@ -144,6 +151,7 @@ May provide defaults, may enforce standards.
 
 Example conventions:
 
+* Use JUnit 4.10 for tests
 * Integration tests will be their own source set and task
 * Dependencies always come from our corporate repository
 * Source code must be Java 1.5 compatible
@@ -154,5 +162,81 @@ Plugins can be packaged as either scripts or objects.
 
 Script plugins are `.gradle` files.
 
-[05-plugins-script-plugin]
-  
+* *[05-plugins-script-plugin]*
+
+Object plugins are compiled and on the classpath.
+
+* *[06-plugins-object-plugin-buildSrc]*
+* *[07-plugins-object-plugin-repo]*
+
+## DSL Extensions
+
+If you are creating conventions the are configurable or have options, consider wrapping them in [DSL extensions](http://gradle.org/docs/current/userguide/userguide_single.html#customPluginWithConvention).
+
+DSL extensions add new constructs to the build language.
+
+The canonical example of an extension would be the [SourceSetContainer](http://gradle.org/docs/current/javadoc/org/gradle/api/tasks/SourceSetContainer.html).
+
+* *[demos/08-dsl-extensions]*
+
+## Your own 'java' plugin
+
+Sophisticated plugins, like the Java plugin, are comprised of stacks.
+
+`BasePlugin` ← `JavaBasePlugin` ← `JavaPlugin`
+
+The `JavaBasePlugin` is the unopinionated toolkit for Java development. The `JavaPlugin` applies a convention on top of this that configures the toolkit to compile, build and test a jar (among other things).
+
+If those conventions don't suit, you can just apply the `java-base` plugin and build your own conventions.
+
+    apply plugin: 'java-base'
+
+However, not a lot of documentation on this at this time. The [source code](https://github.com/gradle/gradle/blob/master/subprojects/plugins/src/main/groovy/org/gradle/api/plugins/JavaBasePlugin.java) and the [Gradle Forums](http://forums.gradle.org/ "Community-powered support for Gradle") are your friends.
+
+## Init Scripts
+
+Gradle [init scripts](http://gradle.org/docs/current/userguide/userguide_single.html#init_scripts) facilitate cross project configuration.
+
+Init scripts work with a [`Gradle`](http://gradle.org/docs/current/dsl/org.gradle.api.invocation.Gradle.html) instance, not a [`Project`](http://gradle.org/docs/current/dsl/org.gradle.api.Project.html).
+
+Looked for at:
+
+* *$USER_HOME*/.gradle/init.gradle
+* *$USER_HOME*/.gradle/init.d/*.gradle
+* *$GRADLE_HOME*/init.d/*.gradle
+
+Can also be specified with `-I` command line arg.
+
+## Init Scripts (cont.)
+
+What can build scripts do?
+
+* Load plugins
+* Specify plugin repositories
+* Environmental configuration (CI server specific conf)
+* Register listeners
+* More…
+
+Can also do _anything_ that you can do in a build script.
+
+* *[09-init-script-plugin-repo]*
+
+## Custom Distributions
+
+You can build a custom distribution by packaging your init script inside the Gradle distribution.
+
+This way, every build will implicitly use your own enterprise init script.
+
+* *[10-custom-distribution]*
+
+## Custom Distributions (cont.)
+
+In the future, this will be simpler. Something like…
+
+    task(type: Wrapper) {
+      gradleVersion "1.0"
+      initScript "http://corporate.com/init-scripts/corporate-plugin.gradle"
+      initScript "http://corporate.com/init-scripts/other-init-script.gradle"
+    }
+
+Then the Gradle wrapper will be responsible for fetching and managing the init scripts.
