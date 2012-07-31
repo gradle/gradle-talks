@@ -26,7 +26,6 @@ class DownloadGradle extends DefaultTask {
     @Input String gradleDownloadBase = "http://services.gradle.org/distributions"
 
     @TaskAction doDownloadGradle() {
-        if (gradle)
         destinationFile.bytes = new URL(downloadUrl).bytes
     }
 

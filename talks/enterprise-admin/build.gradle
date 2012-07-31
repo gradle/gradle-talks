@@ -3,6 +3,7 @@ configure(demosSpec) {
         "**/repo/**",
         "**/wrapper-*/**",
         "**/gradlew*",
-        "**/gradle/**",
+        "*/gradle/**",
+        "*/*/gradle/**",
         "**/gradle-downloads/**"
 }
