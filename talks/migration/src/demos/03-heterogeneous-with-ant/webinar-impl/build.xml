@@ -38,13 +38,13 @@
     </delete>
   </target>
 
-  <target name="compile" depends="clean, prepare">
+  <target name="compile" depends="clean, prepare" description="Compiles the classes.">
     <javac srcdir="src" destdir="${src.classes.dir}" source="1.5" target="1.5" debug="true" deprecation="true" nowarn="true">
       <classpath refid="compile.classpath" />
     </javac>
   </target>
 	
-  <target name="jar" depends="compile">
+  <target name="jar" depends="compile" description="Prepares the jar.">
     <jar jarfile="${jarFile}">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
