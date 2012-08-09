@@ -175,6 +175,7 @@ project(":talks").subprojects {
         from "src/demos"
         exclude \
             "**/*/build",
+            "**/*/target",
             "**/*/.gradle",
             "**/*/out",
             "**/*/*.ipr",
