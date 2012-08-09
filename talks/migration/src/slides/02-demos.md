@@ -3,8 +3,8 @@
 ## Migrating and Upgrading with Gradle
 
 * migration best practices
-* from ant (deep and shallow import)
-* from maven (migration helper, deep and shallow import)
+* from maven (migration helper, shallow import)
+* from ant (deep and shallow import, task reuse)
 * upgrading Gradle
 
 ## Migration best practices
@@ -30,28 +30,28 @@ questions?
 
 questions?
 
-## Migrating incrementally from ant
-
-* ant task reuse
-* shallow import
-* deep import
-
-questions?
-
 ## Migrating from maven
 
-* migration helper
-    * future plans
+* maven conversion utility
+    * future plans - bootstrap plugin
 * incremental migration
     * shallow import
     * deep import
 
 questions?
 
+## Migrating incrementally from ant
+
+* shallow import
+* deep import
+* ant task reuse
+
+questions?
+
 ## Upgrading Gradle
 
-* Gradle Wrapper
-* Migration plugin
+* Upgrade propagation via Gradle Wrapper
+* Gradle built-in Migration plugin
 
 questions?
 
