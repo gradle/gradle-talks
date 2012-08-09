@@ -16,5 +16,5 @@ configurations {
 }
 
 artifacts {
-  archives file: antBuild.outputJar, builtBy: antBuild
+  archives file: antBuild.ext.outputJar, builtBy: antBuild
 }
