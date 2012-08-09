@@ -1,0 +1,27 @@
+description = 'Webinar implementation (ant project).'
+
+ant.importBuild 'build.xml'
+
+clean.enabled = false
+prepare.enabled = false
+
+compile {
+	inputs.files fileTree(ant.'src.dir')
+	outputs.files fileTree(ant.'src.classes.dir')
+}
+
+jar {
+	description = "Assembles the webinar impl (configured in build.xml)"
+	ext.jarFile = file(ant.jarFile)
+	
+	inputs.files compile.outputs.files
+	outputs.file ext.jarFile
+}
+
+configurations {
+	archives
+}
+
+artifacts {
+	archives file: jar.ext.jarFile, builtBy: jar
+}

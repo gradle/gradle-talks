@@ -1,0 +1,41 @@
+<project name="webinar-impl" basedir=".">
+
+  <property name="version" value="1.0-SNAPSHOT"/>
+  
+  <property name="src.dir" value="src/main/java" />
+  <property name="target.dir" value="target" />
+  <property name="src.classes.dir" value="${target.dir}/classes" />
+    
+  <property name="jarFile" value="${target.dir}/webinar-impl-${version}.jar" />
+	  
+  <path id="compile.classpath">
+  </path>
+
+  <target name="prepare">
+    <mkdir dir="${src.classes.dir}" />
+  </target>
+
+  <target name="clean" description="Cleans out the build directories">
+    <delete includeemptydirs="true" quiet="true">
+      <fileset dir="${target.dir}"/>
+    </delete>
+  </target>
+
+  <target name="compile" depends="clean, prepare" description="Compiles java classes">
+    <javac srcdir="src" destdir="${src.classes.dir}" source="1.5" target="1.5" debug="true" deprecation="true" nowarn="true">
+      <classpath refid="compile.classpath" />
+    </javac>
+  </target>
+	
+  <target name="jar" depends="compile" description="Prepares the jar">
+    <jar jarfile="${jarFile}">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
+      <fileset dir="${src.classes.dir}" />
+      <fileset dir="${src.dir}" />
+    </jar>
+  </target>
+	
+</project>
