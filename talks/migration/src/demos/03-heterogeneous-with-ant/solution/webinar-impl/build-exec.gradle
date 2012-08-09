@@ -9,6 +9,10 @@ task antBuild(type: Exec) {
   logging.captureStandardOutput LogLevel.INFO
 }
 
+task clean(type: Delete) {
+  delete "target"
+}
+
 configurations {
   archives
 }
