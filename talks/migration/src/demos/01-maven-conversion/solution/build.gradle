@@ -1,0 +1,3 @@
+apply plugin: "maven2Gradle"
+
+//run 'tasks' and execute the task introduced by this plugin
