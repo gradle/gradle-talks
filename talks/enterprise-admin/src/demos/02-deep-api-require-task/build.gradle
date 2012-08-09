@@ -1,0 +1,9 @@
+apply plugin: "java"
+
+gradle.afterProject {
+    if (project.tasks.findByName("test") == null) {
+        throw new Exception("There is no test task!")
+    }
+}
+
+task hello << {}

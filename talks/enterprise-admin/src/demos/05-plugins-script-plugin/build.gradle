@@ -1,0 +1,13 @@
+
+// apply from: "plugins/corporate.gradle"
+// apply from: "https://raw.github.com/gradleware/gradle-talks/master/talks/enterprise-admin/src/demos/05-plugins-script-plugin/plugins/corporate.gradle"
+
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+compileTestJava {
+    // sourceCompatibility = "1.7"
+}

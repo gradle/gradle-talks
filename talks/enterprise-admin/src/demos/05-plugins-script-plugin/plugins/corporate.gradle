@@ -1,0 +1,46 @@
+import org.gradle.api.artifacts.repositories.*
+
+// ONLY USE COPORATE REPO FOR DEPENDENCIES
+def coporateRepoUrl = "http://repo.gradle.org/gradle/repo"
+repositories {
+    all { ArtifactRepository repo ->
+        if (!(repo instanceof MavenArtifactRepository) || repo.url.toString() != coporateRepoUrl) {
+            logger.warn "Repository ${repo.url} removed. Only $coporateRepoUrl is allowed"
+            remove repo
+        }
+    }
+
+    maven { url coporateRepoUrl }
+}
+
+plugins.withType(JavaPlugin) {
+
+    // USE JUNIT 4.10
+    dependencies {
+        testCompile "junit:junit:4.10"
+    }
+
+    // INTEG TEST SUPPORT
+    sourceSets {
+        integTest {}
+    }
+
+    configurations {
+        integTestCompile.extendsFrom testCompile
+        integTestRuntime.extendsFrom testRuntime
+    }
+
+    task integTest(type: Test) {
+        testClassesDir = sourceSets.integTest.output.classesDir
+        classpath = sourceSets.integTest.runtimeClasspath
+    }
+
+    // MUST COMPILE AS JAVA 1.5
+    sourceCompatibility = "1.5"
+    tasks.withType(Compile) {
+        doFirst {
+            assert sourceCompatibility == "1.5" : "Something changed the sourceCompatibility of $name"
+        }
+    }
+
+}

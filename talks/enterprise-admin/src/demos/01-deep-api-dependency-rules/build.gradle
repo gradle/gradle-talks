@@ -1,0 +1,23 @@
+apply plugin: "base"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compile.incoming.afterResolve {
+        def hibernateDependencies = compile.resolvedConfiguration.resolvedArtifacts.findAll {
+            it.moduleVersion.id.group == "org.hibernate"
+        }
+
+        if (hibernateDependencies) {
+            throw new Exception("Found hibernate dependencies! - ${hibernateDependencies*.moduleVersion*.id}")
+        }
+    }
+}
+
+dependencies {
+    compile 'commons-lang:commons-lang:2.6'
+    // compile 'org.hibernate:hibernate-core:4.1.4.Final'
+    // compile 'com.google.code.guice-repository:guice-repository:1.0.0'
+}

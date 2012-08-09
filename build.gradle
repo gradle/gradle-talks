@@ -171,6 +171,17 @@ project(":talks").subprojects {
         }
     }
 
+    ext.demosSpec = copySpec {
+        from "src/demos"
+        exclude \
+            "**/*/build",
+            "**/*/.gradle",
+            "**/*/out",
+            "**/*/*.ipr",
+            "**/*/*.iws",
+            "**/*/*.iml"        
+    }
+    
     task "package"(overwrite: true, type: Sync) {
         into "$buildDir/package"
         from showFiles, {
@@ -179,15 +190,8 @@ project(":talks").subprojects {
         from pdf, {
             rename ".*", "slides.pdf"
         }
-        from "src/demos", {
-            into "demos"
-            exclude \
-                "**/*/build",
-                "**/*/.gradle",
-                "**/*/out",
-                "**/*/*.ipr",
-                "**/*/*.iws",
-                "**/*/*.iml"
+        into "demos", {
+            with demosSpec
         }
         includeEmptyDirs = false
     }

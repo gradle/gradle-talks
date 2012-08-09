@@ -1,0 +1,19 @@
+buildscript {
+    repositories {
+        maven { url "file://${projectDir}/../repo" }
+    }
+    dependencies {
+        classpath "corporate:corporate-plugin:1.0"
+    }
+}
+
+apply plugin: "corporate"
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+compileTestJava {
+    // sourceCompatibility = "1.7"
+}

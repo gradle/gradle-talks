@@ -1,0 +1,48 @@
+apply plugin: "base"
+
+version = "0.1"
+
+task downloadGradle(type: DownloadGradle) {
+    gradleVersion "1.0"
+    destinationDir file("gradle-downloads")
+}
+
+task customGradleDistribution(type: Zip, dependsOn: downloadGradle) {
+    from zipTree(downloadGradle.destinationFile)
+    archiveName "corporate-gradle-${downloadGradle.gradleVersion}-$version-bin.zip"
+    into "$downloadGradle.distributionNameBase/init.d", {
+        from "src/init.d"
+    }
+}
+
+task uploadCustomGradleDistribution(type: Copy) {
+    from customGradleDistribution
+    into "../wrapper-uploads"
+}
+
+class DownloadGradle extends DefaultTask {
+    @Input String gradleVersion
+    @Input File destinationDir
+    @Input String gradleDownloadBase = "http://services.gradle.org/distributions"
+
+    @TaskAction doDownloadGradle() {
+        destinationFile.bytes = new URL(downloadUrl).bytes
+    }
+
+    String getDownloadUrl() {
+        "$gradleDownloadBase/$downloadFileName"
+    }
+
+    String getDistributionNameBase() {
+        "gradle-$gradleVersion"
+    }
+
+    String getDownloadFileName() {
+        "$distributionNameBase-bin.zip"
+    }
+
+    @OutputFile File getDestinationFile() {
+        new File(destinationDir, downloadFileName)
+    }
+}
+
