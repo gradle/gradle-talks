@@ -1,2 +1,0 @@
-rootProject.name = 'webinar-parent'
-include ':webinar-api', ':webinar-impl', ':webinar-war'
