@@ -1,0 +1,23 @@
+allprojects {
+  group = 'org.gradle.webinar'
+  version = '1.0-SNAPSHOT'
+}
+
+project(":webinar-api") {
+  description = 'Webinar APIs'
+
+  apply plugin: 'java'
+  apply plugin: 'maven'
+}
+
+project(":webinar-war") {
+  description = 'Webinar web application'
+
+  apply plugin: 'war'
+  apply plugin: 'jetty'
+
+  dependencies {
+    runtime project(path: ":webinar-impl", configuration: "archives")
+    runtime project(':webinar-api')
+  }
+}

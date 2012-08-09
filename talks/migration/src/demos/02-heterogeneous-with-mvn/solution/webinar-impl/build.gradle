@@ -1,0 +1,26 @@
+description = 'Webinar implementation (maven project).'
+
+task mvnBuild(type:Exec) {
+  description = 'Assembles the jar using maven'
+  commandLine 'mvn', 'clean', 'package'
+  ext.outputJar = file("target/${project.name}-${project.version}.jar")
+
+  inputs.files fileTree("src/main/java")
+  outputs.file ext.outputJar
+
+  logging.captureStandardOutput LogLevel.INFO
+
+  dependsOn ":webinar-api:install"
+}
+
+task clean(type: Delete) {
+  delete 'target'
+}
+
+configurations {
+  archives
+}
+
+artifacts {
+  archives file: mvnBuild.ext.outputJar, builtBy: mvnBuild
+}
