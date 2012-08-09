@@ -5,23 +5,24 @@ ant.importBuild 'build.xml'
 clean.enabled = false
 prepare.enabled = false
 
-compile {
-	inputs.files fileTree(ant.'src.dir')
-	outputs.files fileTree(ant.'src.classes.dir')
+compileClasses {
+  inputs.files fileTree("src/main/java")
+  outputs.files fileTree("target/classes")
 }
 
-jar {
-	description = "Assembles the webinar impl (configured in build.xml)"
-	ext.jarFile = file(ant.jarFile)
-	
-	inputs.files compile.outputs.files
-	outputs.file ext.jarFile
+buildJar {
+  ext.outputJar = file(ant.jarFile)
+
+  inputs.files compileClasses.outputs.files
+  outputs.file ext.outputJar
+
+  dependsOn ":webinar-api:build"
 }
 
 configurations {
-	archives
+  archives
 }
 
 artifacts {
-	archives file: jar.ext.jarFile, builtBy: jar
+  archives file: buildJar.ext.outputJar, builtBy: buildJar
 }
