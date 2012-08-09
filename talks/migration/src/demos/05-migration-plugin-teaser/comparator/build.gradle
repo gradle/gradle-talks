@@ -1,0 +1,6 @@
+task compare(type: CompareGradleBuilds) {
+    sourceVersion = "current"
+    targetVersion = "current"
+    sourceProjectDir = file("../java.quickstart.v1")
+    targetProjectDir = file("../java.quickstart.v2")
+}
