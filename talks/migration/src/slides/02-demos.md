@@ -10,15 +10,29 @@
 ## Migration best practices
 
 * the decision to migrate
-* incremental migration
+    * Hibernate story: https://community.jboss.org/wiki/GradleWhy
+* prepare the team (training, offline webinars, etc.)
 * build output comparison
-* team preparation
-* Gradle Wrapper
+    * false positives may happen
+    * migration plugin
+* Gradle Wrapper: reproducibility, consistency, ease of installation
+    * see screencast: http://gradleware.com/registered/screencasts/the-gradle-wrapper
 
 questions?
 
-## Migrating from ant
+## Incremental and background migration
 
+* Gradle's flexibility enables iterative migration
+    * first reproduce the build outputs, then tests, then...
+* Developing new build without changing existing structure
+* Maintaining old and new build for the migration period
+* Planning the migration
+
+questions?
+
+## Migrating incrementally from ant
+
+* ant task reuse
 * shallow import
 * deep import
 
@@ -27,8 +41,10 @@ questions?
 ## Migrating from maven
 
 * migration helper
-* shallow import
-* deep import
+    * future plans
+* incremental migration
+    * shallow import
+    * deep import
 
 questions?
 
@@ -36,7 +52,6 @@ questions?
 
 * Gradle Wrapper
 * Migration plugin
-* Build output comparison
 
 questions?
 
