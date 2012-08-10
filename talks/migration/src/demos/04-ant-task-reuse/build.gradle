@@ -1,9 +1,3 @@
 task printChecksum {
   description = "Prints the checksum"
-  doLast {
-    ant {
-      checksum(file: 'foo.txt', property: 'checksum')
-      println "The checksum is: $checksum"
-    }
-  }
 }

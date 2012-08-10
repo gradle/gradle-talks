@@ -17,7 +17,6 @@ project(":webinar-war") {
 	apply plugin: 'jetty'
 	
 	dependencies {
-	  runtime project(path: ":webinar-impl", configuration: "archives")
 		runtime project(':webinar-api')
 	}
 }

@@ -1,4 +1,6 @@
-# Migrating and Upgrading with Gradle
+# Gradle
+
+Migrating and Upgrading with Gradle
 
 ## Migrating and Upgrading with Gradle
 
