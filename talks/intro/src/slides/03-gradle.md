@@ -32,6 +32,42 @@ This makes it convenient to decorate existing tasks, and has other benefits.
       }
     }
 
+## Plugins
+
+Gradle plugins are just containers for build logic. There is no API.
+
+Script plugins…
+
+    apply from: "integration-testing.gradle"
+    apply from: "http://my.org/gradle/integration-testing.gradle"
+
+Binary plugins…
+
+    apply plugin: "integration-testing"
+
+Plugin contract…
+
+    public interface Plugin<T> {
+        void apply(T target);
+    }
+
+## Extensible
+
+Gradle is an *extensible build language*, which allows **you** to abstract/hide **your personal** complexity.
+
+    class ProductEditionsExtension {
+      // Implementation of DSL
+    }
+    
+    project.extensions.create("productEditions", ProductEditionsExtension)
+    
+    productEditions { 
+      enterprise core, plugins, powerAddons 
+      opensource core, plugins, openApi 
+    }
+
+You know your domain.
+
 ## Domain Modelling
 
 Gradle uses strong modelling to manage complexity and empower malleable conventions.
@@ -44,33 +80,16 @@ Gradle uses strong modelling to manage complexity and empower malleable conventi
 
 Conventions are driven from such declarative model elements, in an evaluated-on-demand fashion.
 
-    compileJavaTask.conventionMapping.map("source") { 
-      sourceSets.main.java 
-    }
+## Controlled Customisation
 
-## Abstraction
+You can…
 
-Tasks are often not “exposed” to build users. Instead, they are lower level building blocks that drive the execution.
+* Add new concepts
+* Add new funtionality 
+* Add new conventions
+* Add new defaults
+* Add new restrictions
 
-Build masters can model their domain and expose DSLs and model elements that create & configure tasks for the user to program against.
+And… it's all code, so you can test it, version it, refactor it, share it etc.
 
-    apply plugin: 'editions' 
-
-    productEditions { 
-      enterprise core, plugins, powerAddons 
-      opensource core, plugins, openApi 
-    }
-
-(better than template Ant scripts attached to a wiki)
-
-## Extensible
-
-Gradle is an *extensible build language*, which allows **you** to abstract/hide **your personal** complexity.
-
-    project.extensions.create(ProductEditionsExtension)
-    
-    class ProductEditionsExtension {
-      // Implementation of DSL
-    }
-
-You know your domain.
+Build automation is just another kind of software endeavour. Gradle is a developer friendly toolkit.

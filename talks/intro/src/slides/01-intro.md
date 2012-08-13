@@ -38,10 +38,6 @@ The company behind Gradle.
 ![Gradleware Logo](img/gradleware.png)
 <p style="text-align: center">[http://www.gradleware.com](http://www.gradleware.com)</p>
 
-# Gradle 1.0
-
-Released this morning!
-
 ## The Philosophy
 
 * Conventions are good, malleable conventions are better (no “one way”).

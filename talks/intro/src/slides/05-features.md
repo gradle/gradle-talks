@@ -2,25 +2,6 @@
 
 Some of them.
 
-## Plugins
-
-Gradle plugins are just containers for build logic. There is no API.
-
-Script plugins…
-
-    apply from: "integration-testing.gradle"
-    apply from: "http://my.org/gradle/integration-testing.gradle"
-
-Binary plugins…
-
-    apply plugin: "integration-testing"
-
-Plugin contract…
-
-    public interface Plugin<T> {
-        void apply(T target);
-    }
-
 ## Wrapper
 
 The Gradle Wrapper is a lightweight jar and some starter scripts that you check in to source control.
@@ -50,6 +31,8 @@ For example…
 * Pre-configure existing conventions
 
 Or anything else!
+
+(There's a [screencast](http://gradleware.com/registered/screencasts/the-gradle-roadmap/) on this topic)
 
 ## Daemon
 

@@ -51,19 +51,6 @@ This is (in pseudocode)…
 
 In Groovy, the “delegate” of a closure can be set at runtime.
 
-## Closures (cont.)
-
-Closures are commonly used to defer evaluation.
-
-    def file = new File("src/somefile.txt")
-    
-    copyOperation {
-      from { file }
-      into "output"
-    }
-
-Convenient syntax for defining *factories*.
-
 ## The Groovy-JDK (GDK)
 
 Groovy adds many convenient methods to core Java types.
