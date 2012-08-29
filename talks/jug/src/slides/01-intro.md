@@ -14,7 +14,7 @@ Build Automation Evolved
 * COO of Gradleware
 * peter.walker@gradleware.com
 
-//TODO one liner
+//TODO one liner 
 
 ## Gradle
 
