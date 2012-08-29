@@ -42,5 +42,6 @@ After a brief introduction to Gradle we will explore some of the common enterpri
 * "Scale - parallel builds" - 
 * "Enterprise policy" - forbidding http foo, mandating http blah repo.
 * "Enterprise metrics" - discovery and analytics to offer feedback for even greater efficiency games.
+* "Standardization" - use the gradle toolkit to bring good stuff to xcodebuild or android or blackberry or msbuild or ..
 * "Automate Everything" - talk about non-java (C++/Andriod) and non-build (userguides and web sites) use cases for gradle. 
 * ...
