@@ -29,19 +29,6 @@ Gradle can automate the building, testing, publishing, deployment and more of so
 ![Gradle Logo](img/gradle.png)
 <p style="text-align: center">[http://www.gradle.org](http://www.gradle.org)</p>
 
-## Gradleware
-
-The company behind Gradle.
-
-* Employs full time engineers
-* Gradle consulting, support, development services etc.
-* Training: online, public and in-house
-* General build automation services
-
-<p style="text-align: center">Germany, Australia, UK, Poland, Austria, Canada and the US.</p>
-![Gradleware Logo](img/gradleware.png)
-<p style="text-align: center">[http://www.gradleware.com](http://www.gradleware.com)</p>
-
 # (Title) Gradle in the Enterprise.
 ## Agenda
 (Abstract) Gradle is rapidly becoming the defacto automation tool of choice for enterprises in the software development pipeline .... but why?
