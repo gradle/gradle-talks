@@ -90,4 +90,25 @@ section.slide {
     font-size: @baseFontSize + 88px;
   }
   
+  dl {
+    margin-bottom: 1em;
+    
+    > :first-child {
+      padding-top: 0;
+    }
+  }
+  
+  dt {
+    font-weight: bold;
+    padding-top: 0.25em;
+  }
+  
+  dd {
+    padding-bottom: 0.25em;
+  }
+  
+  dd:before {
+    content: "\221f\0000a0";
+  }
+  
 }

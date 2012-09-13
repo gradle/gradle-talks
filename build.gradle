@@ -97,6 +97,7 @@ project(":talks").subprojects {
     task rawHtml(type: PegDown) {
         source concatSlidesMd
         destination "$buildDir/html/slides-raw.html"
+        options << "definitions" << "smartypants"
     }
 
     ["base", "pdf", "show"].each { transformType ->

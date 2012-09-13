@@ -29,7 +29,7 @@ class PegDown extends SourceTask {
 
     @Input
     @Optional
-    List<String> options
+    List<String> options = []
 
     @Input
     String inputEncoding
@@ -62,7 +62,7 @@ class PegDown extends SourceTask {
     }
     
     protected int toOptionValue(String optionName) {
-        String upName = val.toUpperCase()
+        String upName = optionName.toUpperCase()
         try {
             Extensions."$upName"
         } catch (MissingPropertyException e) {
