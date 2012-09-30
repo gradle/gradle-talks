@@ -6,6 +6,8 @@ Tests for POJO model elements. Traditional unit tests.
 
 By keeping as much functionality as possible away from the Gradle “machinery”, less testing support is needed.
 
+Avoid making everything a Gradle type object. Use POJOs where it makes sense (which is usually more often than you think).
+
 ## Configuration Tests
 
 Like unit tests, but testing the “wiring” performed by plugins, extensions, tasks etc.
