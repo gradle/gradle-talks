@@ -4,21 +4,13 @@
 
 Tasks add new functionality, extensions add new build language elements.
 
-Plugins often *wire* these two things together.
+One of the things that plugins often do is *wire* these things together. 
+
+A common pattern is to use the DSL extension as a kind of defaults registry, which we'll see shortly.
 
 ## Containers
 
-Gradle provides smart collections that allow configuration to be specified for current and *future* elements. 
-
-The [`TaskContainer`](http://gradle.org/docs/current/javadoc/org/gradle/api/tasks/TaskContainer.html) is one example of this.
-
-    tasks.all { «config» }
-    tasks.withType(SomeTaskType) { «config» }
-    tasks.matching { it.name.startsWith("foo") }.all { «config» }
-
-See [`NamedDomainObjectContainer`](http://gradle.org/docs/current/javadoc/org/gradle/api/NamedDomainObjectContainer.html).
-
-## Custom Containers
+Gradle introduces some new collection types with useful behaviour.
 
 You can create your own domain object containers, via [`project.container()`](http://gradle.org/docs/current/javadoc/org/gradle/api/Project.html#container\(java.lang.Class\)).
 
@@ -35,6 +27,20 @@ You can create your own domain object containers, via [`project.container()`](ht
     }
 
 Objects are created on demand in the container closure. This powers many parts of the Gradle DSL.
+
+## Container Item Configuration
+
+Gradle collections allow configuration to be specified for current and *future* elements. 
+
+The [`TaskContainer`](http://gradle.org/docs/current/javadoc/org/gradle/api/tasks/TaskContainer.html) is a good candidate for this.
+
+    tasks.all { property = "value" }
+    tasks.withType(SomeTaskType) { property = "value" }
+    tasks.matching { it.name.startsWith("foo") }.all { 
+        property = "value" 
+    }
+
+See [`NamedDomainObjectContainer`](http://gradle.org/docs/current/javadoc/org/gradle/api/NamedDomainObjectContainer.html).
 
 ## Convention Mapping
 
