@@ -66,6 +66,27 @@ The concept of a “set of source code” and everything it encompasses (e.g. cl
 
 These *declarative* model elements (combined with other techniques) promote flexibility and build clarity.
 
+## Imperative vs. Declarative
+
+Gradle is mixed imperative & declarative.
+
+The goal is:
+
+* the build script is **declarative** (i.e. this is what I want).
+* the **imperative** logic (i.e. this is how things work) is provided by plugins (and assocatied objects)
+
+That is, plugins inject a DSL interface into the build script.
+
+## Declarative DSLs… why?
+
+Why bother with declarativeness, DSLs, plugins etc?
+
+1. Audience (what the build does usually more important than the how)
+2. Integrity (naturally resists ball of mud syndrome)
+3. Reuse (no copy/paste)
+4. Maintenance (decoupled code is easier to maintain)
+5. Understandability (small components are easier to understand)
+
 ## Gradle Plugins
 
 **Physically**, a plugin is *just* a reusable fragment of build logic. That is, there is no special plugin functionality.
