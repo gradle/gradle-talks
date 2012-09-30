@@ -1,5 +1,7 @@
 # Gradle Plugins
 
+How they work and how to write them.
+
 ## About Me
 
 * Principal Engineer @ [Gradleware](http://gradleware.com/)
