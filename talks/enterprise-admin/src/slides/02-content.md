@@ -141,9 +141,9 @@ Combining these two inseparably leads to rigidity.
 
 Adding the ability to perform some new function. For example, to compile CoffeeScript.
 
-Out of scope for this Webinar.
+Out of scope for this session.
 
-Keep an eye on [http://gradle.org/news](http://gradle.org/news) for announcements on a Webinar focussed on this topic.
+Keep an eye on [http://gradle.org/news](http://gradle.org/news) for announcements on a Webinar focussed on this topic (plugin development).
 
 ## Adding/Extending Conventions
 

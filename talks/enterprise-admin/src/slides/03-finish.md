@@ -11,12 +11,7 @@ The company behind Gradle.
 ![Gradleware Logo](img/gradleware.png)
 <p style="text-align: center">[http://www.gradleware.com](http://www.gradleware.com)</p> 
 
-## Questions?
-
-* Questions on this webinar
-* Feedback on this webinar (email me directly if you prefer)
-* Ideas for future webinars
-* Anything else?
+# Questions?
 
 ## More stuff…
 
