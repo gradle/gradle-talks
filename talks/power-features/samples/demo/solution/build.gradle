@@ -1,25 +1,13 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'pmd'
-apply plugin: 'sonar'
-apply from: 'my-idea.gradle'
 
 mainClassName = 'demo.Demo'
-
-myIdea {
-  vcs = 'Git'
-}
 
 repositories {
   mavenCentral()
   maven {
     url "http://localhost/~${System.getProperty("user.name")}/mavenrepo"
   }
-}
-
-pmd {
-  ignoreFailures = true
-  ruleSets = ["basic", "braces"]
 }
 
 dependencies {
@@ -35,7 +23,7 @@ task showDeps {
   doLast {
     println "Dependencies:"
     configurations.testCompile.each {
-      println "  $it"
+      println "  $it.name"
     }
   }
 }
