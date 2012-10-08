@@ -1,0 +1,27 @@
+apply from: 'ide.gradle'
+apply from: 'codeQuality.gradle'
+
+myIdea {
+    vcs = 'Git'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+project(":impl") {
+    dependencies {
+        compile project(":api")
+        compile "commons-lang:commons-lang:2.6"
+		
+		testCompile 'junit:junit:4.10'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.2'
+}

@@ -1,0 +1,27 @@
+allprojects {
+    apply plugin: 'idea'
+}
+
+def myIdea = project.extensions.create("myIdea", MyIdea)
+
+idea {
+    module {
+        excludeDirs += file('my-stuff')
+    }
+
+    project {
+        languageLevel = '1.5'
+
+        ipr {
+            withXml {
+                def node = it.asNode()
+                def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+                vcsConfig.mapping[0].'@vcs' = myIdea.vcs
+            }
+        }
+    }
+}
+
+class MyIdea {
+    String vcs = 'svn'
+}
