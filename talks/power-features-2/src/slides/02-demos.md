@@ -2,15 +2,32 @@
 
 ## Power Features II
 
+* IDE integration
 * The Gradle daemon
-* Monitoring code quality (*)
-* IDE integration (*)
-* DSL extensions for plugin development (*)
+* DSL extensions for plugin development
+* Monitoring code quality
+
+## IDE integration
+
+* IDEA plugin
+* The onion skin API
 
 ## The Gradle Daemon
 
 * org.gradle.daemon
 * future plans
+
+questions?
+
+## Plugin development
+
+* DSL extensions
+
+questions?
+
+## IDE integration
+
+* STS Eclipse integration
 
 questions?
 
@@ -21,21 +38,6 @@ questions?
 * findBugs
 * checkstyle
 * codeNarc
-
-questions?
-
-## IDE integration
-
-* IDEA and multi-level API
-* STS Eclipse integration
-
-questions?
-
-## Plugin development
-
-* DSL extensions
-
-questions?
 
 ## Q & A
 

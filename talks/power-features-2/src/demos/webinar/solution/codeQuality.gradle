@@ -1,0 +1,9 @@
+allprojects {
+    project.plugins.withType(JavaPlugin) {
+        project.apply(plugin: 'pmd')
+
+        pmd {
+            ruleSets = ["basic", "braces"]
+        }
+    }
+}
