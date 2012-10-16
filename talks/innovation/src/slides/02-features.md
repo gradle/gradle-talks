@@ -1,6 +1,6 @@
 ## Clickable report URLs
 
-Whenever a task that produces some kind of report fails, you know get a URL to the report file.
+Whenever a task that produces some kind of report fails, you get a URL to the report file.
 
 This makes it much easier to open.
 
@@ -24,9 +24,9 @@ FUTURE: Build Migration
 
 ## Maven conversion
 
-Should you want to migrate your build from Maven to Gradle, you can now generate a `build.gradle` from your `pom.xml`.
-
-Intended to give you a headstart in your migration.
+* Convert a `pom.xml` to a `build.gradle`
+* Gives you a staring point
+* Incubating!
 
 --- 
 
@@ -34,33 +34,35 @@ FUTURE: Maven import
 
 ## Test Output
 
-Gradle now gives you detailed information on test failures and output… right in the console.
-
-This is very tunable and very flexible.
+* Detailed test information, in the console
+* Stacktraces
+* Events (e.g. skipped)
+* Tunable and flexible
+* Multiple logging levels
 
 There's a [very detailed forum post](http://forums.gradle.org/gradle/topics/whats_new_in_gradle_1_1_test_logging) on this.
 
 ## New dependency report
 
-The improved dependency report gives you information on the dependency versions you *requested* and what was *selected*.
+* Indicates both *requested* and *selected* versions
+* Much better insight into version conflicts
 
-The previous version only gave the *selected* version number, hiding conflicts.
+(previous version only showed *selected*)
 
 ## Dependency Insight
 
-The new “dependency insight” report visualises the path to a dependency.
-
-Useful for finding out what is bringing in a dependency.
+* Inverse of `dependencies` report
+* Shows path **to** a dependency
+* Explains how/why a dependency is in the graph
 
 ## Dependency resolution API
 
-The new dependency resolution result API gives you full access to the resolved dependency graph data.
-
-It includes the *requested* and *selected* versions, and the reason why something was selected.
-
-You can use this for custom reporting, or even sophisticated dependendency conflict handling.
-
-This is the basis for the `dependencies` and `dependencyInsight` tasks.
+* `ResolutionResult`
+* A model of the resolved dependency graph
+* *requested* and *selected*
+* Selection *reason*
+* Basis for new dependency reports
+* Fine grained conflict handling rules 
 
 ## Parallel execution
 
