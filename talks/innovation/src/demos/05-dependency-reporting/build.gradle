@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+repositories {
+    maven { url "http://repo.gradle.org/gradle/repo" }
+}
+
+dependencies {
+    compile 'commons-lang:commons-lang:2.+'
+    compile 'org.gradle:gradle-base-services:1.1' // depends on org.slf4j:slf4j-api:1.6.6
+    compile 'org.slf4j:slf4j-api:1.6.5'
+}

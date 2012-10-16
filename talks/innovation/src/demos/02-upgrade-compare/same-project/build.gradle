@@ -1,0 +1,9 @@
+apply plugin: "java"
+apply plugin: "compare-gradle-builds"
+
+compareGradleBuilds {
+  sourceBuild.gradleVersion "1.2"
+  targetBuild { 
+    gradleVersion "1.3-20121015071519+0000"
+  }
+}

@@ -1,0 +1,12 @@
+apply plugin: "compare-gradle-builds"
+
+compareGradleBuilds {
+  sourceBuild {
+    projectDir "a"
+    gradleVersion "1.2"
+  }
+  targetBuild { 
+    projectDir "b"
+    gradleVersion "1.2"
+  }
+}

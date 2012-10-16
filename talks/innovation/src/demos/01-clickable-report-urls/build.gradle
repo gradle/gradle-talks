@@ -1,0 +1,17 @@
+apply plugin: "java"
+apply plugin: "findbugs"
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile "junit:junit:4.10"
+}
+
+findbugsMain {
+  reports {
+    // html.enabled = true
+    // xml.enabled = false
+  }
+}

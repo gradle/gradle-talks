@@ -1,0 +1,13 @@
+apply plugin: "java"
+
+repositories {
+  mavenCentral()
+  maven { url "http://repository.jboss.org/nexus/content/groups/public-jboss/" }
+}
+
+dependencies {
+  compile "org.jboss.as:jboss-as-jpa:7.1.2.Final"
+  // compile "org.hibernate:hibernate-validator:4.0.0.GA", {
+  //   force = true
+  // }
+}

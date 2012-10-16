@@ -1,0 +1,24 @@
+apply plugin: "groovy"
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  groovy "org.codehaus.groovy:groovy-all:2.0.5"
+  testCompile "junit:junit:4.10"
+}
+
+test {
+  testLogging {
+    // exceptionFormat "full" // default is "short"
+    // showStackTraces false
+    // stackTraceFilters "groovy"
+    
+    // info {
+    //   exceptionFormat "full"
+    // }
+    
+    // events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+  }
+}
