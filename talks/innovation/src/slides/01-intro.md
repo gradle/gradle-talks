@@ -28,28 +28,26 @@ Gradle can automate the building, testing, publishing, deployment and more of so
 <p style="text-align: center">[http://www.gradle.org](http://www.gradle.org)</p>
 
 
-## The road so far…
+# The road to 1.0
 
-Explain the road to 1.0
-
+---
 * Establishing team
 * Ivy
-
 
 ## Gradle 1.0
 
 Released 12th June 2012.
 
+---
 * A compelling evolution of build technology
 * Strong backwards compatibility
 * A good option for a lot of projects
 
 ## Since Gradle 1.0
 
-We didn't rest at 1.0.
-
-* 1.1 and 1.2 released since (1.3 soon)
 * Releases roughly every 6 weeks
+
+---
 * Increased effort in release notes
 * Improved release automation internally
 * Continuing to add new features, fix bugs, and make Gradle better.

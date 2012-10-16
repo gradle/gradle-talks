@@ -70,44 +70,58 @@ Often useful in a CI context.
 
 ## Parallel execution
 
-You can now execute tasks in parallel.
+* --parallel 
+* --parallel-threads=«num»
 
-The `--parallel` option enables this, with num\_of_cores - 1 threads.
-
-The `--parallel-threads=«num»` option allows you to specify the number of threads.
-
+---
 This is not a stable feature, and has structural requirements.
-
-**TODO DEMO*
 
 ## Performance & Memory Consumption
 
-**TODO**
+### Relevance often depends on scenarios
 
-Talk about efforts here, speed and memory consumption.
-
-## Android
-
-**TODO**
+---
+A lot of potential
+Step-by-step improvements
+Spend a lot of effort to measure (dedicated performance machines)
+Many different aspects (responsiveness (what tasks, dependencies, debugging), average build time, clean build time, configuration time)
+Means: Build Avoidance, Profiling & Low level optimisation, apply more resources
 
 ## Compiler Daemons
 
-To improve compile performance, Gradle reuses JVM processes for compilation across a build.
-
-This is the most dramatic for Groovy, where the compiler is expensive to bootstrap.
+---
+Compile processes = submodules * 2
+Should be forked (leaks, clean classpath, health checks)
+Groovy is always forked.
+Particularly relevant if warm up phase is expensive
 
 ## Incremental Scala Compile
 
-The Gradle Scala plugin will soon use the Scala Incremental Compiler.
+* Zinc (SBT) integration
+* Available in 1.3
 
-This makes compiling Scala code much quicker by only recompiling what's necessary after a change.
+---
+Scala first class platform 
+Cooperation with Typesafe
 
 ## Native integration
 
 We've been improving our integration with the host os, via native code.
 
 * Improved terminal capabilities
-* Improved filesystem features (e.g. permission management)
+* Improved filesystem features 
 * Improved forked process handling
 
-Working towards a native Gradle Daemon client.
+---
+* Works with Java 5
+* dynamic console output
+* native client
+* local/remote filesystem
+* keystores
+* proxy settings
+* events
+* native client
+
+## Android
+
+**TODO**

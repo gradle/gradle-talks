@@ -33,9 +33,6 @@ All based on a general purpose JavaScript tool toolkit (based on Rhino).
 
 ## C/C++
 
-Continuing to improve the support for building C and C++ projects with Gradle.
-
-
 ## Plugin Developers
 
 ## Enterprise scalability
