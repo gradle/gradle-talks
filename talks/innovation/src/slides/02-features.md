@@ -81,9 +81,13 @@ Relevance depends on scenarios
 ---
 
 A lot of potential
+
 Step-by-step improvements
+
 Spend a lot of effort to measure (dedicated performance machines)
+
 Many different aspects (responsiveness (what tasks, dependencies, debugging), average build time, clean build time, configuration time)
+
 Means: Build Avoidance, Profiling & Low level optimisation, apply more resources
 
 # Compiler Daemons
@@ -93,8 +97,11 @@ For Java, Groovy, Scala
 ---
 
 Compile processes = submodules * 2
+
 Should be forked (leaks, clean classpath, health checks)
+
 Groovy is always forked.
+
 Particularly relevant if warm up phase is expensive
 
 # Incremental Scala Compile
@@ -123,7 +130,9 @@ A platform wonderland
 * native client
 * dog food for Gradle C++/JNI support.
 
-# Continue on failure
+## Continue on failure
+
+Live Demo
 
 ## Android
 
