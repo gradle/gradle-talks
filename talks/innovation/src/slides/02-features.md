@@ -18,6 +18,8 @@ The “build comparison” support facilitates _testing_ your build with differe
 
 Verify that your _outputs_ are the same with the new Gradle version.
 
+--- 
+
 FUTURE: Build Migration
 
 ## Maven conversion
@@ -25,6 +27,8 @@ FUTURE: Build Migration
 Should you want to migrate your build from Maven to Gradle, you can now generate a `build.gradle` from your `pom.xml`.
 
 Intended to give you a headstart in your migration.
+
+--- 
 
 FUTURE: Maven import
 
