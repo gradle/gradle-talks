@@ -127,4 +127,21 @@ A platform wonderland
 
 ## Android
 
+    apply plugin: 'android'
 
+    version = '1.0'
+
+    android {
+      target 'android-16'
+      productFlavors {
+        free { packageName = 'org.gradle.sample.free' }
+        paid
+      }
+      buildTypes { custom }
+    }
+
+    sourceSets {
+      main.java.srcDir 'some-dir'
+      main.resources.srcDir 'some-resources'
+      free.java.srcDir 'some-free-dir'
+    }
