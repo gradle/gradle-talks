@@ -31,9 +31,19 @@ Improving the documentation for the existing JavaScript support in Gradle.
 
 All based on a general purpose JavaScript tool toolkit (based on Rhino).
 
-## C/C++
+# C/C++
 
-## Plugin Developers
+---
 
-## Enterprise scalability
+Variants
+Incremental compile/parallel compile
+
+# Plugin Developers
+
+---
+
+Plugin portal
+
+
+# Enterprise scalability
 
