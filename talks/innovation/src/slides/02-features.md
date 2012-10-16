@@ -74,9 +74,9 @@ There's a [very detailed forum post](http://forums.gradle.org/gradle/topics/what
 
 This is not a stable feature, and has structural requirements.
 
-## Performance & Memory Consumption
+# Performance & Memory
 
-### Relevance often depends on scenarios
+Relevance depends on scenarios
 
 ---
 
@@ -86,7 +86,9 @@ Spend a lot of effort to measure (dedicated performance machines)
 Many different aspects (responsiveness (what tasks, dependencies, debugging), average build time, clean build time, configuration time)
 Means: Build Avoidance, Profiling & Low level optimisation, apply more resources
 
-## Compiler Daemons
+# Compiler Daemons
+
+For Java, Groovy, Scala
 
 ---
 
@@ -95,17 +97,18 @@ Should be forked (leaks, clean classpath, health checks)
 Groovy is always forked.
 Particularly relevant if warm up phase is expensive
 
-## Incremental Scala Compile
+# Incremental Scala Compile
 
-* Zinc (SBT) integration
-* Available in 1.3
+Zinc (SBT) integration
 
 ---
 
 Scala first class platform 
 Cooperation with Typesafe
 
-## Native integration
+# Native integration
+
+A platform wonderland
 
 ---
 
@@ -120,8 +123,8 @@ Cooperation with Typesafe
 * native client
 * dog food for Gradle C++/JNI support.
 
-## Continue on failure
+# Continue on failure
 
 ## Android
 
-**TODO**
+
