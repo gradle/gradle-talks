@@ -31,6 +31,7 @@ Gradle can automate the building, testing, publishing, deployment and more of so
 # The road to 1.0
 
 ---
+
 * Establishing team
 * Ivy
 
@@ -39,6 +40,7 @@ Gradle can automate the building, testing, publishing, deployment and more of so
 Released 12th June 2012.
 
 ---
+
 * A compelling evolution of build technology
 * Strong backwards compatibility
 * A good option for a lot of projects
@@ -48,6 +50,7 @@ Released 12th June 2012.
 * Releases roughly every 6 weeks
 
 ---
+
 * Increased effort in release notes
 * Improved release automation internally
 * Continuing to add new features, fix bugs, and make Gradle better.
