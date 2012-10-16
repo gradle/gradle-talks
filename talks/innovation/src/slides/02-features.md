@@ -66,6 +66,8 @@ Gradle will execute every task to be executed where all of the dependencies for 
 
 Often useful in a CI context.
 
+**TODO DEMO**
+
 ## Parallel execution
 
 You can now execute tasks in parallel.
@@ -75,6 +77,8 @@ The `--parallel` option enables this, with num\_of_cores - 1 threads.
 The `--parallel-threads=«num»` option allows you to specify the number of threads.
 
 This is not a stable feature, and has structural requirements.
+
+**TODO DEMO*
 
 ## Performance & Memory Consumption
 
