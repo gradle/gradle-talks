@@ -1,6 +1,6 @@
 # Gradle
 
-Expanding to the frontend
+Managing JavaScript
 
 ## About Me
 
@@ -37,47 +37,16 @@ The company behind Gradle.
 ![Gradleware Logo](img/gradleware.png)
 <p style="text-align: center">[http://www.gradleware.com](http://www.gradleware.com)</p> 
 
-## Upcoming Webinars 
+# Gradle?
 
-To help new and experienced users alike, we've also produced several new webinars [http://gradle.org/events](http://gradle.org/events):
+## JavaScript…
 
- * [A Gentle Introduction to Gradle](http://gradleware.com/news/83) by [Tim Berglund](http://www.gradleware.com/team#tim-berglund)
- * [Gradle Power Features](http://gradleware.com/news/89) by [Szczepan Faber](http://www.gradleware.com/team#szczepan-faber)
- * [Gradle Roadmap](http://gradleware.com/news/62) by [Hans Dockter](http://www.gradleware.com/team#hans-dockter)
- * [Migrating and Upgrading to Gradle](http://gradleware.com/news/100) by [Szczepan Faber](http://www.gradleware.com/team#szczepan-faber)
- * [Administering Gradle in the Enterprise](http://gradleware.com/news/92) by [Luke Daley](http://www.gradleware.com/team#luke-daley)
-
-### The Gradle Book
-
-Free HTML version of the first O'Reilly Gradle book: [http://gradleware.com/resources](http://gradleware.com/resources)
-
-# Gradle 1.0
-
-Released on June 11!
-
-## Upcoming Trainings
-
-* [Gradle Fundamentals, Online, Jul 23-23](http://gradleware.com/training) by [Tim Berglund](http://www.gradleware.com/team#tim-berglund)
-* [Extending Gradle, Online, Jul 24-25](http://gradleware.com/training) by [Szczepan Faber](http://www.gradleware.com/team#szczepan-faber)
-* [Gradle In-Depth, Chicago, Oct 9-11](http://gradleware.com/training) by [Gradle Core Developer](http://www.gradleware.com/team)
-
-## What we will talk about
-
-* Some context
-* Existing 3rd party plugins
-* Gradle fundamentals
-* **New** core functionality
-
-## Some context
-
-* JavaScript is a booming business
-* Mo' JavaScript = mo' problems
+* Growing relavance, to everyone
 * Weak history of tooling and build automation
 * No build time dependency management conventions
 * No well established structural/process conventions
-* Ant, Make and Node.js most popular build environments
 
-## More than scripts
+## Automation…
 
 * Bundling
 * Minification
@@ -87,42 +56,3 @@ Released on June 11!
 * *Reuse*
 
 We now create JavaScript libraries, not scripts. This has drastic implications.
-
-## Dependency Challenges
-
-### Buildtime 
-
-* No public hosting infrastructure (e.g Maven Central)
-* No descriptor format
-* What is a dependency? (e.g. accompanying CSS and images?)
-
-### Runtime 
-
-* Managing visibility
-* One namespace
-
-There are several initiatives tackling this, based around the [Universal Module Definition](https://github.com/umdjs/umd). For example,  [require.js](http://requirejs.org/).
-
-## Why bother?
-
-Why is dependency management for JavaScript important?
-
-### Buildtime 
-
-As JavaScript code bases grow, manually answering the question “what are my dependencies?” becomes harder and error prone.
-
-### Runtime
-
-Versioning, performance, and protecting the global namespace.
-
-With a dependency model, we can automate more.
-
-## Project conventions?
-
-* What conventions make sense for a JavaScript project?
-* Embedded or standalone?
-* Intra module dependencies?
-* Framework specific conventions
-
-There are not a lot of “best practice” guides out there for this… yet.
- 

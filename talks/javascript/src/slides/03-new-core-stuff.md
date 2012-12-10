@@ -4,13 +4,11 @@ The new Gradle core JS support
 
 ## New JS Subproject
 
-Very new and EXPERIMENTAL (No API guarantees).
+Very new and still incubating (No API guarantees).
 
 The goal is to be the foundation for other JS plugins, by providing reusable infrastructure.
 
 Over time, this will expand to dependency management and opinionated conventions.
-
-Will be part of Gradle 1.1.
 
 ## What does it do?
 
@@ -42,17 +40,7 @@ Will be part of Gradle 1.1.
 
 Provides support for running Rhino code in forked JVMs with arbitrary versions of Rhino.
 
-    public 
-    interface 
-    RhinoWorker<R extends Serializable, P extends Serializable> {
-
-        R process(P payload);
-
-        Exception convertException(RhinoException rhinoException);
-
-    }
-
-## Rhino - Why?
+Why?
 
 * Not tied to a Rhino version (via forked JVM)
 * Allows access to the JavaScript runtime

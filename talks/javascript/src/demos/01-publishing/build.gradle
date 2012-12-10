@@ -1,0 +1,22 @@
+apply plugin: "base"
+apply plugin: "maven"
+
+archivesBaseName = "our-js"
+group = "my.org"
+
+task zip(type: Zip) {
+    version "1.0"
+    from "src/js/main"
+}
+
+artifacts {
+    archives zip
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: "file://${buildDir}/repo"
+        }
+    }
+}

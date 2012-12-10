@@ -1,68 +1,151 @@
-# Existing Plugins 
+## Gradle Fundamentals
 
-## JavaScript Library Plugin
+Gradle is a capable general automation platform.
 
-[https://launchpad.net/gradle-jslib](https://launchpad.net/gradle-jslib) - by Eric Berry
+It's a toolkit the empowers you to solve your own problems.
 
-* Opinionated “framework”
-* Functionality “out of the box”
-* Advanced bundling
-* Source filtering (e.g. remove console.log statements)
-* Pluggable minification
+In the absence of plugins, do it yourself!
 
-Requires Gradle 0.9 (does not work with 1.x).
+## Publishing
 
-## CoffeeGradle
+Gradle makes it easy to “publish” your JS to a binary repository.
 
-[https://github.com/huyderman/coffeegradle](https://github.com/huyderman/coffeegradle) - by Jo-Herman Haugholt
+Maven repository is most common.
 
-* Compiles CoffeeScript to JS.
-* Incremental build support
-* Task dependency inference support
+* Nexus
+* Artifactory
 
-Issues…
+# Demo
 
-* Hardcoded CoffeeScript version
-* Not in any public repo
-* Not sure if it's being developed/supported
+demos/01-publishing
 
-## Gradle Jasmine Plugin
+## Rhino
 
-[https://github.com/dzhaughnroth/jasmine-gradle-plugin](https://github.com/dzhaughnroth/jasmine-gradle-plugin) - by dzhaughnroth
+JavaScript on the JVM - https://developer.mozilla.org/en-US/docs/Rhino.
 
-* Complete, out of the box solution
-* In Maven Central
+* An embeddable JavaScript runtime, on the JVM
+* Driven by Mozilla
+* Language spec compliant
+* Stable, reliable
 
-Issues…
+Great tool for running JS on the JVM.
 
-* Little documentation
-* Hardcoded to use HtmlUnit for execution
-* Hardcoded Jasmine version
+## JavaExec task
+
+The [JavaExec task](http://gradle.org/docs/current/dsl/org.gradle.api.tasks.JavaExec.html) gives the ability to launch external Java processes.
+
+    task jsHint(type: JavaExec) {
+    	classpath configurations.rhino
+    	main "org.mozilla.javascript.tools.shell.Main"
+    	args file("jshint.js"), file("some.js")
+    }
+
+Has an imperative [Project.javaexec(Closure)](http://gradle.org/docs/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:javaexec\(groovy.lang.Closure\)) cousin.
+
+# DEMO
+
+jshint-javaexec
+
+## FileTree
+
+Data structure for a collection of files, with hierarchy information.
+
+    def myJsSource = fileTree("src/main/js") {
+        include "**/*.js"
+    }
+    
+    def myCoffeeScriptSource = fileTree("src/main/coffeescript") {
+        include "**/*.coffee"
+    }
+
+`FileTree` and `FileCollection` are important Gradle types to get familar with.
+
+## Task Chaining
+
+Gradle task dependency inference makes modelling pipelines easy.
+    
+    task compileCoffeeScript(type: CoffeeScriptCompile) {
+        source myCoffeeScriptSource
+    }
+    
+    def allJs = myJsSource + files(compileCoffeeScript).asFileTree
+    
+    task zip(type: Zip) {
+        from allJs
+    }
+
+Given the above, Gradle can infer that the `zip` task depends on the `compileCoffeeScript` task. 
+
+# DEMO
+
+filetrees-and-chaining
+
+## Using Ant Tasks
+
+Gradle can easily use any functionality packaged as an Ant task.
+
+* Reuse tooling implemented as an Ant task
+
+# DEMO
+
+closure-ant
+
+## PhantomJS
+
+Very realistic headless browser.
+
+* WebKit based
+* Fast
+* Controllable
+* Native binary for different platforms
+
+## Exec Task
+
+The [Exec task](http://gradle.org/docs/current/dsl/org.gradle.api.tasks.Exec.html) gives the ability to launch arbitrary external processes.
+
+    task launchPhantom(type: Exec) {
+        executable "phantomjs"
+        …
+    }
+    
+Has an imperative [Project.exec(Closure)](http://gradle.org/docs/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:exec\(groovy.lang.Closure\)) cousin.
+
+# DEMO
+
+exec-phantomjs
+
+## Jasmine
+
+JavaScript unit testing tool.
+
+* BDD style constructs
+* Runs in a “browser” (DOM required)
+* Reasonably popular
+* Has been around longer than one week
+
+## EnvJS 
+
+JavaScript implementation of a DOM.
+
+* A headless browser like environment
+* Works with Rhino
+* Created by the jQuery team
+* A reliable approximation of a real browser
+
+Useful for automating testing.
+
+# DEMO
+
+unit-test
 
 ## Gradle JS Plugin
 
 [https://github.com/eriwen/gradle-js-plugin](https://github.com/eriwen/gradle-js-plugin) - by Eric Wendelin
 
-* Toolkit collection (non opinionated)
 * Bundling, minification, gzip, jshint, jsdoc, props2js
 * Under active development
 * In Maven Central
 
-Issues…
-
-* No incremental build support
-* No task dependency inference
-* No support for Gradle file abstractions (e.g. FileCollection, FileTree)
-
 # DEMO
 
 gradle-js-plugin
-
-## 3rd Party Plugins
-
-Writing a really good 3rd party Gradle plugin is difficult right now.
-
-The “core” plugins have access to API that is not yet public and avoid distrubution issues.
-
-This situation will improve as Gradle evolves.
-

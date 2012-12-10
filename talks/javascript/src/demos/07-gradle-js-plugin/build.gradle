@@ -1,0 +1,39 @@
+import com.eriwen.gradle.js.tasks.*
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.eriwen:gradle-js-plugin:1.1'
+    }
+}
+
+apply plugin: 'js'
+
+javascript.source {
+    main.js.srcDir "js"
+}
+
+def jsBundled = file("$buildDir/all.js")
+def jsMinified = file("$buildDir/all-min.js")
+
+combineJs {
+    source = javascript.source.main.js.files
+    dest = jsBundled
+}
+
+minifyJs {
+    dependsOn combineJs
+    source = jsBundled
+    dest = jsMinified
+    closure { 
+        warningLevel = 'QUIET'
+    }
+}
+
+gzipJs {
+    dependsOn minifyJs
+    source = jsMinified
+    dest = file("${jsMinified}.gzip")
+}

@@ -1,0 +1,20 @@
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    closureCompiler 
+}
+
+dependencies {
+    closureCompiler 'com.google.javascript:closure-compiler:r1918'
+}
+
+// http://code.google.com/p/closure-compiler/wiki/BuildingWithAnt
+
+task compress << {
+    ant.taskdef(name: 'jscomp', classname: 'com.google.javascript.jscomp.ant.CompileTask', classpath: configurations.closureCompiler.asPath)
+    ant.jscomp(compilationLevel: "simple", warning: "verbose", debug: "false", output: "$buildDir/output.js") {
+        sources(dir: "$projectDir/js", files: "file1.js file2.js")
+    }
+}

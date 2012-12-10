@@ -1,0 +1,57 @@
+apply plugin: "base"
+apply plugin: "maven"
+
+archivesBaseName = "our-js"
+group = "my.org"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    rhino
+    envjs
+}
+
+dependencies {
+    rhino "org.mozilla:rhino:1.7R3"
+}
+
+extensions.js = [:].withDefault { String name -> fileTree("src/js/$name") }
+
+js.main
+js.test
+js.testHarness
+
+task prepareTests(type: Sync) {
+    into "$buildDir/test"
+    from js.main, {
+        into "src"
+    }
+    from js.test, {
+        into "tests"
+    }
+    from js.testHarness, {
+        def sourcePaths = []
+        js.main.visit { sourcePaths << it.relativePath }
+
+        def testPaths = []
+        js.test.visit { testPaths << it.relativePath }
+
+        eachFile {
+            if (it.file.name == "SpecRunner.html") {
+                it.expand source: sourcePaths.collect { "src/" + it }, tests: testPaths.collect { "tests/" + it }
+            }
+        }
+    }
+}
+
+task test(type: JavaExec, dependsOn: prepareTests) {
+    doFirst {
+        file("$prepareTests.destinationDir/junit").mkdirs()
+    }
+    workingDir prepareTests.destinationDir
+    classpath configurations.rhino
+    main "org.mozilla.javascript.tools.shell.Main"
+    args "-opt", "-1", "lib/envjs.bootstrap.js", "SpecRunner.html"
+}

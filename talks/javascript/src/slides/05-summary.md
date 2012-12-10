@@ -1,18 +1,5 @@
 # Wrapping up…
 
-## Existing Support
-
-There are 3rd party JavaScript plugins out there that do some useful stuff.
-
-* [https://launchpad.net/gradle-jslib](https://launchpad.net/gradle-jslib)
-* [https://github.com/huyderman/coffeegradle](https://github.com/huyderman/coffeegradle)
-* [https://github.com/dzhaughnroth/jasmine-gradle-plugin](https://github.com/dzhaughnroth/jasmine-gradle-plugin)
-* [https://github.com/eriwen/gradle-js-plugin](https://github.com/eriwen/gradle-js-plugin)
-
-And others.
-
-These may do what you need, check them out.
-
 ## DIY 
 
 Gradles core tools/utilities make it easy to build your own support for JS tools.
@@ -32,16 +19,14 @@ Right now, focus on supporting infrastructure to enable JavaScript based tooling
 
 Over time, will expand to encompass Dependency Management and project conventions.
 
-## New Core Support
+## Summary
 
-**Try it!**
+Not a lot of out of the box magic for JavaScript right now.
 
-Will be in Gradle 1.1. Already in the nightly ([http://gradle.org/nightly](http://gradle.org/nightly)). 
+Gradle's flexibility makes it a capable environment for building your own JS automation.
 
-It's EXPERIMENTAL. Any of the API may change without notice at this time.
-
-Needs input and feedback. 
-
-Post ideas/suggestions to [forums.gradle.org](http://forums.gradle.org). 
+JavaScript is an important future platform for Gradle.
 
 # Thank you
+
+http://www.gradle.org
