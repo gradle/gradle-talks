@@ -1,3 +1,5 @@
+# The new stuff…
+
 ## Clickable report URLs
 
 Whenever a task that produces some kind of report fails, you get a URL to the report file.

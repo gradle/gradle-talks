@@ -72,5 +72,3 @@ Keep an eye on [gradle.org/webinars](http://gradle.org/webinars)
 Professional services available through [gradleware.com](http://gradleware.com).
 
 # Thank You
-
-Come and talk to us at our booth.

@@ -2,16 +2,11 @@
 
 The Innovation Continues
 
-## About Us
-
-### Hans Dockter
-
-* Founder Gradle, CEO Gradleware
-* hans.dockter@gradleware.com
+## About Me
 
 ### Luke Daley
 
-* Principal Engineer, Gradleware.
+* Principal Engineer, Gradleware
 * luke.daley@gradleware.com
 
 ## Gradle
@@ -28,22 +23,23 @@ Gradle can automate the building, testing, publishing, deployment and more of so
 <p style="text-align: center">[http://www.gradle.org](http://www.gradle.org)</p>
 
 
-# The Road to 1.0
+## The road to 1.0
 
----
-
-* Establishing team
-* Ivy
+* Removal of Ivy as a fundamental component
+* Stabilisation of the Gradle Daemon
+* Building the development team
+* Forming the post 1.0 vision
 
 # Gradle 1.0
 
 Released 12th June 2012.
 
----
+## Gradle 1.0
 
 * A compelling evolution of build technology
-* Strong backwards compatibility
-* A good option for a lot of projects
+* Serious commitment to backwards compatibility
+* Increased effort in communication (e.g. release notes)
+* A good technology choice for many projects
 
 # The innovation continues ...
 
