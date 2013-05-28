@@ -12,7 +12,20 @@ Creating a world-class C++ Build System
 
 ## What
 
-Agenda goes here
+* Current state of Gradle C/C++ support
+* Why would you use Gradle to build C/C++?
+* How to build binaries
+* Roadmap
+
+## Gradle C/C++ support
+
+Current support is incubating.
+
+* Build executables, shared librares and static libraries
+* Windows, Linux, OS X
+* GCC
+* Visual C++
+* Basic support for publishing and sharing binaries
 
 # Why Gradle for C/C++?
 
@@ -30,9 +43,12 @@ Agenda goes here
 
 ## Building binaries
 
+* Components, binaries and variants
 * Building an executable
+* Conventional layout, conventional output
 * Building a shared library
 * Building a static library
+* Demo incremental build
 * Multi-project
 * Mixing Java and C++: A JNI library
 * Eclipse CDT integration
@@ -55,3 +71,5 @@ Agenda goes here
 * incremental compilation
 * objective-c
 * visual studio integration
+
+# Q&A
