@@ -1,0 +1,27 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.gradle.jstestdriver:gradle-jstestdriver-plugin:1.0"
+    }
+}
+
+apply plugin: "jsTestDriver"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    jsTestDriver 'com.google.jstestdriver:jstestdriver:1.3.5'
+}
+
+jsTestDriver {
+    browserFactory = new org.gradle.jstestdriver.browser.webdriver.ChromeBrowserFactory()
+}
+
+task jsTest(type: org.gradle.jstestdriver.tasks.JsTestDriver) {
+    configFile = files("src/js/conf.jstd")
+}

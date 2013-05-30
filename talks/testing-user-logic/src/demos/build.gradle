@@ -1,0 +1,27 @@
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group = "org.gradle.jstestdriver"
+version = 1.0
+
+apply plugin: "maven-publish"
+
+repositories {
+    maven { url "http://jcenter.bintray.com" }
+    maven { url "http://repo.gradle.org/gradle/repo" }
+}
+
+dependencies {
+    compile localGroovy()
+    compile gradleApi()
+    compile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
+    testCompile 'com.google.jstestdriver:jstestdriver:1.3.5'
+    testCompile "org.gradle:gradle-tooling-api:${gradle.gradleVersion}"
+    testRuntime 'org.slf4j:slf4j-simple:1.6.6'
+
+    testCompile "org.spockframework:spock-core:0.7-groovy-1.8", {
+        exclude module: "groovy-all"
+    }
+}
+
