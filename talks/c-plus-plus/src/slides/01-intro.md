@@ -12,46 +12,82 @@ Creating a world-class C++ Build System
 
 ## What
 
-Agenda goes here
+* Current state of Gradle C/C++ support
+* Why would you use Gradle to build C/C++?
+* How to build binaries
+* Roadmap
+
+## Gradle C/C++ support
+
+Current support is _incubating_.
+
+Lots of good stuff coming in the next 3 - 4 months.
+
+Here's what you can do now:
+
+* Build executables, shared librares and static libraries
+* Windows, Linux, OS X
+* Visual C++, GCC and MinGW
+* Some support for publishing and sharing binaries in a repository
+* Eclipse CDT integration
 
 # Why Gradle for C/C++?
 
-## Declarative and flexible
+## High level description of the software
 
-* High level description of the software
-* Dependency management and multi-project builds
-* Portability
-* Enterprise standardisation through plugins and wrapper
-* Extensibility
-* Polyglot projects that mix C/C++ and Jvm languages
-* Integration with other tools
-
-# Building stuff
-
-## Building binaries
-
+* Components, binaries and variants
 * Building an executable
-* Building a shared library
+    * Conventional layout
+    * Conventional output
+    * Customise compile and link settings.
 * Building a static library
+* Building a shared library
+    * Demo: installation
+
+## Incremental build
+
+* Demo incremental build
+    * Change executable source file comment
+    * Change executable source file code
+    * Change source file of shared library
+    * Change header file of shared library
+    * Change compile setting, linker setting
+    * Rename file
+
+## Portability
+
+## Variants
+
+## Extensibility and customisation
+
+## Dependency management
+
 * Multi-project
+
+## Standardisation through plugins and wrapper
+
+## Other interesting stuff
+
 * Mixing Java and C++: A JNI library
-* Eclipse CDT integration
-
-## Sharing binaries
-
-* Dependency management
+* Integration with other tools
 
 ## Testing
 
-# What's next?
+## IDE integration
+
+* Eclipse CDT integration
+
+# The roadmap
 
 ## Challenges
 
 ... and how we plan to tackle them
 
-* building for multiple operating systems, architectures, etc
-* variant aware dependency management
-* artifact reuse
-* incremental compilation
-* objective-c
-* visual studio integration
+* Building for multiple operating systems, architectures, etc
+* Variant aware dependency management
+* Artifact reuse
+* Incremental compilation
+* Objective-C
+* Visual Studio integration
+
+# Q&A

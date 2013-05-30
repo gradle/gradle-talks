@@ -1,0 +1,16 @@
+apply plugin: 'cpp-lib'
+apply plugin: 'cpp'
+
+cpp {
+    sourceSets {
+        test {
+            libs << libraries.main
+        }
+    }
+}
+
+executables {
+    test {
+        sourceSets << cpp.sourceSets.test
+    }
+}
