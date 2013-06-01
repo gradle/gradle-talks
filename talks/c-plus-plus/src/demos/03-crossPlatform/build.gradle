@@ -1,0 +1,33 @@
+apply plugin: 'cpp-lib'
+apply plugin: 'cpp'
+
+cpp {
+    sourceSets {
+        test {
+            libs << libraries.main
+        }
+    }
+}
+
+binaries.withType(NativeBinary) {
+    if (toolChain == compilers.visualCpp) {
+        compilerArgs '/Zi', '/RTC1'
+        linkerArgs '/DEBUG'
+    } else {
+        compilerArgs '-g'
+    }
+}
+
+libraries {
+    main {
+        binaries.withType(SharedLibraryBinary) {
+            define 'DLL_EXPORT'
+        }
+    }
+}
+
+executables {
+    test {
+        sourceSets << cpp.sourceSets.test
+    }
+}
