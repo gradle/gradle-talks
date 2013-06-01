@@ -9,6 +9,14 @@ cpp {
     }
 }
 
+libraries {
+    main {
+        binaries.all {
+            define 'DLL_EXPORT'
+        }
+    }
+}
+
 executables {
     test {
         sourceSets << cpp.sourceSets.test
