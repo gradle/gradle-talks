@@ -9,9 +9,18 @@ cpp {
     }
 }
 
+binaries.withType(NativeBinary) {
+    if (toolChain == compilers.visualCpp) {
+        compilerArgs '/Zi', '/RTC1'
+        linkerArgs '/DEBUG'
+    } else {
+        compilerArgs '-g'
+    }
+}
+
 libraries {
     main {
-        binaries.all {
+        binaries.withType(SharedLibraryBinary) {
             define 'DLL_EXPORT'
         }
     }

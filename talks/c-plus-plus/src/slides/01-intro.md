@@ -36,13 +36,22 @@ Here's what you can do now:
 ## High level description of the software
 
 * Components, binaries and variants
+    * Heirarchy
+    * A graph of things
 * Building an executable
     * Conventional layout
     * Conventional output
     * Customise compile and link settings.
 * Building a static library
 * Building a shared library
-    * Demo: installation
+    * Demo: installation and dealing with `soname`
+
+## Building for multiple platforms
+
+* Portable build logic
+* Doesn't help with portable code
+    * Demo: building an executable and shared library on different platforms
+    * Demo: customisation
 
 ## Incremental build
 
@@ -53,8 +62,6 @@ Here's what you can do now:
     * Change header file of shared library
     * Change compile setting, linker setting
     * Rename file
-
-## Portability
 
 ## Variants
 
@@ -89,5 +96,6 @@ Here's what you can do now:
 * Incremental compilation
 * Objective-C
 * Visual Studio integration
+* Integrate with the application plugin and extend to installers and RPMs
 
 # Q&A
