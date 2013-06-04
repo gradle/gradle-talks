@@ -2,5 +2,5 @@
 #include "greeting.h"
 
 void greeting(std::ostream& target) {
-    target << "Hello world!" << std::endl;
+    target << "Hello world!";
 }

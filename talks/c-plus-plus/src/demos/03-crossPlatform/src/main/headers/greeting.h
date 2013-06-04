@@ -7,5 +7,7 @@
 #define DECL_SPEC
 #endif
 
+#include <iostream>
+
 // Greet the user in some way
-DECL_SPEC void greeting();
+DECL_SPEC void greeting(std::ostream& target);

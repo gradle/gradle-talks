@@ -1,6 +1,7 @@
+#include <iostream>
 #include "greeting.h"
 
 int main() {
-    greeting();
+    greeting(std::cout);
     return 0;
 }

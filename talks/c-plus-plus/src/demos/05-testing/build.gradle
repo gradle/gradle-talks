@@ -1,0 +1,22 @@
+apply plugin: 'cpp-lib'
+
+cpp {
+    sourceSets {
+        test {
+        }
+    }
+}
+
+executables {
+    test {
+        source cpp.sourceSets.main
+        source cpp.sourceSets.test
+        binaries.all {
+            linkerArgs '-lcunit'
+        }
+    }
+}
+
+task test(type: Exec, dependsOn: installTestExecutable) {
+	commandLine "${installTestExecutable.destinationDir}/test"
+}

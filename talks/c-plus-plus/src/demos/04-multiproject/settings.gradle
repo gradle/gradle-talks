@@ -1,0 +1,5 @@
+
+rootProject.name = 'helloWorld'
+
+include 'greeter'
+include 'ui'

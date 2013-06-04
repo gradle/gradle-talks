@@ -1,6 +1,6 @@
 #include <iostream>
 #include "greeting.h"
 
-void greeting() {
-    std::cout << "Hello world!" << std::endl;
+void greeting(std::ostream& target) {
+    target << "Hello world!" << std::endl;
 }
