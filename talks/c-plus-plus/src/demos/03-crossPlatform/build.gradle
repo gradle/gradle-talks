@@ -4,7 +4,7 @@ apply plugin: 'cpp'
 cpp {
     sourceSets {
         test {
-            libs << libraries.main
+            lib libraries.main.shared
         }
     }
 }
@@ -28,6 +28,10 @@ libraries {
 
 executables {
     test {
-        sourceSets << cpp.sourceSets.test
+        source cpp.sourceSets.test
     }
+}
+
+task test(type: Exec, dependsOn: installTestExecutable) {
+    commandLine "${installTestExecutable.destinationDir}/test"
 }
