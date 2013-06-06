@@ -32,6 +32,8 @@ executables {
     }
 }
 
-task test(type: Exec, dependsOn: installTestExecutable) {
-    commandLine "${installTestExecutable.destinationDir}/test"
+afterEvaluate {
+	task test(type: Exec, dependsOn: installTestExecutable) {
+		commandLine "${installTestExecutable.destinationDir}/test"
+	}
 }
