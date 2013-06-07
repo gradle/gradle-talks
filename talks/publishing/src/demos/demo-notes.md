@@ -81,7 +81,7 @@
 * Do the same for maven-publish, using withXml
   * First show asNode().appendNode("description", "the project"
   * Then show asNode().version + {
-      resolveStrategy = DELEGATE_LAST
+      resolveStrategy = DELEGATE_FIRST
       ....
   }
   
@@ -116,6 +116,13 @@
   * publish and inspect
 * Add an IvyPublication with apiJar, and a different module
   * publish and inspect
+  
+## RESET
+
+## Signing published artifacts
+
+* Signing publish artifacts
+
   
 
 
