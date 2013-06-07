@@ -1,4 +1,4 @@
-
+## Publishing demo notes
 * Add standard .gitignore
 * 'gradle setupBuild'
 * Uncomment default implementation, add idea plugin and run 'gradle idea'
@@ -29,13 +29,17 @@
   * Don't generate a lot of default configurations: this is up to you (was hard to change previously)
   * Does not include test compile dependencies: they aren't part of your publication!
   * Longer term, we will make 'sourceJar' a standard part of the component, so can be automatically published
-* Duplication ivy configuration with maven:
+* Duplicate ivy configuration with maven:
   * 'gradle publish' -> fails because plugin hasn't been added
   * Add plugin: works and publishes to repo/maven-publish
-  
+ 
 * More configuration, but less published! But you are in control...
 * Demonstrate changing name of repository and publication
   * Can publish just that component to a particular repository
+  
+## Installing to local maven repository
+* 'gradle install'
+* 'gradle publishToMavenLocal'
   
 ## Publishing a source jar
 * Add source jar to project (without classifier)
@@ -88,13 +92,31 @@
 
 ## Selectively publishing or generating descriptor files
 * Execute `gradle publish` and note the different task names:
-  * Publish only the maven publication
-  * Publish only the ivy publication
   * Generate the pom file
   * Generate the ivy descriptor
-* 
+  * Publish only the maven publication
+  * Publish only the ivy publication
+* Change the publication and repository names
+* Demonstrate how to output the POM file content the old way
 
 ## RESET
+
+## Overriding the publication coordinates
+* Demonstrate with IvyPublication: change org/module/revision
+* Same thing with MavenPublication: different terminology
+* Demonstrate the old way: pom.groupId, pom.artifactId, pom.version
+   * Warning doesn't automatically fix 'gradle install'
+* Demonstrate 'mavenInstaller' config
+
+## Publishing multiple artifacts
+* Add apiJar and build it
+  * Ensure it gets a basename
+  * Exclude **/impl/**
+* Add a MavenPublication with apiJar, and a different artifactId
+  * publish and inspect
+* Add an IvyPublication with apiJar, and a different module
+  * publish and inspect
+  
 
 
 
