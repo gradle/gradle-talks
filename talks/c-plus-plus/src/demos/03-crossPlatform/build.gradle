@@ -1,14 +1,6 @@
 apply plugin: 'cpp-lib'
 apply plugin: 'cpp'
 
-cpp {
-    sourceSets {
-        test {
-            lib libraries.main.shared
-        }
-    }
-}
-
 binaries.withType(NativeBinary) {
     if (toolChain == compilers.visualCpp) {
         compilerArgs '/Zi', '/RTC1'
@@ -20,8 +12,17 @@ binaries.withType(NativeBinary) {
 
 libraries {
     main {
+	baseName = 'greeting-service'
         binaries.withType(SharedLibraryBinary) {
             define 'DLL_EXPORT'
+        }
+    }
+}
+
+cpp {
+    sourceSets {
+        test {
+            lib libraries.main.shared
         }
     }
 }

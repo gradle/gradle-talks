@@ -1,18 +1,18 @@
 apply plugin: 'cpp-lib'
 apply plugin: 'cpp'
 
-cpp {
-    sourceSets {
-        test {
-            lib libraries.main
-        }
-    }
-}
-
 libraries {
     main {
         binaries.all {
             define 'DLL_EXPORT'
+        }
+    }
+}
+
+cpp {
+    sourceSets {
+        test {
+            lib libraries.main
         }
     }
 }
