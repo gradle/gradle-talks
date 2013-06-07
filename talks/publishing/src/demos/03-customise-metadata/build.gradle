@@ -1,0 +1,78 @@
+apply plugin:'java'
+apply plugin:'idea'
+apply plugin:'maven'
+
+apply plugin:'ivy-publish'
+apply plugin:'maven-publish'
+
+group "org.gradle"
+version "1.0"
+
+repositories{
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.slf4j:slf4j-api:1.7.5'
+
+    testCompile 'junit:junit:4.11'
+}
+
+// New publishing plugins
+publishing {
+    repositories {
+        ivy {
+            url file("repo/ivy-publish")
+        }
+        maven {
+            url file("repo/maven-publish")
+        }
+    }
+    publications {
+        ivy(IvyPublication) {
+            from components.java
+
+            descriptor.withXml {
+                asNode().info[0].@status = 'release'
+                asNode().configurations[0].conf[1].@transitive = 'false'
+            }
+        }
+        maven(MavenPublication) {
+            from components.java
+            pom.withXml {
+                asNode().version + {
+                    resolveStrategy = DELEGATE_FIRST
+                    description "A demonstration project for publishing"
+                    organization {
+                        name "Gradleware"
+                        url "http://gradleware.com"
+                    }
+                }
+            }
+        }
+    }
+}
+
+// The old way
+uploadArchives {
+    repositories {
+        ivy {
+            url file("repo/ivy")
+        }
+
+        mavenDeployer {
+            repository(url: file("repo/maven").toURI())
+            pom.project {
+                description "A demonstration project for publishing"
+                organization {
+                    name "Gradleware"
+                    url "http://gradleware.com"
+                }
+            }
+        }
+    }
+}
+
+task writePomOnly << {
+    uploadArchives.repositories.mavenDeployer.pom.writeTo("build/testpom.xml")
+}

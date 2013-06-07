@@ -1,0 +1,69 @@
+apply plugin:'java'
+apply plugin:'idea'
+apply plugin:'maven'
+
+apply plugin:'ivy-publish'
+apply plugin:'maven-publish'
+
+group "org.gradle"
+version "1.0"
+
+repositories{
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.slf4j:slf4j-api:1.7.5'
+
+    testCompile 'junit:junit:4.11'
+}
+
+// New publishing plugins
+publishing {
+    repositories {
+        ivy {
+            url file("repo/ivy-publish")
+        }
+        maven {
+            url file("repo/maven-publish")
+        }
+    }
+    publications {
+        myTalk(IvyPublication) {
+            from components.java
+            organisation "org.gradlesummit"
+            module "publishing-talk"
+            revision "3.1"
+        }
+        maven(MavenPublication) {
+            from components.java
+            groupId "org.gradlesummit"
+            artifactId "publishing-talk"
+            version "3.1"
+        }
+    }
+}
+
+// The old way
+uploadArchives {
+    repositories {
+        ivy {
+            url file("repo/ivy")
+        }
+
+        mavenDeployer {
+            repository(url: file("repo/maven").toURI())
+            pom.groupId = "org.gradlesummit"
+            pom.artifactId = "publishing-talk"
+            pom.version = "3.1"
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.groupId = "org.gradlesummit"
+        pom.artifactId = "publishing-talk"
+        pom.version = "3.1"
+    }
+}

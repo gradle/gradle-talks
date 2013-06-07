@@ -1,0 +1,67 @@
+apply plugin:'java'
+apply plugin:'idea'
+apply plugin:'maven'
+
+apply plugin:'ivy-publish'
+apply plugin:'maven-publish'
+
+group "org.gradle"
+version "1.0"
+
+repositories{
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.slf4j:slf4j-api:1.7.5'
+
+    testCompile 'junit:junit:4.11'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.java
+    classifier "source"
+}
+
+// New publishing plugins
+publishing {
+    repositories {
+        ivy {
+            url file("repo/ivy-publish")
+        }
+        maven {
+            url file("repo/maven-publish")
+        }
+    }
+    publications {
+        ivy(IvyPublication) {
+            configurations {
+                source {}
+            }
+            from components.java
+            artifact(sourceJar) {
+                conf "source,runtime"
+            }
+        }
+        maven(MavenPublication) {
+            from components.java
+            artifact(sourceJar)
+        }
+    }
+}
+
+// The old way
+artifacts {
+    archives(sourceJar)
+}
+uploadArchives {
+    repositories {
+        ivy {
+            url file("repo/ivy")
+        }
+
+        mavenDeployer {
+            repository(url: file("repo/maven").toURI())
+        }
+    }
+}
