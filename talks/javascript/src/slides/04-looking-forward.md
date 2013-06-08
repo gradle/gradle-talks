@@ -15,6 +15,16 @@
 
 There are several initiatives tackling this, based around the [Universal Module Definition](https://github.com/umdjs/umd). For example,  [require.js](http://requirejs.org/).
 
+## Bower
+
+A Javascript package installer and registry from Twitter.
+
+[http://bower.io/](http://bower.io/)
+
+Looks to become the registry from JS libs.
+
+GitHub is the primary store.
+
 ## Why bother?
 
 Why is dependency management for JavaScript important?
@@ -37,3 +47,15 @@ With a dependency model, we can automate more.
 * Framework specific conventions
 
 There are not a lot of “best practice” guides out there for this… yet.
+
+## Project Nashorn
+
+Java 8 has a brand new JS engine.
+
+http://openjdk.java.net/projects/nashorn/
+
+* Brand new implementation (not Rhino based)
+* Speed is a key design goal
+* Optimized for latest JVM features (InvokeDynamic)
+
+Will be a very high quality JVM based JS runtime.

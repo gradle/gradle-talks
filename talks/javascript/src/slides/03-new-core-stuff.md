@@ -23,8 +23,8 @@ Over time, this will expand to dependency management and opinionated conventions
 ## New Repos
 
     repositories {
-        add javaScript.gradlePublicJavaScriptRepository
-        add javaScript.googleApisRepository
+        javaScript.gradle()
+        javaScript.googleApis()
     }
     
     dependencies {

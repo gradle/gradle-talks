@@ -121,7 +121,6 @@ JavaScript unit testing tool.
 * BDD style constructs
 * Runs in a “browser” (DOM required)
 * Reasonably popular
-* Has been around longer than one week
 
 ## EnvJS 
 
@@ -149,3 +148,36 @@ unit-test
 # DEMO
 
 gradle-js-plugin
+
+## GruntJS
+
+[GruntJS](http://gruntjs.com/) - A native JavaScript task runner.
+
+* NodeJS based
+* Support for lots of plugins/tools
+* File watching support
+* Increasingly popular
+
+## GruntJS & Gradle 
+
+GruntJS & Gradle are complimentary.
+
+GruntJS does JavaScript well.
+
+You can driver GruntJS from Gradle.
+ 
+# DEMO
+
+gradle-gruntjs
+
+## Compass
+
+Compass is a styling framework, compiling SASS to CSS.
+
+Styling is a non-trivial aspect of front end development.
+
+There's a good Gradle plugin available.
+
+# DEMO
+
+gradle-compass

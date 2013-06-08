@@ -11,7 +11,7 @@ Gradles core tools/utilities make it easy to build your own support for JS tools
 
 ## New Core Support
 
-* Deep Rhino integration
+* Deep Rhino integration (eventually Nashorn)
 * Browser/Scriptable DOM runtime abstractions
 * 100% portable headless EnvJs browser
 
@@ -24,6 +24,8 @@ Over time, will expand to encompass Dependency Management and project convention
 Not a lot of out of the box magic for JavaScript right now.
 
 Gradle's flexibility makes it a capable environment for building your own JS automation.
+
+Simple to wrap specialised JS tools like GruntJS.
 
 JavaScript is an important future platform for Gradle.
 
