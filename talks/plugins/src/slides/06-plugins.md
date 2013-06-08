@@ -56,10 +56,6 @@ The convention mapping mechanism allows for *dynamic* defaults.
         }
     }
 
-The above code sets `someSetting` of all `SomeTask` tasks to whatever value `someModelElement.someSetting` is set to.
-
-Even if the user changes it later.
-
 # Demo
 
 Containers and Convention Mapping

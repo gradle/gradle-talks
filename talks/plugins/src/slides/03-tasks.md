@@ -44,9 +44,9 @@ Custom Tasks
 
 ## Incremental Build
 
-By declaring the inputs and outputs of tasks, Gradle can decide to skip them if they have been performed earlier.
+Don't do redundant work.
 
-They can be declared by annotating properties and getters in the task class.
+Tasks annotate their properties to indicate inputs/outputs.
 
     @Input // for non file inputs (e.g. settings)
 
@@ -62,13 +62,11 @@ Demo: `"03-custom-task/build-incremental.gradle"`
 
 ## Task Dependency Inference
 
-Objects in Gradle can be [`Buildable`](http://gradle.org/docs/current/javadoc/org/gradle/api/Buildable.html).
+Gradle has a *rich* model.
 
-`Buildable` objects carry information about which tasks are needed to be executed to make the object “available”.
+[`Buildable`](http://gradle.org/docs/current/javadoc/org/gradle/api/Buildable.html) objects effectively specify their producer.
 
-[`FileCollection`](http://gradle.org/docs/current/javadoc/org/gradle/api/file/FileCollection.html), the Gradle abstraction for a set of files, is `Buildable`.
-
-Tasks expose their output files as a `FileCollection`.
+Task outputs are buildable. Using the outputs of one task as an input to another is an inferred dependency.
 
     task copyIt(type: Copy) {
         from generationTask.output.files
@@ -129,8 +127,8 @@ Future versions of Gradle will give this functionality to custom tasks for free.
 
 Tasks should be thin adapters.
 
-Avoid locking up functionality behind the `Task` mechanism. It's inflexible and makes things more difficult to test.
+Avoid locking up functionality behind the `Task` mechanism.
 
-Implement the functionality in POJO classes, and wrap them in task adapters. These adapters are optimised for the build language and execution model.
+Implement the functionality in POJO classes, and wrap them in task adapters.
 
 Demo: `"03-custom-task/build-thin.gradle"`

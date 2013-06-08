@@ -9,6 +9,7 @@
     * Autowiring
     * Supertypes
     * Flexible inputs
+    * Self contained
 * Extensions
 * Plugin Stacks (Capability vs. Convention)
 * Testing

@@ -96,6 +96,17 @@ In other words, don't impose opinions that the user can't escape.
 
 Break your plugin up into a plugin stack with conventions on top of capabilities.
 
+## Self contained tasks
+
+Don't reach out from tasks. Keep them self contained.
+
+Configure tasks from the outside via plugins.
+
+* task = work unit
+* plugin = wiring/configuration
+
+Use configuration rules on the task container.
+
 ## It's just code
 
 Remember that all the rules of good programming still apply.

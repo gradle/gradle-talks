@@ -36,12 +36,6 @@ Extensions are available as a property and via a configuration method.
 
     assert thing.name == "bar"
 
-## Class Decoration
-
-Gradle generates dynamic subclasses of domain object types at runtime.
-
-It does this to add the [`ExtensionAware`](http://gradle.org/docs/current/dsl/org.gradle.api.plugins.ExtensionAware.html) and capability, among other capabilities.
-
 ## Nested Extensions
 
 Extensions can have extensions.

@@ -62,9 +62,7 @@ Gradle allows you to add new elements and concepts to the build language.
         into "libs"
     }
 
-The concept of a “set of source code” and everything it encompasses (e.g. classpath) is *added* to Gradle by a plugin.
-
-These *declarative* model elements (combined with other techniques) promote flexibility and build clarity.
+`sourceSets` is a declarative model element.
 
 ## Imperative vs. Declarative
 
@@ -73,7 +71,7 @@ Gradle is mixed imperative & declarative.
 The goal is:
 
 * the build script is **declarative** (i.e. this is what I want).
-* the **imperative** logic (i.e. this is how things work) is provided by plugins (and assocatied objects)
+* the **imperative** logic (i.e. this is how things work) is provided by plugins (and associated objects)
 
 That is, plugins inject a DSL interface into the build script.
 
@@ -89,7 +87,7 @@ Why bother with declarativeness, DSLs, plugins etc?
 
 ## Gradle Plugins
 
-**Physically**, a plugin is *just* a reusable fragment of build logic. That is, there is no special plugin functionality.
+*Just* a reusable fragment of build logic. No special plugin API.
 
 This is valid plugin code…
 
@@ -98,8 +96,6 @@ This is valid plugin code…
     }
 
 **Conceptually**, plugins can add a new *class* of functionality to a build.
-
-This functionality may be one or more *capabilities* (e.g. the ability to compile Java source) and/or one or more *conventions* (java source lives in `src/main/java`).
 
 ## Script plugins
 
@@ -134,16 +130,18 @@ Distribute them via:
 
     apply from: "http://my.org/build-plugins/hello-world-1.0.gradle"
 
-Currently, it's downloaded (but not recompiled) each time. Future versions of Gradle will be smart about caching.
+Currently, it's downloaded (but not recompiled) each time. 
 
-## Object Plugins
+Future versions of Gradle will be smart about caching.
+
+## Binary Plugins
 
 They come in an object wrapper.
 
     package org.gradle.api
 
-    public interface Plugin<Project> {
-        void apply(Project project);
+    public interface Plugin<T> {
+        void apply(T item);
     }
 
 Just a class loaded from the classpath.
@@ -161,9 +159,9 @@ The identifier is resolved by looking for a certain properties file on the class
 
     implementation-class=org.gradle.api.plugins.JavaPlugin
 
-## Object Plugin Distribution
+## Binary Plugin Distribution
 
-Object plugins need to be on the build script classpath.
+Binary plugins need to be on the build script classpath.
 
 Distribution:
 
@@ -180,4 +178,4 @@ Distribution:
 
 # Demo
 
-Object Plugins
+Binary Plugins

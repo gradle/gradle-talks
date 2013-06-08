@@ -8,7 +8,7 @@ class MarkdownPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.apply plugin: MarkdownBasePlugin
 
-        // Pre-create the “main” markdown
+        // Pre-create the “main” markdown
         project.extensions.getByType(MarkdownSettings).source.create("main")
     }
 }
