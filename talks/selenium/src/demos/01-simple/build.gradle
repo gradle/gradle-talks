@@ -1,0 +1,16 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile localGroovy()
+    testCompile 'org.testng:testng:6.8.5'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
+}
+
+test {
+    useTestNG()
+}

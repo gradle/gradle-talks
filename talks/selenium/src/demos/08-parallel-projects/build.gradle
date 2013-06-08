@@ -1,0 +1,46 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile localGroovy()
+    testCompile 'org.testng:testng:6.8.5'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.32.0'
+}
+
+test {
+    onlyIf { false } // don't run these tests
+}
+
+subprojects {
+    buildDir = file("$rootProject.buildDir/$name")
+
+    def driver = it.name
+    task test(type: Test) { driverTest ->
+        rootProject.test.dependsOn driverTest
+
+        useTestNG()
+
+        workingDir = rootProject.test.workingDir
+        testSrcDirs = rootProject.test.testSrcDirs
+        testClassesDir = rootProject.test.testClassesDir
+        classpath = rootProject.test.classpath
+
+        reports {
+            html.destination = rootProject.reporting.file("$name/html")
+            junitXml.destination = file("$rootProject.buildDir/test-results/$name")
+        }
+        binResultsDir = rootProject.file("$rootProject.buildDir/test-results-bin/$name")
+
+        systemProperty "driver", driver
+        systemProperty "reports", "$rootProject.buildDir/browser-reports/$name"
+        systemProperty "seleniumServerUrl", "http://172.16.229.149:4444/wd/hub"
+
+        maxParallelForks 3
+        jvmArgs "-Xmx64m"
+    }
+}

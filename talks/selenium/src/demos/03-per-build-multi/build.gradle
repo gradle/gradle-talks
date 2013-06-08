@@ -1,0 +1,20 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile localGroovy()
+    testCompile 'org.testng:testng:6.8.5'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.32.0'
+}
+
+test {
+    useTestNG()
+    if (project.hasProperty("driver")) {
+        systemProperty "driver", project.driver
+    }
+}

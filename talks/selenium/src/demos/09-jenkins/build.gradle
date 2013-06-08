@@ -1,0 +1,76 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile localGroovy()
+    testCompile 'org.testng:testng:6.8.5'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.32.0'
+}
+
+test {
+    onlyIf { false } // don't run these tests
+}
+
+def seleniumServerUrl = project.seleniumServerUrl
+
+subprojects { project ->
+    buildDir = file("$rootProject.buildDir/$name")
+
+    def driver = project.name
+    task test(type: Test) { driverTestTask ->
+        rootProject.test.dependsOn driverTestTask
+
+        useTestNG()
+
+        workingDir = rootProject.test.workingDir
+        testSrcDirs = rootProject.test.testSrcDirs
+        testClassesDir = rootProject.test.testClassesDir
+        classpath = rootProject.test.classpath
+
+        reports {
+            html.destination = rootProject.reporting.file("$project.name/$name/html")
+            junitXml {
+                destination = file("$rootProject.buildDir/test-results/$project.name/$name")
+                outputPerTestCase = true
+            }
+        }
+        binResultsDir = rootProject.file("$rootProject.buildDir/test-results-bin/$project.name/$name")
+
+        systemProperty "driver", driver
+        systemProperty "reports", "$rootProject.buildDir/browser-reports/$name"
+        systemProperty "seleniumServerUrl", seleniumServerUrl
+
+        maxParallelForks 3
+
+        jvmArgs "-Xmx64m"
+
+        gradle.addListener(new TaskExecutionAdapter() {
+            void afterExecute(Task task, TaskState state) {
+                if (task != driverTestTask) {
+                    return
+                }
+
+                def displaySuffix = " ($project.name)"
+                def xmlResultsDir = driverTestTask.reports.junitXml.destination
+                def decoratedResultsDir = project.file("$xmlResultsDir-decorated")
+
+                project.copy {
+                    into decoratedResultsDir
+                    from xmlResultsDir
+                    includeEmptyDirs = false
+                }
+
+                project.fileTree(dir: decoratedResultsDir, include: "**/*.xml").each { file ->
+                    def original = file.getText("utf8")
+                    def transformed = original.replaceAll("(testsuite name|classname)=\"(.+?)\"", "\$1=\"\$2$displaySuffix\"")
+                    file.setText(transformed, "utf8")
+                }
+            }
+        })
+    }
+}

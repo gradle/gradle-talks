@@ -1,0 +1,10 @@
+def browsers = [
+        "chrome",
+        "firefox",
+        "ie"
+]
+
+browsers.each {
+    include it
+}
+

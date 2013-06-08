@@ -1,0 +1,35 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile localGroovy()
+    testCompile 'org.testng:testng:6.8.5'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.32.0'
+}
+
+tasks.withType(Test) {
+    useTestNG()
+}
+
+test {
+    onlyIf { false } // don't run these tests
+}
+
+["chrome", "firefox"].each { driver ->
+    task "test${driver.capitalize()}"(type: Test) { driverTest ->
+        test.dependsOn driverTest
+        testClassesDir = test.testClassesDir
+        classpath = test.classpath
+        reports {
+            html.destination = reporting.file("$name/html")
+            junitXml.destination = file("$buildDir/test-results/$name")
+        }
+        systemProperty "driver", driver
+        systemProperty "reports", "$buildDir/browser-reports/$name"
+    }
+}
