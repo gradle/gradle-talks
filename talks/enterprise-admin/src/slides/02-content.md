@@ -143,8 +143,6 @@ Adding the ability to perform some new function. For example, to compile CoffeeS
 
 Out of scope for this session.
 
-Keep an eye on [http://gradle.org/news](http://gradle.org/news) for announcements on a Webinar focussed on this topic (plugin development).
-
 ## Adding/Extending Conventions
 
 Configures the project(s) to do useful work by adding/configuring tools and capabilities.
@@ -231,7 +229,11 @@ Can also do _anything_ that you can do in a build script.
 
 ## The Gradle Wrapper
 
-The Gradle Wrapper allows you to start Gradle via some scripts that you check in to source control. These scripts will go ahead and download Gradle if the user does not have it installed on their machine.
+A self bootstrapping build system.
+
+* *[10-wrapper]*
+
+## The Gradle Wrapper
 
 <p style="text-align: center">
   <a href="http://gradleware.com/registered/screencasts/the-gradle-wrapper">
@@ -250,7 +252,7 @@ You can build a custom distribution by packaging your init script inside the Gra
 
 This way, every build will implicitly use your own enterprise init script.
 
-* *[10-custom-distribution]*
+* *[11-custom-distribution]*
 
 ## Custom Distributions (cont.)
 
@@ -263,3 +265,14 @@ In the future, this will be simpler. Something like…
     }
 
 Then the Gradle wrapper will be responsible for fetching and managing the init scripts.
+
+## Future Directions
+
+Make it easier to:
+
+* Pre-seed plugins for all builds
+* Auto apply plugins
+* Pushable default behaviour (e.g. applying plugins)
+* Test custom runtimes
+* "Installable" custom runtimes
+* Global wrapper

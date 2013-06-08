@@ -1,0 +1,10 @@
+allprojects {
+    buildscript {
+        repositories {
+            maven { url "file://${projectDir}/../repo" }
+        }
+        dependencies {
+            classpath "corporate:corporate-plugin:1.0"
+        }
+    }
+}
