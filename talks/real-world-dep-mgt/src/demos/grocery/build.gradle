@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group = 'org.shops'
+version = '0.1-alpha'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'com.google.collections:google-collections:1.0'
+}
