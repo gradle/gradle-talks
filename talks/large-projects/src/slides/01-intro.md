@@ -1,13 +1,10 @@
-## Gradle in very large projects
+# Gradle
 
-* small project: <10 subprojects
-* medium project: <50 subrpojects
-* large project: <200 subprojects
-* very large project: 200+ subprojects
-* gigantic project: 2000 subprojects (real!)
+In very large projects
 
-## Dealing with large projects
+## About Me
 
-* avoid
-* don't
-* divide
+* Szczepan Faber
+* core dev at Gradle
+* lead at Mockito
+* lives in Krakow/Poland

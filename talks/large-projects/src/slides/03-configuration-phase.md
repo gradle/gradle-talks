@@ -13,9 +13,9 @@
 
 ## Configuration on demand
 
-* When projects are considered 'coupled'
+* What does it mean if projects are 'coupled'?
 * Configuration on demand requires decoupled projects
-* What projects are configured
+* What projects are configured in this mode?
 
 ## Slow configuration
 

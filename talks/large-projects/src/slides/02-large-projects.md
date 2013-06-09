@@ -16,8 +16,7 @@
 
 * larger builds take longer to troubleshoot
 * consistent environment is less error prone
-
-(tell Igor's story)
+* Igor's story
 
 ## Use the daemon
 
@@ -25,19 +24,3 @@
 * use all possible ways to quicken the feedback
 * daemon means snappier builds
 * even snappier in the future
-
-## Configuration time
-
-* Traditionally, each Gradle invocation configures *all* projects
-* It does not scale very well. Hence:
-    * configuration on demand
-    * the daemon
-
-## Configuration time
-
-* Performance-inefficient custom plugins
-    * no problem in a small project
-    * are a pain in a large project
-* Bottleneck during configuration time affect every Gradle invocation!
-
-

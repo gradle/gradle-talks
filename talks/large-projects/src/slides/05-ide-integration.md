@@ -6,10 +6,12 @@
     * fast
 * idea
     * supports project hierarchies
+    * fast enough
 
 ## working on a subset of projects
 
 * ellastic project dependencies
+* replacing project dependency during IDE metadata generation
 * future direction
     * build aggregation
     * dependency replacement
