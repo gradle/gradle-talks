@@ -6,19 +6,19 @@ Creating a world-class C++ Build System
 
 ### Adam Murdoch
 
-* Co-founder Gradle
+* Co-founder Gradle and GradleWare
 * Gradle development lead
 * adam.murdoch@gradleware.com
 
 ## Agenda
 
-* Current state of Gradle C/C++ support
-* Why would you use Gradle to build C/C++?
+* Current state of C/C++ support in Gradle
+* Why should you use Gradle to build C/C++ projects?
 * Roadmap
 
-# Building C/C++ project with Gradle
+# Gradle and C/C++
 
-## Current C/C++ support
+## A work in progress
 
 Current support is _incubating_
 
@@ -28,12 +28,12 @@ Demos are from master and these features will be included in Gradle 1.7
 
 ## Current C/C++ support
 
-Here's what you can do now:
+Here's what Gradle can do now:
 
 * Build executables, shared librares and static libraries
 * Windows, Linux, OS X
 * Visual C++, GCC and MinGW
-* Some support for publishing and sharing binaries in a repository
+* Some support for publishing binaries to a repository
 * Eclipse CDT integration
 
 ## Building an executable
@@ -42,9 +42,9 @@ Here's what you can do now:
 
 Build by convention:
 
-* Looks for C++ source files under `src/main/cpp`
-* Looks for headers under `src/main/headers`
-* Builds a single executable binary from these
+* C++ source files under `src/main/cpp`
+* Headers under `src/main/headers`
+* Builds an executable binary from these
 * Uses whichever toolchain is available in the `PATH`
 * Wired into the standard lifecycle
 
@@ -66,9 +66,9 @@ Customisation:
 
 Build by convention:
 
-* Looks for C++ source files under `src/main/cpp`
-* Looks for headers under `src/main/headers`
-* Can build a shared library or static library binary from these
+* C++ source files under `src/main/cpp`
+* Headers under `src/main/headers`
+* Builds a shared library or static library binary from these
 * Uses whichever toolchain is available in the `PATH`
 * Wired into the standard lifecycle
 
@@ -85,11 +85,43 @@ Customisation:
 
 ## The model
 
-* Components and binaries and tasks
-    * Heirarchy
-    * A graph of things
+A C++ project is made up of _libraries_ and _executables_. These are known as _components_.
 
-## Building for multiple platforms
+A component is a high-level description of the software.
+
+A library or executable is made up of one or more _binaries_. A binary is bound to a particular target environment.
+
+![components](img/components.svg)
+
+## The model
+
+C++ source and headers are arranged into _source sets_.
+
+A component or binary can take source sets, libraries and binaries as input.
+
+![source sets](img/sourcesets.svg)
+
+## Cpp Plugin
+
+General purpose `cpp` plugin provides all these concepts:
+
+    apply plugin: `cpp`
+
+    cpp {
+        sourceSets {
+            ...
+        }
+    }
+
+    libraries {
+        ...
+    }
+
+    executables {
+        ...
+    }
+
+## Multiple platforms
 
 Portable build logic handles differences across
 
@@ -107,13 +139,20 @@ Doesn't help with portable code
 
 ## Incremental build
 
-Don't use `gradle clean`. Incremental build takes care of dealing with changes
+Don't use `gradle clean`!
+
+Incremental build takes care of:
+
+* Changes to source and header files
+* Changes to compile and link settings
+* Changes to dependencies
+* Change of platform and toolchain
+* Cleans up stale object files, executables, debug files
 
 What's missing:
 
 * Recompile individual changed source files
 * Track header file dependencies
-* Rebuild on change of platform and toolchain
 
 ---
 
@@ -136,76 +175,100 @@ Variants may differ on any or all of:
 * Environment: static or shared, hosted or standalone, device driver
 * Build type: release or debug or something in between
 * Optional features
+* Pre- or post- profiling
+* Test or production
 
-Coming soon ...
+## Variants
 
-## Extensibility and customisation
+Coming soon
 
-## Dealing with dependencies
+* Declare which dimensions are relevant
+* Infer those that are not
+* Wire up binaries and dependencies based on this
 
-* Same project
-* Multi-project
-* Publish to a repository
+## Dependency management
+
+Each C++ source depends on zero or more libraries or binaries.
+
+Each binary takes zero or more libraries or binaries as input.
+
+Dependencies can come from the same project or another project.
+
+## Dependency management
+
+Coming soon:
+
+* Other kinds of libraries: installed, built by another tool, checked into source
+* Publish to a binary repository
+* Resolve from a binary repository
+* Usage aware dependency resolution: compile-time vs link-time vs runtime vs debug
+* Variant aware dependency resolution: select the 'best' compatible binary
+* 'Must use' conflict resolution: must use same version of headers and binary at compile and runtime.
 
 ## Standardization
 
-* Configuration injection in multi-project
-* Package up your conventions in a plugin and shared this across builds
+Gradle has plenty for standardization across the enterprise:
+
+* Configuration injection for multi-project builds
+* Package up your conventions in a plugin and share this across builds
+* Shared lifecycle for JVM and native projects
+* Use the wrapper for reproducible and zero-admin builds
 
 ## Testing
 
-* Most toolkits link tests and production code into a test executable
-* Demo with CUnit
+Most toolkits link tests and production code into a test executable
+
+Wire up a test executable with production code as input
 
 Things Gradle can do to help:
 
 * Convention for the test executable and source sets
 * Run tests for each variant
-* Reuse the main object files
 * Generate a test driver
-* Integration into the Gradle test reports
-* Integration into the Gradle test eventing
+* Integration into the Gradle test reports and events
 * Incremental build for test execution
 
 ---
 
 * Demo: cunit execution
 
-## Other interesting stuff
-
-* Mixing Java and C++: A JNI library
-* Integration with other tools
-
 ## IDE integration
 
-* Eclipse CDT integration
+Eclipse CDT integration
+
+Visual C++ coming soon ...
 
 # Why Gradle for C/C++
 
-## Recap
+## Summary
+
+Here's some of the reasons we've covered:
 
 * High level description of the software
 * Portable build logic
 * Customisation and flexible
-* Standardization
 * Accurate incremental build
 * Dependency management
+* Standardization
+* Building a mix of native and JVM based projects
+* Testing
+* IDE integration
 
 # The roadmap
 
-## Challenges
+## The roadmap
 
-... and how we plan to tackle them
+Some things we want to do:
 
-* Building for multiple operating systems, architectures, etc
+* Building for multiple operating systems, architectures, tool chains, etc
 * Variant aware dependency management
-* Artifact reuse
 * Incremental compilation
-* Objective-C
 * Visual Studio integration
-* Integrate with the application plugin and extend to installers and RPMs
 * Other languages: C, assembler, Objective-C, C#
-* Publish and resolve native bundles such as NuGet and RPMs.
+* Custom tool chains
+* Integrate with the application plugin and extend to installers and RPMs
+* Remote builds using CI infrastructure
+* Publish and resolve native bundles such as NuGet and RPMs
 
 # Questions
 
