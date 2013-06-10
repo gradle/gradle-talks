@@ -167,10 +167,9 @@ Example: Overriding the version of a dependency in the generated POM
 
 ## Customising the generated ivy.xml
 
-* With `gradle uploadArchives`
+* Publishing 1.0
     * **Not possible**
-    
-* With `gradle publish`
+* Publishing 2.0
     * Powerful modifications possible with `IvyPublication.descriptor.withXml`
     
 Example: Updating the `status` attribute of the published ivy.xml
