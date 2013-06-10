@@ -10,21 +10,13 @@ Creating a world-class C++ Build System
 * Gradle development lead
 * adam.murdoch@gradleware.com
 
-## Agenda
+## About this talk
 
 * Current state of C/C++ support in Gradle
-* Why should you use Gradle to build C/C++ projects?
+* Why should I use Gradle to build C/C++ projects?
 * Roadmap
 
 # Gradle and C/C++
-
-## A work in progress
-
-Current support is _incubating_
-
-Lots of good stuff coming in the next 3 - 4 months
-
-Demos are from master and these features will be included in Gradle 1.7
 
 ## Current C/C++ support
 
@@ -32,9 +24,17 @@ Here's what Gradle can do now:
 
 * Build executables, shared librares and static libraries
 * Windows, Linux, OS X
-* Visual C++, GCC and MinGW
+* Visual C++, GCC (Cygwin and MinGW)
 * Some support for publishing binaries to a repository
 * Eclipse CDT integration
+
+## Current C/C++ support
+
+Current support is _incubating_. It's a work in progress
+
+Lots of good stuff coming in the next 3 - 4 months
+
+Demos are from master and these features will be included in Gradle 1.7
 
 ## Building an executable
 
@@ -89,7 +89,7 @@ A C++ project is made up of _libraries_ and _executables_. These are known as _c
 
 A component is a high-level description of the software.
 
-A library or executable is made up of one or more _binaries_. A binary is bound to a particular target environment.
+A library or executable can produce one or more _binaries_. A binary is bound to a particular target environment.
 
 ![components](img/components.svg)
 
@@ -167,7 +167,7 @@ What's missing:
 
 Usually more than one output is produced for a C/C++ component. Each such output is a _variant_
 
-Variants may differ on any or all of:
+Variants may differ in any or all of:
 
 * Operating system
 * Architecture
@@ -176,7 +176,7 @@ Variants may differ on any or all of:
 * Build type: release or debug or something in between
 * Optional features
 * Pre- or post- profiling
-* Test or production
+* And ...
 
 ## Variants
 
@@ -188,11 +188,19 @@ Coming soon
 
 ## Dependency management
 
-Each C++ source depends on zero or more libraries or binaries.
+Each C++ source set depends on zero or more libraries or binaries
 
-Each binary takes zero or more libraries or binaries as input.
+Each binary takes zero or more libraries or binaries as input. This is usually inferred from the source sets.
 
-Dependencies can come from the same project or another project.
+Dependencies can come from:
+
+* The same project
+* Another project in the same build
+
+Missing:
+
+* System libraries
+* A binary repository
 
 ## Dependency management
 
@@ -201,8 +209,8 @@ Coming soon:
 * Other kinds of libraries: installed, built by another tool, checked into source
 * Publish to a binary repository
 * Resolve from a binary repository
-* Usage aware dependency resolution: compile-time vs link-time vs runtime vs debug
 * Variant aware dependency resolution: select the 'best' compatible binary
+* Usage aware dependency resolution: compile-time vs link-time vs runtime vs debug
 * 'Must use' conflict resolution: must use same version of headers and binary at compile and runtime.
 
 ## Standardization
@@ -238,11 +246,11 @@ Eclipse CDT integration
 
 Visual C++ coming soon ...
 
-# Why Gradle for C/C++
+# Why Gradle for C/C++?
 
-## Summary
+## Why Gradle?
 
-Here's some of the reasons we've covered:
+Here are some of the reasons we've seen:
 
 * High level description of the software
 * Portable build logic
@@ -250,7 +258,7 @@ Here's some of the reasons we've covered:
 * Accurate incremental build
 * Dependency management
 * Standardization
-* Building a mix of native and JVM based projects
+* Mix of native and JVM based projects
 * Testing
 * IDE integration
 
@@ -260,15 +268,16 @@ Here's some of the reasons we've covered:
 
 Some things we want to do:
 
-* Building for multiple operating systems, architectures, tool chains, etc
+* Building for multiple operating systems, architectures, tool chains
 * Variant aware dependency management
 * Incremental compilation
 * Visual Studio integration
 * Other languages: C, assembler, Objective-C, C#
-* Custom tool chains
-* Integrate with the application plugin and extend to installers and RPMs
+* Integrate with the application plugin and extend to installers, native packages
+* Publish and resolve native packages
 * Remote builds using CI infrastructure
-* Publish and resolve native bundles such as NuGet and RPMs
+
+And plenty more...
 
 # Questions
 
