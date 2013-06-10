@@ -1,3 +1,20 @@
+ADD GENERATE IVY TO gradle tasks
+DON'T GENERATE SHA1/MD5 for 'gradle publishToMavenLocal'
+
+## Before you start
+
+* Clean ~/.m2/repository
+* Delete repo
+* gradle clean
+
+## Timing
+
+Intro: 13 mins                    : 13
+Basic publishing: 23 mins         : 36
+Custom artifacts: 19 mins         : 55
+Customise metadata: 15 mins       : 70
+Multiple publications: 10 mins    : 80
+
 ## Publishing demo notes
 * Add standard .gitignore
 * 'gradle setupBuild'
@@ -18,7 +35,7 @@
   * Can joke about how it _should_ work : repositories { maven { url file('repo/maven') }}
   * But requires: repositories { mavenDeployer { repository(url: file('repo/maven).toURI())}}
   
-* Downsides: implicit, inconsistent, poor names, ...
+* Downsides: implicit, inconsistent, poor names , ...
 
 ## Publishing the new way
 * Add configuration for empty ivy publication
@@ -38,8 +55,11 @@
   * Can publish just that component to a particular repository
   
 ## Installing to local maven repository
-* 'gradle install'
-* 'gradle publishToMavenLocal'
+
+Useful for Gradle-Maven integration: produce in Gradle and consume in Maven
+
+* `gradle install`
+* `gradle publishToMavenLocal`
   
 ## Publishing a source jar
 * Add source jar to project (without classifier)
@@ -71,6 +91,9 @@
 * Add "builtBy": now succeeds
 * Add to ivy publication: can specify name/extension/type
 * Add custom configuration for docs in ivy
+
+
+========================== ONE HOUR !!!!! ========================
 
 ## RESET - remove the custom artifact code for clarity, and delete the repo
 

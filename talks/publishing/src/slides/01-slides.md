@@ -1,6 +1,6 @@
-# Gradle
+# Publishing
 
-Transforming Software Engineering, one build at a time
+Your software to the world
 
 ## About Me
 
@@ -8,6 +8,7 @@ Transforming Software Engineering, one build at a time
 * Software Engineer at Gradleware
 * Long time Open Source gypsy: Apache James, Ant, Selenium, Gradle
 * Living in Kimberley, BC
+* Canadian born, Australian raised
 
 ## About this talk
 
@@ -16,23 +17,39 @@ Transforming Software Engineering, one build at a time
 * Cover the original publishing support as well as the new publishing plugins
 * Example driven
     * Live coding complete with <del>misteaks</del>mistakes!
-
-# Publishing
-(using words)
+* Not covered:
+    * Signing artifacts (not yet available in new plugins)
+    * Publishing to different types of repositorties
 
 ## Why Publish?
 
-* Modularise you build
-* Integrate with other teams
 * Share with the world
+* Integrate with other teams
+* Modularise you build
+
+## What gets published?
+
+* Binary artifacts
+* Documentation
+* Source code
+* **Module metadata**
+
+## Where do you publish?
+
+* FileSystem
+* Http repositories
+* WebDav
+* SFTP
+* Artifactory
+* Nexus
 
 ## Publishing with Gradle
 
-The past: 
+The past - "publishing 1.0": 
 
     gradle uploadArchives
 
-The future: 
+The future - "publishing 2.0": 
 
     gradle publish
 
@@ -40,11 +57,11 @@ The present: somewhere in between...
 
 ## Why a new model?
 
-The original support:
+The original publishing support:
 
 * Overly implicit, relying on 'configuration'
 * Difficult to understand, control and extend
-* Inconsistent DSL
+* Inconsistent DSL for Maven and Ivy
 * Does not properly model the domain
 
 The new model:
@@ -54,11 +71,11 @@ The new model:
 * Will be at the heart of inter-project interactions
 * Is **@incubating** : Some features are missing, and things will change
 
-# Publishing a simple Java Project
+## Publishing a simple Java Project
 
-## Using 'gradle uploadArchives'
+## 'gradle uploadArchives'
 
-* BasePlugin:
+* Task automatically created by Base Plugin:
     * Creates **`archives`** configuration
     * Creates **`upload<Configuration>`** task for every configuration
 * Upload task:
@@ -66,25 +83,27 @@ The new model:
     * Publishes artifacts added to configuration
     * Publishes to each defined repository
 
-Example: publishing a Java project with `gradle uploadArchives`
+Example: Publishing a Java project with `gradle uploadArchives`
 
-## Using 'gradle publish'
+## 'gradle publish'
 
 Nothing implicit, you need to:
 
-* Apply the plugins
-* Create and configure the publications
+* Apply the publishing plugin(s)
+* Create and configure any publications
 * Configure the repositories
 
 Provides many tasks for added flexibility:
 
-* "Lifecycle" task
-* Task for generating each metadata file
-* Task for each publish action
+* "Lifecycle" task (`publish`)
+* Task for generating each metadata file (eg `generatePomFileForMavenPublication`)
+* Task for each publish action (eg `publishJavaPublicationToMavenRepository`)
 
-Example: publishing a Java project with `gradle publish`
+Example: Publishing a Java project with `gradle publish`
 
-## Adding a source jar publication
+## Customising the publication
+
+## Adding a source-jar artifact
 
     task sourceJar(type: Jar) {
         from sourceSets.main.java
@@ -94,9 +113,9 @@ Example: publishing a Java project with `gradle publish`
 * Publication is aware of AbstractArchiveTask (like Jar), so it "just works"
 * Use a classifier to differentiate from main publication
 
-Example: publishing a source jar for a Java project
+Example: Publishing the source jar for a Java project
 
-## Customising artifact attributes
+## Changing the artifact attributes
 
 Original support has "one-size-fits-all" approach.
 
@@ -109,40 +128,58 @@ New model allows separate customisation for Maven & Ivy publications:
    * Also set 'name' & 'type' for Ivy publication artifacts
    * Can customise 'configurations' in Ivy (not possible with `uploadArchives`)
 
-Example: customise the attributes of a published source jar
+Example: Customise the attributes of the published source jar
 
 ## Publishing a custom output file
 
-* `Jar` tasks works because it's an AbstractArchiveTask
-* For other output files, need to wire in the task dependency:
+For custom tasks, need to connect publication to the task that generates published artifacts.
 
-Example: publishing a custom documentation file
+For `gradle uploadArchives`:
+
+    artifacts {
+        archives(genDocsTask.outputFile) {
+            builtBy genDocsTask
+            ...
+
+For `gradle publish`:
+ 
+    ivy(IvyPublication) {
+        artifact(genDocsTask.outputFile) {
+            builtBy genDocsTask
+            ...
+            
+## Customising the generated metadata
+
+Publishing 2.0 brings new power and flexibility.
 
 ## Customising the generated POM
 
-* With `gradle uploadArchives`
+* Publishing 1.0
     * Simple to add additional content using `MavenDeployer.pom.project`
     * Not so simple to modify other attributes
-* With `gradle publish`
-    * Very powerful modifications possible using `MavenPublication.pom.withXml`
+* Publishing 2.0
+    * Powerful modifications possible using `MavenPublication.pom.withXml`
     * Not quite as convenient, but more powerful
     
-Example: Adding a description element to the generated POM
+Example: Adding extra information to the generated POM
 
-Example: Adding a nested organization element to the generated POM
+Example: Overriding the version of a dependency in the generated POM
 
 ## Customising the generated ivy.xml
 
 * With `gradle uploadArchives`
-   * **Not possible**
-*With `gradle publish`
-    * Powerful modification mechanism using `IvyPublication.pom.withXml`
+    * **Not possible**
     
-Example: Updating the `status` attribute of the generated ivy.xml
+* With `gradle publish`
+    * Powerful modifications possible with `IvyPublication.descriptor.withXml`
+    
+Example: Updating the `status` attribute of the published ivy.xml
 
 Example: Modifying a configuration in the generated ivy.xml
 
 ## Generating the metadata files
+
+It's often useful to generate the metatdata files without actually publishing
 
 Example: Generating a Maven POM without publishing
 
@@ -150,34 +187,36 @@ Example: Generating an Ivy descriptor file without publishing
 
 ## Controlling how your project gets published
 
+## Modifying the publication coordinates
+
 Values are taken from your project properties: group | name | version
 
 * For Maven repository: groupId | artifactId | version
 * For Ivy repository: organisation | module | revision
 
-Until now, tweaking these has NOT been easy to do!
+With publishing 2.0, you finally have full control.
 
 Example: Changing the coordinates of a Maven publication
 
 Example: Changing the coordinates of an Ivy publication
 
-## 1 project, multiple publications
+## Producing multiple publications from a single project
 
-Sometimes, you don't want to add a new 'project', just to get another 'publication'.
+Sometimes you don't want to add a new 'project', just to get another 'publication'.
 
-Until now, was tricky with Maven and not possible with Ivy.
+* In "publishing 1.0"
+    * Tricky for Maven repositories
+    * Not possible for Ivy repositories
+* In "publishing 2.0"
+    * Simple and powerful for both Maven and Ivy
 
-Example: Publishing the API jar and 'impl' jar separately
+Example: Publishing separate API and implementation jars
 
-# Fanstastic!!!
+# Publishing 2.0
 
-# But...
+It's great, but...
 
-Not everything works. Yet.
-
-## Signing artifacts
-
-## Repositories with different protocols
+It's not finished. Yet.
 
 # Thanks
 

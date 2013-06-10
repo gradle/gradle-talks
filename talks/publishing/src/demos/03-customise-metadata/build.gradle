@@ -34,14 +34,14 @@ publishing {
 
             descriptor.withXml {
                 asNode().info[0].@status = 'release'
-                asNode().configurations[0].conf[1].@transitive = 'false'
+                asNode().dependencies[0].dependency[0].version[0].value = '1.7.+'
             }
         }
         maven(MavenPublication) {
             from components.java
             pom.withXml {
                 asNode().version + {
-                    resolveStrategy = DELEGATE_FIRST
+                    resolveStrategy = DELEGATE_ONLY
                     description "A demonstration project for publishing"
                     organization {
                         name "Gradleware"
