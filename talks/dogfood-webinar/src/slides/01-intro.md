@@ -1,22 +1,30 @@
-# Gradle
+# dog food
 
-Automation dog food
+in the Gradle Team
 
 ## About Me
 
 * Szczepan Faber
-* core dev at Gradle
-* lead at Mockito
 * lives in Krakow/Poland
+* supports TS Podbeskidzie (sadly)
+* lead at Mockito
+* core dev at Gradle
 
-## This Webinar
+## Gradle
 
-* Mechanics
-* Gotowebinar
+What do you know about Gradle?
 
-## The Gradle “project”
+* very compelling feature set
+* very active development
+* always open source and free
 
-Where project = build.
+## About this talk
+
+* shows how the Gradle Team dogfoods the automation
+* inspires
+* impresses (hopefully ;)
+
+## Inside Gradle
 
 * ~ 6 very distributed full time engineers
 * Frequent, regular releases (~ 6 weeks)
