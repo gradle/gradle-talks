@@ -1,7 +1,3 @@
-# Gradle
-
-Migrating and Upgrading with Gradle
-
 ## Migrating and Upgrading with Gradle
 
 * migration best practices
@@ -16,7 +12,7 @@ Migrating and Upgrading with Gradle
 * prepare the team (training, offline webinars, etc.)
 * build output comparison
     * false positives may happen
-    * migration plugin
+    * compare-gradle-builds plugin
 * Gradle Wrapper: reproducibility, consistency, ease of installation
     * see screencast: http://gradleware.com/registered/screencasts/the-gradle-wrapper
 
@@ -34,8 +30,7 @@ questions?
 
 ## Migrating from maven
 
-* maven conversion utility
-    * future plans - bootstrap plugin
+* using buildSetup plugin to automatically convert from maven
 * incremental migration
     * shallow import
     * deep import
@@ -52,8 +47,8 @@ questions?
 
 ## Upgrading Gradle
 
-* Upgrade propagation via Gradle Wrapper
 * Gradle built-in Migration plugin
+* Upgrade propagation via Gradle Wrapper
 
 questions?
 
