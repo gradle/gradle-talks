@@ -164,7 +164,7 @@ GruntJS & Gradle are complimentary.
 
 GruntJS does JavaScript well.
 
-You can driver GruntJS from Gradle.
+You can drive GruntJS from Gradle.
  
 # DEMO
 
