@@ -71,7 +71,7 @@ Gradle is mixed imperative & declarative.
 The goal is:
 
 * the build script is **declarative** (i.e. this is what I want).
-* the **imperative** logic (i.e. this is how things work) is provided by plugins (and associated objects)
+* the **imperative** logic (i.e. this is how things work) is _demoted_.
 
 That is, plugins inject a DSL interface into the build script.
 

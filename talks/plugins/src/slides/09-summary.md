@@ -1,6 +1,4 @@
-# Summary
-
-## Concepts
+## Summary
 
 * Script plugins, binary plugins
 * Thin adapters (tasks, plugins) & fat POJOs

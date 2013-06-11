@@ -112,7 +112,3 @@ Use configuration rules on the task container.
 Remember that all the rules of good programming still apply.
 
 It can be a little harder to see the patterns in this domain, but they are still there.
-
-# Discussion
-
-Cobertura Plugin
