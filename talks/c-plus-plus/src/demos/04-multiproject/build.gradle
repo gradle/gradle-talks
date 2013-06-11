@@ -20,10 +20,4 @@ project(":ui") {
             }
         }
     }
-
-	afterEvaluate {
-		task run(type: Exec, dependsOn: installMainExecutable) {
-			commandLine "${installMainExecutable.destinationDir}/ui"
-		}
-	}
 }

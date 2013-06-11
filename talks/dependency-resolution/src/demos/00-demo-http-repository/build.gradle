@@ -1,0 +1,101 @@
+import org.eclipse.jetty.server.Handler
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.eclipse.jetty:jetty-server:8.1.7.v20120910"
+    }
+}
+
+def repoBase = project.file("${project.projectDir.parent}/repo")
+
+subprojects {
+    apply plugin: 'ivy-publish'
+    apply plugin: 'maven-publish'
+    apply plugin: 'java'
+
+    group = "com.gradlesummit"
+    version = "1.0"
+
+    publishing {
+        repositories {
+            ivy { url "$repoBase/ivy" }
+            ivy { url "$repoBase/ivy2" }
+            maven { url "$repoBase/maven" }
+        }
+        publications {
+            ivy(IvyPublication) {
+                from components.java
+            }
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+}
+
+project("aa") {
+    publishing {
+        publications {
+            maven11(MavenPublication) {
+                from components.java
+                version "1.1"
+            }
+        }
+    }
+}
+
+project("bb") {
+    publishing {
+        publications {
+            maven11(MavenPublication) {
+                from components.java
+                version "1.1"
+            }
+            ivy12(IvyPublication) {
+                from components.java
+                revision "1.2"
+            }
+        }
+    }
+}
+
+task clean << {
+    repoBase.eachDir {
+        project.delete(it)
+    }
+}
+
+task serve << {
+    repoBase.mkdirs()
+
+    Server server = new Server(8090);
+    ResourceHandler resource_handler = new TestResourceHandler();
+    resource_handler.setDirectoriesListed(true);
+    resource_handler.setResourceBase(repoBase.absolutePath);
+    server.setHandler(resource_handler);
+    server.start();
+
+    println "Serving $repoBase"
+    server.join();
+}
+
+class TestResourceHandler extends ResourceHandler {
+    @Override
+    void handle(String target, Request baseRequest, javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException, javax.servlet.ServletException {
+        if (!target.endsWith('jetty-dir.css')) {
+            if (request.method.equals("GET") && !target.endsWith(".sha1")) {
+                print ">>>> "
+            }
+            println "${request.method} $target" // NEED A WAY TO HIGHLIGHT THE "SLOW" DOWNLOADS
+        }
+        super.handle(target, baseRequest, request, response)
+    }
+}

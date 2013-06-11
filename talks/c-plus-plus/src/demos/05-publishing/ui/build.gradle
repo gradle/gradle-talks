@@ -1,0 +1,15 @@
+apply plugin: 'cpp-exe'
+
+repositories {
+    ivy {
+        url '../repo'
+    }
+}
+
+cpp {
+    sourceSets {
+        main {
+            dependency group: 'org.gradle.demo', name: 'greeter', version: '1.0'
+        }
+    }
+}

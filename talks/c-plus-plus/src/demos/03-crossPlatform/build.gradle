@@ -1,16 +1,8 @@
 apply plugin: 'cpp-lib'
 apply plugin: 'cpp'
 
-cpp {
-    sourceSets {
-        test {
-            lib libraries.main.shared
-        }
-    }
-}
-
 binaries.withType(NativeBinary) {
-    if (toolChain == compilers.visualCpp) {
+    if (toolChain == toolChains.visualCpp) {
         compilerArgs '/Zi', '/RTC1'
         linkerArgs '/DEBUG'
     } else {
@@ -26,14 +18,17 @@ libraries {
     }
 }
 
+cpp {
+    sourceSets {
+        test {
+            lib libraries.main
+        }
+    }
+}
+
 executables {
     test {
         source cpp.sourceSets.test
     }
 }
 
-afterEvaluate {
-	task test(type: Exec, dependsOn: installTestExecutable) {
-		commandLine "${installTestExecutable.destinationDir}/test"
-	}
-}
