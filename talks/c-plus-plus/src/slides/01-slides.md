@@ -6,7 +6,7 @@ Creating a world-class C++ Build System
 
 ### Adam Murdoch
 
-* Co-founder Gradle and GradleWare
+* Co-founder Gradle and Gradleware
 * Gradle development lead
 * adam.murdoch@gradleware.com
 
@@ -50,8 +50,8 @@ Build by convention:
 
 Customisation:
 
-* Source directory layout
 * Compiler and linker settings
+* Source directory layout
 
 ---
 
@@ -74,8 +74,8 @@ Build by convention:
 
 Customisation:
 
-* Source directory layout
 * Compiler and linker settings, per binary
+* Source directory layout
 
 ---
 
@@ -188,63 +188,45 @@ Coming soon
 
 ## Dependency management
 
-Each C++ source set depends on zero or more libraries or binaries
+Each binary takes source sets, libraries or binaries as input
 
-Each binary takes zero or more libraries or binaries as input. This is usually inferred from the source sets.
+Each C++ source set takes zero or more libraries or binaries as input
 
 Dependencies can come from:
 
 * The same project
 * Another project in the same build
 
-Missing:
+What's missing:
 
 * System libraries
-* A binary repository
+* Dependencies from binary repository
 
 ## Dependency management
 
 Coming soon:
 
-* Other kinds of libraries: installed, built by another tool, checked into source
+* Other types of libraries: installed on the system, built by another tool, checked into source
 * Publish to a binary repository
 * Resolve from a binary repository
 * Variant aware dependency resolution: select the 'best' compatible binary
 * Usage aware dependency resolution: compile-time vs link-time vs runtime vs debug
-* 'Must use' conflict resolution: must use same version of headers and binary at compile and runtime.
+* 'Must use' dependencies: must use same version of headers and binary at compile and runtime.
 
 ## Standardization
 
-Gradle has plenty for standardization across the enterprise:
+Gradle has plenty to help you define your own standards and conventions:
 
 * Configuration injection for multi-project builds
-* Package up your conventions in a plugin and share this across builds
+* Define up your conventions in a plugin and share this across builds
 * Shared lifecycle for JVM and native projects
 * Use the wrapper for reproducible and zero-admin builds
-
-## Testing
-
-Most toolkits link tests and production code into a test executable
-
-Wire up a test executable with production code as input
-
-Things Gradle can do to help:
-
-* Convention for the test executable and source sets
-* Run tests for each variant
-* Generate a test driver
-* Integration into the Gradle test reports and events
-* Incremental build for test execution
-
----
-
-* Demo: cunit execution
 
 ## IDE integration
 
 Eclipse CDT integration
 
-Visual C++ coming soon ...
+Visual Studio coming soon ...
 
 # Why Gradle for C/C++?
 
@@ -259,7 +241,6 @@ Here are some of the reasons we've seen:
 * Dependency management
 * Standardization
 * Mix of native and JVM based projects
-* Testing
 * IDE integration
 
 # The roadmap
@@ -272,6 +253,7 @@ Some things we want to do:
 * Variant aware dependency management
 * Incremental compilation
 * Visual Studio integration
+* Testing
 * Other languages: C, assembler, Objective-C, C#
 * Integrate with the application plugin and extend to installers, native packages
 * Publish and resolve native packages
