@@ -1,0 +1,29 @@
+apply plugin: "groovy"
+apply plugin: "idea"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile localGroovy()
+    testCompile 'org.gebish:geb-spock:0.9.0'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-1.8'
+    testCompile 'org.seleniumhq.selenium:selenium-remote-driver:2.32.0'
+}
+
+apply from: "gradle/crossbrowser.gradle"
+
+browsers {
+    firefox_linux_19 {}
+    firefox_windows_19 {}
+    firefox_mac_19 {}
+    chrome_linux {}
+    chrome_windows {}
+    chrome_mac {}
+    internetExplorer_vista_8 {}
+    internetExplorer_vista_9 {}
+}
+
+crossBrowser.enable test
+
