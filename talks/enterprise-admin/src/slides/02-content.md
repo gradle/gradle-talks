@@ -2,6 +2,15 @@
 
 What are we talking about?
 
+## “Enterprise” Builds
+
+* Portfolio of builds
+* Significant commonalities
+* Significant differences
+* Desire for consistency
+* Desire for control
+* High potential for automation/productivity
+
 ## Automation is personal
 
 * Only the simplest of software can be built in _near identical_ ways. 
