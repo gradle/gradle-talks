@@ -3,6 +3,9 @@ import org.gradle.plugins.pegdown.PegDown
 import org.gradle.plugins.lesscss.LessCss
 import org.gradle.plugins.xhtmlrenderer.XhtmlToPdf
 
+def systemCharset = java.nio.charset.Charset.defaultCharset().name()
+assert systemCharset == "UTF-8" : "Platform encoding must be UTF-8. Is currently $systemCharset. Set -Dfile.encoding=UTF-8."
+
 task wrapper(type: Wrapper) {
     gradleVersion = "1.6"
 }
