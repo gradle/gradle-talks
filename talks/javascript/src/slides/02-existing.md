@@ -169,15 +169,3 @@ You can drive GruntJS from Gradle.
 # DEMO
 
 gradle-gruntjs
-
-## Compass
-
-Compass is a styling framework, compiling SASS to CSS.
-
-Styling is a non-trivial aspect of front end development.
-
-There's a good Gradle plugin available.
-
-# DEMO
-
-gradle-compass

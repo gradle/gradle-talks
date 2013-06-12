@@ -1,5 +1,3 @@
-// Requires Gradle 1.1
-
 // only needed for ChromeBrowserEvaluator below
 buildscript {
 	repositories.mavenCentral()
@@ -12,7 +10,7 @@ apply plugin: "envjs"
 
 repositories {
 	mavenCentral()
-	add javaScript.gradlePublicJavaScriptRepository
+	javaScript.gradle()
 }
 
 task downloadJasmine(type: UrlDownload) {
@@ -29,7 +27,7 @@ task runJasmineExample(type: BrowserEvaluate) {
 	content unpackJasmine.destinationDir
 	resource "SpecRunner.html"
 	result "$buildDir/result.html"
-	// evaluator = new ChromeBrowserEvaluator()
+    evaluator = new ChromeBrowserEvaluator()
 	
 	doLast {
 		def spec = copy {

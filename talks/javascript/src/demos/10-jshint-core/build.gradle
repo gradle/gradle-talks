@@ -24,7 +24,7 @@ javaScript {
 
 repositories {
 	mavenCentral()
-	add javaScript.gradlePublicJavaScriptRepository
+	javaScript.gradle()
 }
 
 task jshint(type: JsHint) {

@@ -6,12 +6,12 @@ apply plugin: "coffeescript-base"
 
 repositories {
 	mavenCentral()
-	add javaScript.gradlePublicJavaScriptRepository
+	javaScript.gradle()
 }
 
 javaScript {
 	coffeeScript {
-		// js = files("coffee-script-1.2.0.js")
+        js = files("coffee-script-1.2.0.js")
 	}
 }
 
