@@ -169,7 +169,7 @@ project(":talks").subprojects {
     task pdf(type: XhtmlToPdf) {
         inputs.files pdfFiles
         source "$pdfFiles.destinationDir/index.html"
-        pdf = file("$buildDir/${name}.pdf")
+        pdf = file("$buildDir/${project.name}.pdf")
         fonts = fileTree("$pdfFiles.destinationDir/style/fonts") {
             include "*.ttf"
         }
