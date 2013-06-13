@@ -10,5 +10,5 @@ repositories {
 }
 
 dependencies {
-  compile 'com.google.guava:guava:14.0.1'
+  compile 'com.google.collections:google-collections:0.8'
 }

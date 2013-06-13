@@ -1,11 +1,11 @@
 ## Fast execution
 
 * fast configuration
-* parallel build
+* parallel build (demo!)
 * daemon
     * up-to-date checks
     * jvm optimisation
-* profiling the build with --profile
+* profiling the build with --profile (demo!)
 
 ## Parallel builds
 

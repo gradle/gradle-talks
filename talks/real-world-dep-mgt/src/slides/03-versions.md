@@ -9,6 +9,10 @@
 * dependency reports
 * validating dependencies via resolve result api
 
+## Listing conflicts
+
+* using the resolve result api to show all conflicts
+
 ## Imposing consistent versions
 
 * some libraries are designed to be used together

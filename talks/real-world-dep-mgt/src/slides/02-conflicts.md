@@ -1,13 +1,10 @@
-## Version conflicts
-
-* default resolution
-* manual resolution
-
 ## Diagnosing conflicts
 
 * dependency reports
     * gradle dependencies
     * gradle dependencyInsight
+* default resolution
+* manual resolution
 
 ## Resolving conflicts manually
 

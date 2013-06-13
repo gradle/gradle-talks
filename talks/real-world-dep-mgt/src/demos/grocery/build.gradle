@@ -10,5 +10,5 @@ repositories {
 }
 
 dependencies {
-  compile 'com.google.collections:google-collections:1.0'
+  compile 'com.google.collections:google-collections:0.9'
 }

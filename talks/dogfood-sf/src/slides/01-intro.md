@@ -6,7 +6,7 @@ in the Gradle Team
 
 * Szczepan Faber
 * lives in Krakow/Poland
-* supports TS Podbeskidzie (sadly)
+* likes soccer
 * lead at Mockito
 * core dev at Gradle
 

@@ -14,4 +14,4 @@
 * replacing project dependency during IDE metadata generation
 * future direction
     * build aggregation
-    * dependency replacement
+    * toggle project/jar dependency
