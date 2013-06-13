@@ -16,17 +16,14 @@
 * Gradle Wrapper: reproducibility, consistency, ease of installation
     * see screencast: http://gradleware.com/registered/screencasts/the-gradle-wrapper
 
-questions?
-
-## Incremental and background migration
+## Safe migration
 
 * Gradle's flexibility enables iterative migration
     * first reproduce the build outputs, then tests, then...
 * Developing new build without changing existing structure
 * Maintaining old and new build for the migration period
+    * side-by-side migration
 * Planning the migration
-
-questions?
 
 ## Migrating from maven
 
@@ -35,22 +32,16 @@ questions?
     * shallow import
     * deep import
 
-questions?
-
 ## Migrating incrementally from ant
 
 * shallow import
 * deep import
 * ant task reuse
 
-questions?
-
 ## Upgrading Gradle
 
-* Gradle built-in Migration plugin
+* compare-gradle-builds plugin
 * Upgrade propagation via Gradle Wrapper
-
-questions?
 
 ## Q & A
 

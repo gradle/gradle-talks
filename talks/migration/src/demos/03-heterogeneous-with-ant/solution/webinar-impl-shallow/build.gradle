@@ -1,0 +1,20 @@
+description = 'Webinar implementation (ant project).'
+
+task antBuild(type: Exec) {
+  commandLine 'ant', 'buildJar'
+  ext.outputJar = file("target/${project.name}-${project.version}.jar")
+  dependsOn(":webinar-api:build")
+  logging.captureStandardOutput LogLevel.INFO
+}
+
+task clean(type: Delete) {
+  delete "target"
+}
+
+configurations {
+  archives
+}
+
+artifacts {
+  archives file: antBuild.ext.outputJar, builtBy: antBuild
+}
