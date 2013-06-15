@@ -4,11 +4,10 @@ Your software to the world
 
 ## About Me
 
-* Darrell DeBoer (everyone calls me Daz)
+### Darrell DeBoer
+
+* everyone calls me Daz
 * Software Engineer at Gradleware
-* Long time Open Source gypsy: Apache James, Ant, Selenium, Gradle
-* Living in Kimberley, BC
-* Canadian born, Australian raised
 
 ## About this talk
 
@@ -36,12 +35,13 @@ Your software to the world
 
 ## Where do you publish?
 
-* FileSystem
-* Http repositories
+* File system
+* HTTP repositories
 * WebDav
 * SFTP
-* Artifactory
 * Nexus
+* Artifactory
+* Bintray
 
 ## Publishing with Gradle
 
@@ -73,7 +73,9 @@ The new model:
 
 ## Publishing a simple Java Project
 
-## 'gradle uploadArchives'
+## Publishing 1.0
+
+### 'gradle uploadArchives'
 
 * Task automatically created by Base Plugin:
     * Creates **`archives`** configuration
@@ -85,7 +87,9 @@ The new model:
 
 Example: Publishing a Java project with `gradle uploadArchives`
 
-## 'gradle publish'
+## Publishing 2.0
+
+### 'gradle publish'
 
 Nothing implicit, you need to:
 
@@ -101,7 +105,18 @@ Provides many tasks for added flexibility:
 
 Example: Publishing a Java project with `gradle publish`
 
+## Software Components
+
+* Model your software project outputs (gradle project != software component)
+* Provides a set of artifacts and dependencies for publication
+* Currently provide Java Library and Web Application components
+    * More to come
+    * Will model sources, documentation, api vs implementation, etc
+* Roll your own components
+
 ## Customising the publication
+
+When the Software Component isn't enough
 
 ## Adding a source-jar artifact
 
@@ -113,20 +128,37 @@ Example: Publishing a Java project with `gradle publish`
 * Publication is aware of AbstractArchiveTask (like Jar), so it "just works"
 * Use a classifier to differentiate from main publication
 
+## Publishing the source jar
+
+### Publishing 1.0
+
+    artifacts {
+        archives sourceJar
+    }
+
+### Publishing 2.0
+
+Artifact specified per-publication
+
+    artifact sourceJar
+
+
 Example: Publishing the source jar for a Java project
 
 ## Changing the artifact attributes
 
-Original support has "one-size-fits-all" approach.
+### Publishing 1.0
 
-   * Set 'name', 'extension', 'classifier' & 'type' on artifact
-   * Many values derived from artifact file properties (but not always)
+* "one-size-fits-all" approach.
+* Set 'name', 'extension', 'classifier' & 'type' on artifact
+* Many values derived from artifact file properties (but not always)
 
-New model allows separate customisation for Maven & Ivy publications:
-   
-   * Set 'extension' & 'classifier' for all artifacts
-   * Also set 'name' & 'type' for Ivy publication artifacts
-   * Can customise 'configurations' in Ivy (not possible with `uploadArchives`)
+### Publishing 2.0
+
+* Allows separate customisation for Maven & Ivy publications:
+* Set 'extension' & 'classifier' for all artifacts
+* Set 'name' & 'type' for Ivy publication artifacts
+* Can customise 'configurations' in Ivy (not possible with Publishing 1.0)
 
 Example: Customise the attributes of the published source jar
 
@@ -134,17 +166,17 @@ Example: Customise the attributes of the published source jar
 
 For custom tasks, need to connect publication to the task that generates published artifacts.
 
-For `gradle uploadArchives`:
+### Publishing 1.0
 
     artifacts {
-        archives(genDocsTask.outputFile) {
+        archives(documentationFile) {
             builtBy genDocsTask
             ...
 
-For `gradle publish`:
- 
+### Publishing 2.0
+
     ivy(IvyPublication) {
-        artifact(genDocsTask.outputFile) {
+        artifact(documentationFile) {
             builtBy genDocsTask
             ...
             
@@ -152,26 +184,34 @@ For `gradle publish`:
 
 Publishing 2.0 brings new power and flexibility.
 
-## Customising the generated POM
+## Customising the POM
 
-* Publishing 1.0
-    * Simple to add additional content using `MavenDeployer.pom.project`
-    * Not so simple to modify other attributes
-* Publishing 2.0
-    * Powerful modifications possible using `MavenPublication.pom.withXml`
-    * Not quite as convenient, but more powerful
-    
+### Publishing 1.0
+
+* Simple to add additional content using `MavenDeployer.pom.project`
+* Not so simple to modify other attributes
+
+### Publishing 2.0
+
+* Powerful modifications possible using `MavenPublication.pom.withXml`
+* Not quite as convenient, but more powerful
+
 Example: Adding extra information to the generated POM
 
 Example: Overriding the version of a dependency in the generated POM
 
-## Customising the generated ivy.xml
+## Customising the ivy.xml
 
-* Publishing 1.0
-    * **Not possible**
-* Publishing 2.0
-    * Powerful modifications possible with `IvyPublication.descriptor.withXml`
-    
+Use case: replicate `ivy deliver`
+
+### Publishing 1.0
+
+* **Not possible**
+
+### Publishing 2.0
+
+* Powerful modifications possible with `IvyPublication.descriptor.withXml`
+
 Example: Updating the `status` attribute of the published ivy.xml
 
 Example: Modifying a configuration in the generated ivy.xml
@@ -180,34 +220,74 @@ Example: Modifying a configuration in the generated ivy.xml
 
 It's often useful to generate the metatdata files without actually publishing
 
-Example: Generating a Maven POM without publishing
+### Publishing 1.0
 
-Example: Generating an Ivy descriptor file without publishing
+    task writePom << {
+        uploadArchives.repositories.mavenDeployer
+            .pom.writeTo("build/testpom.xml")
+    }
 
-## Controlling how your project gets published
+    task writeIvyXML << {
+        throw new UnsupportedOperationException()
+    }
+
+### Publishing 2.0
+
+    gradle generatePomFileForMavenPublication
+    gradle generateDescriptorFileForIvyPublication
 
 ## Modifying the publication coordinates
 
-Values are taken from your project properties: group | name | version
+Default values are taken from your project properties: group | name | version
 
-* For Maven repository: groupId | artifactId | version
-* For Ivy repository: organisation | module | revision
+### Publishing 1.0
 
-With publishing 2.0, you finally have full control.
+    mavenDeployer {
+        repository(url: file("repo/maven").toURI())
+        pom.groupId = "org.gradlesummit"
+        pom.artifactId = "publishing-talk"
+        pom.version = "3.1"
+    }
+
+Ivy publication: not possible.
+
+## Modifying the publication coordinates (cont.)
+
+### Publishing 2.0
+
+With Gradle 1.7, you finally have full control.
+
+    ivy(IvyPublication) {
+        from components.java
+        organisation "org.gradlesummit"
+        module "publishing-talk"
+        revision "3.1"
+    }
+    maven(MavenPublication) {
+        from components.java
+        groupId "org.gradlesummit"
+        artifactId "publishing-talk"
+        version "3.1"
+    }
+
+---
 
 Example: Changing the coordinates of a Maven publication
 
 Example: Changing the coordinates of an Ivy publication
 
-## Producing multiple publications from a single project
+## Multiple publications from a single project
 
 Sometimes you don't want to add a new 'project', just to get another 'publication'.
 
-* In "publishing 1.0"
-    * Tricky for Maven repositories
-    * Not possible for Ivy repositories
-* In "publishing 2.0"
-    * Simple and powerful for both Maven and Ivy
+### Publishing 1.0
+
+* Tricky for Maven repositories
+* Not possible for Ivy repositories
+
+### Publishing 2.0
+
+* Simple for both Maven and Ivy publications
 
 Example: Publishing separate API and implementation jars
 
@@ -216,6 +296,36 @@ Example: Publishing separate API and implementation jars
 It's great, but...
 
 It's not finished. Yet.
+
+## What we've got
+
+* Publish a java library or web application
+* Customise artifacts for publication
+* Customise the publication metadata
+* Modify the publication coordinates
+* Produce multiple publications
+
+## Coming up
+
+* Software Components (define the publication)
+    * More built-in components: EAR, JVM Application, Native Shared Library, Gradle Plugin, ...
+    * Include source, javadoc
+    * Custom components
+* Better DSL
+    * Tweak dependencies
+    * Model additional publication info: scm, licenses, mailingLists
+    * Signing support
+* More transports for publication (SFTP, WebDav)
+* Tighter integration with Artifact Repositories
+
+## And the Holy Grail
+
+Integration with a decoupled project model
+
+* Project dependencies target a publication or component
+* Merge concept of project dependencies and external dependencies
+    * Flexible multi-project builds
+    * Interchangeable source and binary dependencies
 
 # Thanks
 

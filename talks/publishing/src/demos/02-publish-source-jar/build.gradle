@@ -23,7 +23,7 @@ task sourceJar(type: Jar) {
     classifier "source"
 }
 
-// New publishing plugins
+// Publishing 2.0
 publishing {
     repositories {
         ivy {
@@ -50,7 +50,7 @@ publishing {
     }
 }
 
-// The old way
+// Publishing 1.0
 artifacts {
     archives(sourceJar)
 }

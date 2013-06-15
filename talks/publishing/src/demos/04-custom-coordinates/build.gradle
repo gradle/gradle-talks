@@ -18,7 +18,7 @@ dependencies{
     testCompile 'junit:junit:4.11'
 }
 
-// New publishing plugins
+// Publishing 2.0
 publishing {
     repositories {
         ivy {
@@ -44,7 +44,7 @@ publishing {
     }
 }
 
-// The old way
+// Publishing 1.0
 uploadArchives {
     repositories {
         ivy {
