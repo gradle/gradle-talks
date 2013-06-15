@@ -1,0 +1,25 @@
+configurations {
+    deps
+}
+
+repositories {
+    ivy { url "http://localhost:8090/ivy" }
+    maven { url "http://localhost:8090/maven" }
+}
+
+dependencies {
+    deps "com.gradlesummit:dr:1.0"
+}
+
+task resolve << {
+    configurations.deps.files.each {
+        println "${it.name} [${it.length()} bytes]"
+    }
+}
+
+configurations.all {
+//    resolutionStrategy.cacheDynamicVersionsFor 20, 'seconds'
+
+//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
