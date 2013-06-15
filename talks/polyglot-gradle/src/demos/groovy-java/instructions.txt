@@ -1,0 +1,1 @@
+Run the app as-is (`gradlew run`). Port `Raytracer.groovy` to Java (just rename the file) to improve performance. This is an example for how quickly the need for joint compilation can arise. Run the app again.
