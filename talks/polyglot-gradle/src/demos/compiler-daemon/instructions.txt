@@ -1,0 +1,10 @@
+Clone https://github.com/SpringSource/spring-integration, update it to use latest Gradle, and add the following to the top-level build.gradle:
+
+allprojects {
+    tasks.withType(JavaCompile) {
+        options.useAnt = true
+        options.fork = true
+    }
+}
+
+First run with `useAnt = true`, then with `useAnt = false`. THe latter will use the compiler daemon.

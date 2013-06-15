@@ -1,0 +1,51 @@
+apply plugin: "scala-base"
+
+configurations {
+    compile 
+    runtime
+}
+
+class ScalaExtension {
+    Set targetVersions = new org.gradle.api.internal.DefaultDomainObjectSet(String)
+    
+    void targetVersions(String... versions) {
+        targetVersions.addAll(versions as List)
+    }
+}
+
+project.extensions.create("scala", ScalaExtension)
+
+scala.targetVersions.all { scalaVersion -> 
+  def baseVersion = scalaVersion.startsWith("2.10.") ? "2.10" : scalaVersion
+   
+  def sourceSet = sourceSets.create("scala${baseVersion.replace(".", "_")}") {
+      scala.srcDirs = ["src/main/scala"]
+      resources.srcDirs = ["src/main/resources"]      
+  }
+
+  dependencies.add(sourceSet.compileConfigurationName, "org.scala-lang:scala-library:$scalaVersion")
+        
+  configureResolution(sourceSet.compileConfigurationName, configurations.compile, baseVersion)
+  configureResolution(sourceSet.runtimeConfigurationName, configurations.runtime, baseVersion)
+
+  def jarTask = task(sourceSet.getTaskName("", "jar"), type: Jar) {
+      classifier = baseVersion
+      from sourceSet.output
+  }
+
+  artifacts {
+      archives jarTask
+  }
+}
+
+def configureResolution(configurationName, parentConfiguration, baseVersion) {
+    def config = configurations[configurationName]
+    config.extendsFrom(parentConfiguration)
+    config.resolutionStrategy.eachDependency { details ->
+        def requested = details.requested
+        if (requested.name.endsWith("_?")) {
+            details.useTarget group: requested.group, name: requested.name.replace("_?", "_$baseVersion"), version: requested.version
+        }
+    } 
+}
+

@@ -42,6 +42,7 @@ Capabilities:
 
 * Import
 * Sync
+* Execute Gradle tasks
 * Some editing support
 
 # Demo
@@ -51,17 +52,15 @@ IDEA in Action
 ## IDEA Demo
 
 * Initial import
-* Sync after dependency change
-* Executing Builds
+* Sync
+* Execute Gradle tasks
 * Editing support
-* Dealing with generated sources
-* Dealing with generated resources
 
 # Netbeans
 
 ## Netbeans
 
-* Continuously improving with every release
+* Separately release plugin, improving continuously
 
 Capabilities:
 
@@ -118,6 +117,7 @@ Eclipse in Action
 
 ## Generating Project Files
 
+* Gradle generates project files for use by IDE
 * Baseline IDE support
 * Very flexible
 
@@ -133,6 +133,10 @@ Generating Project Files
 * Builds always run in Gradle Daemon
 * Can also be used for testing plugins
 
-# Demo
+## Q&A
 
-Building with the Tooling API
+* Thanks for attending!
+* Questions?
+* Feedback?
+* http://gradle.org
+* http://gradleware.com

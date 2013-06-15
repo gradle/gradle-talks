@@ -1,0 +1,12 @@
+apply plugin: "groovy"
+apply plugin: "application"
+
+mainClassName = "Main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:2.1.2"
+}

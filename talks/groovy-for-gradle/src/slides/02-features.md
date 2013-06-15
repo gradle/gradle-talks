@@ -1,3 +1,21 @@
+# Which
+
+are Groovy's essential features?
+
+## Groovy Console
+
+* A GUI REPL (read-eval-print-loop) program
+* Great for experimenting with Groovy
+* Great for isolating Groovy from Gradle issues
+
+Once Groovy is installed (e.g. via Homebrew), can be run via running `groovyConsole`.
+
+Online version: [Groovy Web Console](http://groovyconsole.appspot.com)
+
+# Demo
+
+Groovy Console
+
 ## Java Compatible
 
 Groovy supports ~95% of Java syntax.
@@ -36,103 +54,23 @@ Groovy removes noise by using sensible defaults.
 * Property syntax
 * Optional `return` statement
 
-## Scripts
-
-Besides classes, Groovy also supports scripts.
-
-Scripts can contain script variables, inline code, methods, and classes.
-
-Script variables are stored in the script's *binding* (a map-like data structure).
-
-    name = "foo"
-    println name
-
-Inline code and methods are compiled into subclass of `groovy.lang.Script`.
-
-## Properties
-
-Groovy introduces the concept of properties.
-
-    thing.name = "bar"
-    println thing.name
-
-By default, these map to getters/setters of JavaBean compliant “properties”.
-
-However, this is a more powerful concept.
-
-    Map m = new HashMap()
-
-    m.put("foo", "bar")
-    assert m.get("foo") == bar
-
-    m.foo = "baz"
-    assert m.foo == "baz"
-
-Receiver can decide what *get property* and *set property* means.
-
-## Types
-
-Groovy is _optionally_ typed. Variables, parameters and return values can be typed or untyped.
-
-Typed method:
-
-    int doubleIt(int i) {
-        i * 2
-    }
-
-Untyped method:
-
-    def doubleIt(i) {
-        i * 2
-    }
-    
-Untyped method also works for other values (e.g. Strings).
-
-## Types (2)
-
-Typed variable:
-
-    int i = 1
-    
-Untyped variable:
-
-    def i = 1
-
-The `def` keyword is synonymous with `Object`.
-
-## Type Safety
-
-Groovy is *strongly* typed, but not *statically* typed.
-
-Type compatibility is enforced at _runtime_.
-
-    int doubleIt(int i) {
-        i * 2
-    }
-
-    doubleIt("abc") // RuntimeException
-
-## Optional Parentheses
-
-When calling a method, the `()` are optional (except when they are not).
-
-    def someMethod(arg1, arg2) { … }
-
-    someMethod(1, 2)
-    someMethod 1, 2
+# Groovy Feature Tour
 
 ## Strings
 
-There is no character literal. Strings can be single or double quote, single or multi line.
+String literals can be single or double quote, single or multi line.
 
-    def s1 = 'a string'
-    def s2 = "a string"
-    def s3 = """A
+    def s1 = 'single-quoted string'
+    def s2 = "double-quoted string"
+    def s3 = """
+        multi
+        line
         string
-        on
-        multiple
-        lines
     """
+
+There is no character literal. 
+
+    def c = 'G' as char
 
 ## Groovy Strings (GStrings)
 
@@ -142,101 +80,12 @@ Groovy supports string interpolation.
     println "i is $i" // i is 2
 
     def name = "gradle"
-    println "Training: ${name.toUpperCase()}" // Training: Gradle
- 
+    println "Training: ${name.toUpperCase()}" // Training: GRADLE
+
 Single quoted String literals are always plain Strings.
 
     def name = "gradle"
     println 'Training: ${name.toUpperCase()}' // Training: ${name.toUpperCase()}
-
-## GString Evaluation
-
-GStrings are eagerly evaluated:
-
-    def i = 2
-    def s = "i is $i"
-    i = 3
-    assert s == "i is 2"
-
-GStrings can be lazy with special syntax:
-
-    def i = 2
-    def s = "i is ${->i}"
-    i = 3
-    assert s == "i is 3"
-
-## Dynamism
-
-Groovy is a _dynamic_ language.
-
-Dispatch of method calls and property reads/writes is highly dynamic.
-
-This allows behavior to be added or changed at runtime:
-
-    class Echoer {
-        def echo(int i) {
-            println i
-        }
-    }
-
-    Echoer.metaClass.ekko = { int i -> println i }
-    def echoer = new Echoer()
-
-    echoer.ekko(1)
-
-## Dynamic methods
-
-Behaviour may not even really exist:
-
-    class Shouter {
-        def methodMissing(String name, args) {
-            println name.toUpperCase()
-        }
-    }
-
-    def shouter = new Shouter()
-    shouter.iWillBeShouted()
-
-# Demo
-
-Dynamic Methods
-
-## Builders
-
-Generate data structures dynamically.
-
-Groovy ships with builders for XML, JSON, Swing, etc.
-
-Example: `MarkupBuilder`
-
-    def builder = new MarkupBuilder()
-    builder.html {
-        head { title 'Simple document' }
-        body(id: 'main') {
-            h1 'Building HTML the Groovy Way'
-            p {
-                ul {
-                    li "second item"
-                }
-            }
-            a href: 'more.html', 'Read more...'
-        }
-    }
-
-`MarkupBuilder` knows nothing about HTML in particular.
-
-## Dynamic Method Names
-
-Even method names can be dynamic.
-
-    class Hello {
-        def helloJohn() {
-            println "Hello John!"
-        }
-    }
-
-    def name = "John"
-    new Hello()."hello$name"()
 
 ## Lists
 
@@ -270,6 +119,239 @@ Groovy provides syntactic sugar for dealing with maps.
     println stats // [age: 20, name: "John Smith", gender: "Male"]
     stats["gender"] = "?"
     println stats // [age: 20, name: "John Smith", gender: "?"]
+    
+## size() method
+
+Groovy unifies `.length`, `.length()` and `.size()`.
+
+All collections and things that have a size are given a `.size()` method.
+
+    assert [1,2,3].size() == 3
+    assert "abc".size() == 3
+    assert [a: 1, b: 2, c: 3].size() == 3
+    
+## Operators
+
+Groovy supports operator overloading.
+
+    def list = []
+    list << 0
+    list << 1
+    list << 2
+    assert list.size() == 3
+    
+## Groovy Truth
+
+Every value can be coerced to a boolean.
+
+    assert "hi there"
+    assert [1, 2, 3]
+    assert new Object()
+
+    assert ""
+    assert []
+    assert null
+
+    if (System.getProperty("user.name")) { ... }
+
+## Properties
+
+Groovy introduces the concept of properties.
+
+    class Thing {
+        String name
+    }
+    
+    Thing thing = new Thing()
+    thing.name = "Fred"  // thing.setName("Fred")
+    println thing.name   // println thing.getName()
+
+## Properties (2)
+
+Objects are free to redefine meaning of *get property* and *set property*.
+
+    Map m = new HashMap()
+    m.name = "Fred"           // m.put("name", "Fred")
+    assert m.name == "Fred"   // assert m.get("name") == "Fred"
+    
+## Named Parameters
+
+Groovy has basic support for “named parameters”
+
+    say(name: "John", age: 12)
+        
+    def say(Map attributes) {
+        println "Name: $attributes.name"
+        println "Age: $attributes.age"
+    }
+
+The named parameters map is always the first parameter in the list.
+
+    def say(Map attributes, String name) {
+        println "Name: $name"
+        println "Age: $attributes.age"
+        println "Gender: $attributes.gender"
+    }
+
+    say("John", age: 12, gender: "Male")
+    
+## Scripts
+
+Besides classes, Groovy also has scripts.
+
+Scripts can contain script variables, inline code, methods, and classes.
+
+Script variables are stored in the script's *binding* (a map-like data structure).
+
+    name = "Fred"
+    println name
+
+A script is compiled into a subclass of `groovy.lang.Script`.
+
+Gradle build scripts *are* Groovy scripts.
+
+## Types
+
+Groovy is _optionally_ typed. Variables, parameters and return values can be typed or untyped.
+
+    int doubleTyped(int i) {
+        i * 2
+    }
+
+    def doubleUntyped(i) {
+        i * 2
+    }
+
+## Types (2)
+
+Typed variable:
+
+    int i = 1
+    
+Untyped variable:
+
+    def i = 1
+
+The `def` keyword is synonymous with `Object`.
+
+## Type Safety
+
+Groovy is *strongly* typed, but not *statically* typed.
+
+Type compatibility is enforced at _runtime_.
+
+    int doubleTyped(int i) {
+        i * 2
+    }
+    
+    def doubleUntyped(i) {
+        i * 2
+    }
+
+    doubleTyped("abc") // RuntimeException
+    
+    doubleUntyped("abc") // what happens here?
+
+## Optional Parentheses
+
+When calling a method, the `()` are optional (except when they are not).
+
+    def someMethod(arg1, arg2) { … }
+
+    someMethod(1, 2)
+    someMethod 1, 2
+    
+    println("Hello, Gradle Summit!")
+    println "Hello, Gradle Summit!"
+        
+## Dynamism
+
+Groovy is a _dynamic_ language.
+
+Dispatch of method calls and property reads/writes is highly dynamic.
+
+This allows behavior to be added or changed at runtime:
+
+    class Echoer {
+        def echo(int i) {
+            println i
+        }
+    }
+
+    Echoer.metaClass.ekko = { int i -> println i }
+    def echoer = new Echoer()
+
+    echoer.ekko(1)
+
+## Dynamic methods
+
+Objects can intercept calls to methods that don't physically exist.
+
+    class Shouter {
+        def say(String message) {
+            println message.toLowerCase()
+        }
+        def methodMissing(String name, args) {
+            println name.toUpperCase()
+        }
+    }
+
+    def shouter = new Shouter()
+    shouter.say("GradleSummit") // gradlesummit
+    shouter.gradleSummit()      // GRADLESUMMIT
+
+## Dynamic Method Names
+
+Decide at runtime which method to call.
+
+    class Hello {
+        def helloJohn() {
+            println "Hello John!"
+        }
+    }
+
+    def name = "John"
+    new Hello()."hello$name"()
+        
+## Builders
+
+Generate data structures dynamically.
+
+Groovy ships with builders for XML, JSON, Swing, etc.
+
+Example: [`MarkupBuilder`](http://groovy.codehaus.org/Creating+XML+using+Groovy%27s+MarkupBuilder)
+
+    def builder = new groovy.xml.MarkupBuilder()
+    def output = builder.html {
+        head { 
+            title 'Building HTML the Groovy Way' 
+        }
+        body {
+            p {
+                3.times { n ->
+                    a href: "doc${n}.html", "Document No. $n"
+                }
+            }
+        }
+    }
+
+Knows nothing about HTML in particular.
+
+## Parsers
+
+Groovy makes parsing XML (and JSON) a breeze.
+
+    <orders>
+        <order>
+            <item quantity="3">Egg</item
+            <item quantity="1">Honey</item>
+        </order>
+    </orders>
+    
+<!-- -->
+
+    def orders = new XmlSlurper().parseText(xml)
+    orders.order.item.each { println it.@quantity }
 
 ## Closures
 
@@ -277,44 +359,48 @@ Closures are like function pointers, lambdas, anonymous classes etc.
 
 They are declared with `{}`
 
-    def sayIt = { it ->
-        println it
+    def say = { msg ->
+        println msg
     }
 
 And called like normal methods:
 
-    sayIt("foo") // foo
+    say("hi") // hi
 
 ## Closure parameters
 
-Their parameters can be typed:
+Closure parameters can be typed:
 
-    def sayIt = { String it ->
-        println it
+    def say = { String msg ->
+        println msg
     }
 
-A closure with no declared parameters implicitly takes one untyped parameter named `it`
+Implicit `it` parameter:
 
-    def sayIt = {
+    def say = {
         println it
     }
+    
+    say("hi")
 
-Closures can take *N* arguments
+Closures can take multiple parameters:
 
-    def sayIt = { a, b ->
+    def say = { a, b ->
         println a
         println b
     }
+    
+    say("hi", "there")
 
 ## Closure return values
 
 Closures always return a value
 
-    def doubleIt = {
+    def double = {
         it * 2
     }
 
-    doubleIt(2) == 4
+    assert double(2) == 4
 
 ## Closures as callbacks
 
@@ -325,6 +411,7 @@ Closures are often used for callbacks:
 
         void start() {
             onStart()
+            println "Started"
         }
     }
 
@@ -332,7 +419,7 @@ Closures are often used for callbacks:
     action.onStart = { println "Starting now!" }
     action.start()
 
-## Closures as parameters
+## Closures as method parameters
 
 There's a special syntax for passing a closure as the last parameter.
 
@@ -351,26 +438,6 @@ There's a special syntax for passing a closure as the last parameter.
     twoArgMethod(3) { 3 } // 9
     twoArgMethod 3, { 3 } // 9
 
-## Multi line closures
-
-Closures are often multiple lines…
-
-    def oneArgMethod(closure) {
-        closure() * 2
-    }
-
-    def twoArgMethod(factor, closure) {
-        closure() * factor
-    }
-
-    oneArgMethod {
-        3
-    }
-
-    twoArgMethod(3) {
-        3
-    }
-
 ## Common closure use
 
 One common use of closures, is for iteration…
@@ -380,20 +447,6 @@ One common use of closures, is for iteration…
     }
 
 Will call the closure once for each item, passing the item to the closure as the argument.
-
-## Closure symbol resolution
-
-Closure bodies can access anything that you would normally be able to access at that point (i.e. lexical scope + instance scope).
-
-    class Thing {
-        String name = "fred"
-        Closure nameSayer = {
-            println name
-        }
-    }
-
-    def thing = new Thing()
-    thing.nameSayer() // "fred"
 
 ## Closures take references
 
@@ -405,12 +458,10 @@ Closures keep a reference to any variables that they use.
     }
     name = "Fred"
     sayName() // "Fred"
+    
+## Closure Delegates
 
-## The Delegate
-
-**Very important concept!**
-
-You can influence how a closure resolves symbols, by changing its *delegate*.
+You can influence how a closure resolves symbols by changing its *delegate*.
 
     class Person {
         String name
@@ -421,76 +472,16 @@ You can influence how a closure resolves symbols, by changing its *delegate*.
         }
     }
 
-    def person = new Person(name: "John")
+    def person = new Person()
+    person.name = "John"
+    def name = "Fred"
     person.executeInside { println name }
-
-## Closure resolution strategy
-
-The order of “resolution” can be controlled:
-
-    class Person {
-        String name
-
-        def executeInside(Closure c) {
-            c.resolveStrategy = Closure.DELEGATE_FIRST
-            c.delegate = this
-            c()
-        }
-    }
-
-    name = "Fred"
-    def person = new Person(name: "John")
-    person.executeInside { println name }
-
-## Closure scope access
-
-You can explicitly access the different scopes:
-
-    class Person {
-        String name
-
-        def executeInside(Closure c) {
-            c.resolveStrategy = Closure.DELEGATE_FIRST
-            c.delegate = this
-            c()
-        }
-    }
-
-    name = "Fred"
-    def person = new Person(name: "John")
-    person.executeInside {
-        println "owner: $owner.name (${owner.getClass()})"
-        println "delegate: $delegate.name (${delegate.getClass()})"
-    }
-
-## Closures & DSLs
-
-Many DSLs (domain specific languages) are implemented with closures + dynamic resolution:
-
-    class Recorder {
-        def record = []
-        def methodMissing(String name, args) {
-            record << [name: name, args: args]
-        }
-    }
-
-    def recorder = new Recorder()
-    def calls = {
-        foo()
-        bar("baz")
-        somethingElse(1,2,3)
-    }
-    calls.delegate = recorder
-    calls()
-
-    println recorder
+    
+In Gradle, delegate always wins over lexical scope.
 
 ## Gradle & Closures
 
-* Gradle uses closures & DSLs extensively
-* Gradle always uses a resolution strategy of `DELEGATE_FIRST`
-
-<!-- -->
+Gradle uses closures & DSLs extensively.
 
     repositories {
         mavenCentral()
@@ -499,31 +490,16 @@ Many DSLs (domain specific languages) are implemented with closures + dynamic re
     dependencies {
         compile "commons-lang:commons-lang:2.1"
     }
-
-## Named Parameters
-
-Groovy has a kind of support for “named parameters”
-
-    def sayIt(Map attributes) {
-        println "It's name is: $attributes.name"
-        println "It's age is: $attributes.age"
+    
+    task jar(type: Jar) {
+        from sourceSets.main.output
     }
-
-    sayIt(name: "John", age: 12)
-
-The named parameters map is always the first parameter in the list.
-
-    def sayIt(Map attributes, String name) {
-        println "It's name is: $name"
-        println "It's age is: $attributes.age"
-        println "It's gender is $attributes.gender"
-    }
-
-    sayIt("John", age: 12, gender: "Male")
 
 ## The GDK
 
-Groovy adds a lot of new behaviour to the core JDK types to make them more groovy:
+The [Groovy JDK](http://groovy.codehaus.org/groovy-jdk/) enriches the JDK class library with many new *methods*.
+
+Collections:
 
     [1, [2,3]].flatten() // [1, 2, 3] 
     ['a', 'b'].each { item -> println item } 
@@ -532,25 +508,76 @@ Groovy adds a lot of new behaviour to the core JDK types to make them more groov
     [1, 2, 3].every { it < 3 } // false 
     [1, 2, 3].any { it < 3 } // true
 
-Not just collections, but they are the most “popular”.
+## The GDK (2)
 
-## Operators
+Files:
 
-Groovy supports operator overloading and adds some new ones.
+    def f = new File("names.txt")
+    f.text = "Fred\nBarney\nWilma"
+    println f.readLines().sort()
+    
+Strings:
 
-    def l = []
-    l << 0
-    l << 1
-    l << 2
-    assert l.size() == 3
+    "ls -al".execute().text
+    "fred".capitalize // Fred
+    
+Threads:
 
-## .size()
+    Thread.start("worker") {
+        // do work
+    }
+    
+*Lots* of other useful GDK methods.
+    
+## Groovy Pitfalls
+    
+Groovy adds some methods to *every* object:
 
-Groovy unifies `.length`, `.length()` and `.size()`.
+    if (System.hasProperty("user.name")) { ... } // never true
+    
+Sometimes you do *not* want GStrings:
 
-All collections and things that have a size are given a `.size()` method.
+    rename "(.*)_OEM_BLUE(.*)", '$1$2'
+    
+Misspelling method names:
 
-    assert [1,2,3].size() == 3
-    assert "abc".size() == 3
-    assert [a: 1, b: 2, c: 3].size() == 3
+    mispelt(5)
+    
+<!-- -->
+
+    groovy.lang.MissingMethodException: No signature of method: ConsoleScript1.mispelt() is applicable for argument types: (java.lang.Integer) values: [5]
+    
+## Groovy Pitfalls (2)
+
+Cannot omit both parens and comma:
+
+    compile "com.google.guava:guava:14.0.1" {
+        transitive = false
+    }
+
+<!-- -->
+
+    > Could not find method com.google.guava:guava:14.0.1() for arguments [build_qb1cma7cb6m2s7kisg2cgekt1$_run_closure1_closure2@5c2d22f2] on root project 'java'.
+
+## More Groovy
+
+Groovy has many uses outside Gradle.
+
+Particularly good for testing Java code bases.
+
+[DZone Cheat Sheet](http://refcardz.dzone.com/refcardz/groovy) is a handy reference.
+
+[Groovy In Action (2nd Ed)](http://www.manning.com/koenig2/) is the definitive handbook.
+
+<img src="img/gina.jpg"/>
+
+## Q&A
+
+* Thanks for attending!
+* Questions?
+* Feedback?
+* http://gradle.org
+* http://gradleware.com
+
+<img src="img/Groovy-logo.svg" />
 

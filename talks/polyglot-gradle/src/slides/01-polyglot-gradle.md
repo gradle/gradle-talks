@@ -2,6 +2,16 @@
 
 Building Java, Groovy, Scala, and beyond!
 
+## About Me
+
+* Peter Niederwieser
+* Principal Engineer at Gradleware
+* (Former) Groovy Committer
+* Creator of [Spock Framework](http://spockframework.org)
+* Based in Linz/Austria
+* <peter.niederwieser@gradleware.com>
+* [@pniederw](https://twitter.com/pniederw)
+
 ## Agenda
 
 * Java
@@ -110,7 +120,7 @@ Opinionated way to build a Jar
 * Source sets: `main`, `test`
 * Tasks: `jar`, `test`, `javadoc`
 
-<!--><-->
+<!-- -->
 
     apply plugin: "java"
     
@@ -267,7 +277,7 @@ All Java and Groovy code passed to `GroovyCompile` is joint compiled
 * Option 1: Put Java code into `src/main/groovy`
 * Option 2: Reconfigure source directory sets
 
-<!--><-->
+<!-- -->
 
     sourceSets.main.java.srcDirs = []
     sourceSets.main.groovy.srcDirs = 
@@ -406,7 +416,7 @@ All Java and Scala code passed to `ScalaCompile` is joint compiled
 * Option 1: Put Java code into `src/main/scala`
 * Option 2: Reconfigure source directory sets
 
-<!--><-->
+<!-- -->
 
     sourceSets.main.java.srcDirs = []
     sourceSets.main.scala.srcDirs = 
@@ -420,6 +430,28 @@ Joint compilation algorithm (scalac):
 1. Compile Scala sources
 1. Compile Java sources
     
+## Targeting multiple Scala versions
+
+Major Scala versions aren't binary backwards-compatible
+
+As a library provider, need to publish separate Jar per Scala version
+
+Wish:
+
+    scala {
+        targetVersions "2.8.1", "2.9.2", "2.10.1"
+    } 
+
+    dependencies {
+        compile "ch.qos.logback:logback-core:1.0.13"
+        compile "org.scalaz:scalaz-core_?:6.0.4"
+        scala2_9_2Compile "org.scala-stm:scala-stm_2.9.2:0.7"
+    }
+    
+# Demo
+
+Targeting multiple Scala versions
+    
 ## Incremental Scala Compilation
 
 Powerful type system => slow compiler
@@ -428,7 +460,7 @@ Incremental compilation to the rescue
 
 Zinc compiles Scala (and Java!) incrementally
 
-Works across projects
+Works across projects in multi-project build
 
 # Demo
 
