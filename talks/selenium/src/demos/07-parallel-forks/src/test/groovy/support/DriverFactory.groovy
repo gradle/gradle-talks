@@ -21,19 +21,21 @@ class DriverFactory {
 
     private static WebDriver createNewDriver() {
         String property = System.getProperty("driver", "chrome")
-        def driver
+        def capabilities
         if (property == "chrome") {
-            driver = new ChromeDriver()
+            capabilities = DesiredCapabilities.chrome()
         } else if (property == "firefox") {
-            driver = new FirefoxDriver()
+            capabilities = DesiredCapabilities.firefox()
         } else if (property == "ie") {
-            def capabilities = DesiredCapabilities.internetExplorer()
-            def url = System.getProperty("seleniumServerUrl")
-            if (!url) {
-                throw new IllegalStateException("No 'seleniumServerUrl' system property set")
-            }
-            driver = new RemoteWebDriver(new URL(url), capabilities)
+            capabilities = DesiredCapabilities.internetExplorer()
         }
+
+        def url = System.getProperty("seleniumServerUrl")
+        if (!url) {
+            throw new IllegalStateException("No 'seleniumServerUrl' system property set")
+        }
+
+        def driver = new RemoteWebDriver(new URL(url), capabilities)
 
         Runtime.addShutdownHook {
             try {
@@ -43,5 +45,6 @@ class DriverFactory {
         }
         driver
     }
+
 
 }

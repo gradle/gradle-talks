@@ -38,7 +38,7 @@ subprojects {
 
         systemProperty "driver", driver
         systemProperty "reports", "$rootProject.buildDir/browser-reports/$name"
-        systemProperty "seleniumServerUrl", "http://172.16.229.149:4444/wd/hub"
+        systemProperty "seleniumServerUrl", "http://172.20.102.102:4444/wd/hub"
 
         maxParallelForks 3
         jvmArgs "-Xmx64m"

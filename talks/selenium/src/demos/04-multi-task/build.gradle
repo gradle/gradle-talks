@@ -22,6 +22,7 @@ test {
 
 ["chrome", "firefox"].each { driver ->
     task "test${driver.capitalize()}"(type: Test) { driverTest ->
+        group "browser tests"
         test.dependsOn driverTest
         testClassesDir = test.testClassesDir
         classpath = test.classpath

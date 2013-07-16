@@ -10,7 +10,6 @@ import org.testng.ITestResult
 
 class ReportingListener implements ITestListener {
 
-    @Override
     void onTestFailure(ITestResult result) {
         if (result.success) {
             return
@@ -26,12 +25,12 @@ class ReportingListener implements ITestListener {
         TakesScreenshot takesScreenshot = toTakesScreenshot(driver)
         if (takesScreenshot) {
             def pngFile = reportFile(result, "png")
-            def tmpScreenshot = takesScreenshot.getScreenshotAs(OutputType.FILE)
-            tmpScreenshot.renameTo(pngFile)
+            def bytes = takesScreenshot.getScreenshotAs(OutputType.BYTES)
+            pngFile.bytes = bytes
             log("screenshot", pngFile)
         }
 
-        log("html dump", reportFile(result, "html")).text = driver.pageSource
+        log("html dump", reportFile(result, "txt")).text = driver.pageSource
     }
 
     private static File reportFile(ITestResult result, extension) {
@@ -45,7 +44,7 @@ class ReportingListener implements ITestListener {
     }
 
     private static String reportBaseName(ITestResult result) {
-        "${result.class.name}-${result.method.methodName}-${result.method.currentInvocationCount}"
+        "${result.testClass.name}-${result.method.methodName}-${result.method.currentInvocationCount}"
     }
 
     private static TakesScreenshot toTakesScreenshot(WebDriver driver) {

@@ -25,7 +25,8 @@ class EmbeddedApplication {
             void handle(HttpExchange httpExchange) throws IOException {
                 httpExchange.responseHeaders.add("Content-Type", "text/html;charset=utf8")
                 if (httpExchange.requestURI.path == "/") {
-                    byte[] bytes = "<h1>Welcome to the Gradle Summit!</h1>".getBytes("utf8")
+                    String userAgent = httpExchange.requestHeaders.getFirst("User-Agent")
+                    byte[] bytes = "<h1>Welcome to the Gradle Summit!</h1><p>$userAgent</p>".getBytes("utf8")
                     httpExchange.sendResponseHeaders(200, bytes.length)
                     httpExchange.responseBody.withStream { OutputStream out -> out.write(bytes) }
                 } else {

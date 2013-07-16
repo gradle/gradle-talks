@@ -105,11 +105,13 @@ class CrossBrowser {
     SauceAccount sauceAccount
     NamedDomainObjectContainer<BrowserSpec> browsers
     Task openSauceTunnel
+    Task closeSauceTunnel
 
-    CrossBrowser(SauceAccount sauceAccount, NamedDomainObjectContainer<BrowserSpec> browsers, Task openSauceTunnel) {
+    CrossBrowser(SauceAccount sauceAccount, NamedDomainObjectContainer<BrowserSpec> browsers, Task openSauceTunnel, Task closeSauceTunnel) {
         this.sauceAccount = sauceAccount
         this.browsers = browsers
         this.openSauceTunnel = openSauceTunnel
+        this.closeSauceTunnel = closeSauceTunnel
     }
 
     void enable(Test test) {
@@ -123,6 +125,7 @@ class CrossBrowser {
                 ext.crossBrowser = true
                 group crossBrowserTask.group
                 dependsOn openSauceTunnel
+                finalizedBy closeSauceTunnel, "${browser.displayName}DecorateResults"
                 crossBrowserTask.dependsOn task
 
                 testClassesDir = test.testClassesDir
@@ -134,21 +137,11 @@ class CrossBrowser {
                 browser.configure(task)
             }
 
-            project.gradle.addListener(new TaskExecutionListener() {
-                void beforeExecute(Task task) {}
-
-                void afterExecute(Task task, TaskState taskState) {
-                    if (task != testTask) {
-                        return
-                    }
-
-                    project.copy {
-                        from testTask.reports.junitXml.destination
-                        into "$testTask.reports.junitXml.destination-decorated"
-                        filter { it.replaceAll("(testsuite|testcase) name=\"(.+?)\"", "\$1 name=\"\$2 ($browser.displayName)\"") }
-                    }
-                }
-            })
+            project.task("${browser.displayName}DecorateResults", type: Copy) { task ->
+                    from testTask.reports.junitXml.destination
+                    into "$testTask.reports.junitXml.destination-decorated"
+                    filter { it.replaceAll("(testsuite|testcase) name=\"(.+?)\"", "\$1 name=\"\$2 ($browser.displayName)\"") }
+            }
         }
     }
 }
@@ -172,12 +165,14 @@ task openSauceTunnelInBackground << {
     sauceConnect.startTunnel(configurations.sauceConnect.singleFile, buildDir, true)
 }
 
+task closeSauceTunnel << {
+    sauceConnect.stopTunnel()
+}
+
 task openSauceTunnel << {
     sauceConnect.startTunnel(configurations.sauceConnect.singleFile, buildDir, false)
 }
 
-gradle.addListener([buildFinished: { sauceConnect.stopTunnel() }] as BuildAdapter)
-
 extensions.browsers = container(BrowserSpec)
-extensions.create("crossBrowser", CrossBrowser, sauceAccount, browsers, openSauceTunnelInBackground)
+extensions.create("crossBrowser", CrossBrowser, sauceAccount, browsers, openSauceTunnelInBackground, closeSauceTunnel)
 
