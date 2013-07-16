@@ -1,0 +1,33 @@
+$logo-width: 300px;
+
+@mixin scale-image($image, $to-width: $logo-width) {
+	background-image: image-url($image);
+	height: (image-height($image) / image-width($image)) * $to-width;
+}
+
+.logos {
+	a {
+		display: inline-block;
+		vertical-align: middle;
+		width: $logo-width;
+		background: {
+			position: left center;
+			repeat: no-repeat;
+			size: contain;
+		}
+		text-indent: -9999px;
+		margin: {
+			left: rhythm(0.5);
+			right: rhythm(0.5);
+		}
+
+		@include margin-leader(1);
+		@include margin-trailer(1);
+
+		@each $logo in gradle, compass, grunt, coffeescript, ratpack {
+			&[href*="#{$logo}"] {
+				@include scale-image("logos/#{$logo}.png");
+			}
+		}
+	}
+}

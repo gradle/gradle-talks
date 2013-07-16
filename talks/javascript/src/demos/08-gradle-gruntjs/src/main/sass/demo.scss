@@ -1,0 +1,74 @@
+$header-font: league-gothic, sans-serif;
+$body-font: lora, serif;
+
+$background-color: #efefef;
+$text-color: #222;
+
+$footer-font-size: 32px;
+
+@import "compass";
+@import "compass/layout/sticky-footer";
+@import "logos";
+
+@include establish-baseline;
+@include sticky-footer($footer-font-size * 4.5, '#main', '#layout-footer', '#site-footer');
+
+*, *:before, *:after {
+	@include box-sizing(border-box);
+}
+
+html {
+	background-color: $background-color;
+	color: $text-color;
+}
+
+body {
+	font: {
+		family: $body-font;
+	}
+	padding: 0;
+}
+
+#{headings()} {
+	font: {
+		family: $header-font;
+		weight: 400;
+	}
+	text-transform: uppercase;
+}
+
+h1 {
+	text-align: center;
+	text-shadow: 0 3px 8px #aaa;
+
+	@include adjust-font-size-to(72px);
+	@include rhythm(0, 2, 0, 2, 72px);
+
+	+ p {
+		font-style: italic;
+		text-align: center;
+
+		@include adjust-font-size-to(24px);
+	}
+}
+
+.logos {
+	text-align: center;
+}
+
+#main, #site-footer {
+	padding: {
+		left: 1em;
+		right: 1em;
+	}
+}
+
+#site-footer {
+	text-shadow: 0 2px 3px #222;
+
+	@include contrasted(#444);
+	@include adjust-font-size-to($footer-font-size);
+	@include padding-leader(2, $footer-font-size);
+	@include padding-trailer(2, $footer-font-size);
+	-webkit-font-smoothing: antialiased;
+}

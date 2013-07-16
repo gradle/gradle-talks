@@ -1,0 +1,83 @@
+buildscript {
+    repositories {
+        maven { url "http://oss.jfrog.org/repo" }
+        maven { url "http://dl.bintray.com/robfletcher/gradle-plugins" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ratpack-framework:ratpack-gradle:0.9.0-SNAPSHOT"
+        classpath "org.gradle.plugins:gradle-compass:1.0.7"
+    }
+}
+
+apply plugin: "ratpack-groovy"
+apply plugin: "compass"
+apply plugin: "idea"
+
+repositories {
+    maven { url "http://oss.jfrog.org/repo" }
+    mavenCentral()
+}
+
+dependencies {
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+compass {
+  cssDir = file("src/ratpack/public/styles")
+  sassDir = file("src/main/sass")
+  imagesDir = file("src/ratpack/public/images")
+}
+
+clean.dependsOn cleanCompileSass
+run.dependsOn watchSass
+installApp.dependsOn compileSass
+
+task gruntCoffee(type: GruntTask) {
+    args "coffee"
+}
+
+processResources.dependsOn gruntCoffee
+
+task gruntWatch(type: GruntBackgroundTask) {
+    args "watch"
+}
+
+run {
+    dependsOn gruntWatch
+    systemProperty "ratpack.reloadable", "true"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.6"
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+class GruntTask extends DefaultTask {
+    List<String> args = []
+
+    @TaskAction
+    void gruntexec() {
+        project.exec {
+            executable = getExecutableName()
+            args = this.args
+        }
+    }
+
+    protected String getExecutableName() {
+        Os.isFamily(Os.FAMILY_WINDOWS) ? "grunt.cmd" : "grunt"
+    }
+
+    void args(String... args) {
+        this.args.addAll(args.toList())
+    }
+}
+
+class GruntBackgroundTask extends GruntTask {
+    @Override
+    void gruntexec() {
+        Thread.start {
+            super.gruntexec()
+        }
+    }
+}
