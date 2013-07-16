@@ -7,7 +7,7 @@ def systemCharset = java.nio.charset.Charset.defaultCharset().name()
 assert systemCharset == "UTF-8" : "Platform encoding must be UTF-8. Is currently $systemCharset. Set -Dfile.encoding=UTF-8."
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "1.6"
+    gradleVersion = "1.7-rc-1"
 }
 
 // Put the downloads in a different place so clean doesn't wipe them outs
