@@ -1,24 +1,21 @@
-apply plugin: 'cpp-lib'
 apply plugin: 'cpp'
 
 libraries {
-    main {
+    greeting {
         binaries.all {
-            define 'DLL_EXPORT'
+            cppCompiler.define 'DLL_EXPORT'
         }
     }
 }
 
-cpp {
-    sourceSets {
-        test {
-            lib libraries.main
+sources {
+    helloWorld {
+        cpp {
+            lib libraries.greeting
         }
     }
 }
 
 executables {
-    test {
-        source cpp.sourceSets.test
-    }
+    helloWorld
 }
