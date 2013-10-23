@@ -2,7 +2,7 @@ apply plugin: 'cpp'
 
 libraries {
     greeting {
-        binaries.all {
+        binaries.withType(SharedLibraryBinary) {
             cppCompiler.define 'DLL_EXPORT'
         }
     }
