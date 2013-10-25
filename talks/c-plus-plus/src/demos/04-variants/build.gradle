@@ -34,4 +34,7 @@ binaries.all {
     if (targetPlatform == targetPlatforms.amd64) {
         cppCompiler.define "BUILD_AMD64"
     }
+    if (toolChain in VisualCpp) {
+        cppCompiler.args '/EHs'
+    }
 }

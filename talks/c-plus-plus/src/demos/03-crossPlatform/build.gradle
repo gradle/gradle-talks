@@ -23,7 +23,7 @@ sources {
 
 binaries.all {
     if (toolChain in VisualCpp) {
-        cppCompiler.args '/Zi', '/RTC1'
+        cppCompiler.args '/Zi', '/RTC1', '/EHs'
         linker.args '/DEBUG'
     } else {
         cppCompiler.args '-g'
