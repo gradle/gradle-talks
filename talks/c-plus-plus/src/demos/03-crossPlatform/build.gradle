@@ -8,6 +8,11 @@ libraries {
     }
 }
 
+executables {
+    helloWorld {
+	}
+}
+
 sources {
     helloWorld {
         cpp {
@@ -16,11 +21,7 @@ sources {
     }
 }
 
-executables {
-    helloWorld
-}
-
-binaries.withType(NativeBinary) {
+binaries.all {
     if (toolChain in VisualCpp) {
         cppCompiler.args '/Zi', '/RTC1'
         linker.args '/DEBUG'

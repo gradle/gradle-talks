@@ -8,14 +8,14 @@ libraries {
     }
 }
 
+executables {
+    helloWorld { }
+}
+
 sources {
     helloWorld {
         cpp {
             lib libraries.greeting
         }
     }
-}
-
-executables {
-    helloWorld
 }
