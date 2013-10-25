@@ -1,0 +1,37 @@
+apply plugin: 'cpp'
+
+targetPlatforms {
+	i386 {
+		architecture "i386"
+	}
+	amd64 {
+		architecture "x86_64"
+	}
+}
+
+libraries {
+    greeting {
+        binaries.withType(SharedLibraryBinary) {
+            cppCompiler.define 'DLL_EXPORT'
+        }
+    }
+}
+
+executables {
+    helloWorld {
+	}
+}
+
+sources {
+    helloWorld {
+        cpp {
+            lib libraries.greeting
+        }
+    }
+}
+
+binaries.all {
+    if (targetPlatform == targetPlatforms.amd64) {
+        cppCompiler.define "BUILD_AMD64"
+    }
+}
