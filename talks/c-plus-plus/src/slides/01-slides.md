@@ -190,21 +190,6 @@ Coming soon:
 * Usage aware dependency resolution: compile-time vs link-time vs runtime vs debug
 * 'Must use' dependencies: must use same version of headers and binary at compile and runtime.
 
-## Standardization
-
-Gradle has plenty to help you define your own standards and conventions:
-
-* Configuration injection for multi-project builds
-* Define up your conventions in a plugin and share this across builds
-* Shared lifecycle for JVM and native projects
-* Use the wrapper for reproducible and zero-admin builds
-
-## IDE integration
-
-Eclipse CDT integration
-
-Visual Studio coming soon ...
-
 # Why Gradle for C/C++?
 
 ## Why Gradle?
@@ -217,8 +202,12 @@ Here are some of the reasons we've seen:
 * Accurate incremental build
 * Build variants
 * Dependency management
+
+---
+
+Plus:
 * Standardization
-* And more ...
+* IDE integration
 
 # The roadmap
 
