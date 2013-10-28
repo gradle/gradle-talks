@@ -1,0 +1,48 @@
+apply plugin: 'cpp'
+
+cpp {
+    sourceSets {
+        exe {}
+        lib {}
+    }
+}
+
+libraries {
+    hello {
+        source cpp.sourceSets.lib
+    }
+}
+
+executables {
+    main {
+        source cpp.sourceSets.exe
+        binaries.all {
+            // Each executable binary produced uses the 'hello' shared library binary
+            lib libraries.hello.shared
+        }
+    }
+}
+
+binaries.all {
+    // Define a preprocessor macro for every binary
+    define "NDEBUG"
+
+    // Define toolchain-specific compiler and linker options
+    if (toolChain == toolChains.gcc) {
+        compilerArgs "-O2", "-fno-access-control"
+        linkerArgs "-S"
+    }
+    if (toolChain == toolChains.visualCpp) {
+        compilerArgs "/Z7"
+        linkerArgs "/DEBUG"
+    }
+}
+
+// For any shared library binaries built with Visual C++, define the DLL_EXPORT macro
+binaries.withType(SharedLibraryBinary) {
+    if (toolChain == toolChains.visualCpp) {
+        define "DLL_EXPORT"
+    }
+}
+
+

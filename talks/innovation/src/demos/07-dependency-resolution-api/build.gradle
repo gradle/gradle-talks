@@ -6,10 +6,16 @@ repositories {
 
 dependencies {
   compile "org.spockframework:spock-core:0.7-groovy-2.0"
-  compile "org.codehaus.groovy:groovy-all:1.8.6"
+  compile "org.codehaus.groovy:groovy-all:2.1.0"
 }
 
 configurations.all {
+  resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+    if (details.requested.name == 'groovy-all') {
+      details.useTarget group: details.requested.group, name: 'groovy', version: details.requested.version
+    }
+  }
+
   incoming.resolutionResult.allDependencies { DependencyResult dependencyResult ->
     if (!SemanticVersion.isMatch(dependencyResult.requested.version) || !SemanticVersion.isMatch(dependencyResult.selected.id.version)) {
       return
@@ -22,6 +28,9 @@ configurations.all {
       throw new Exception("Dependency $dependencyResult has a different selected major version than was requested")
     }
   }
+
+  
+
 }
 
 class SemanticVersion {

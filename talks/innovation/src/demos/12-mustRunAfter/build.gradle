@@ -1,0 +1,13 @@
+task unitTest {}
+  
+task integTest {
+  mustRunAfter unitTest
+}
+
+task functionalTest {
+  mustRunAfter integTest, unitTest
+}
+
+task allTests {
+  dependsOn functionalTest, integTest, unitTest
+}

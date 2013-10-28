@@ -1,0 +1,9 @@
+subprojects {
+	task build {
+		doFirst {
+			println "  -> starting $path"
+			sleep 5000
+			println "  -> finishing $path"
+		}
+	}
+}

@@ -12,27 +12,27 @@ This makes it much easier to open.
 
 Small feature, surprisingly useful.
 
-## Upgrade Assistance
+## Build Setup support
 
-Gradle has a frequent release cycle, we want to help you keep current.
+Assistance for creating new Gradle builds.
 
-The “build comparison” support facilitates _testing_ your build with different versions.
+    gradle setupBuild
 
-Verify that your _outputs_ are the same with the new Gradle version.
+Initial support for types…
 
---- 
+    gradle setupBuild --type java-library
 
-FUTURE: Build Migration
+## Maven Import
 
-## Maven conversion
+Convert a Maven project to Gradle.
 
-* Convert a `pom.xml` to a `build.gradle`
-* Gives you a staring point
-* Incubating!
+In a directory with a pom.xml:
 
---- 
+    gradle setupBuild
 
-FUTURE: Maven import
+* Doesn't handle exotic plugins
+* Not a 100% solution
+* Does a lot of the brainless work
 
 ## Test Output
 
@@ -57,90 +57,82 @@ There's a [very detailed forum post](http://forums.gradle.org/gradle/topics/what
 * Shows path **to** a dependency
 * Explains how/why a dependency is in the graph
 
-## Dependency resolution API
+## Dependency Resolution APIs
 
-* `ResolutionResult`
+New [`ResolutionResult`](http://www.gradle.org/docs/current/javadoc/org/gradle/api/artifacts/result/ResolutionResult.html) type.
+
 * A model of the resolved dependency graph
 * *requested* and *selected*
 * Selection *reason*
-* Basis for new dependency reports
 * Fine grained conflict handling rules 
 
-# Performance & Memory
+[`DependencyResolveDetails`](http://www.gradle.org/docs/current/javadoc/org/gradle/api/artifacts/DependencyResolveDetails.html)
 
-Relevance depends on scenarios
+* Mutate the dependency graph
 
----
+## Performance
 
-A lot of potential
+Lots of work on making Gradle faster.
 
-Step-by-step improvements
+Gradle 1.7 fastest yet.
 
-Spend a lot of effort to measure (dedicated performance machines)
-
-Many different aspects (responsiveness (what tasks, dependencies, debugging), average build time, clean build time, configuration time)
-
-Means: Avoidance, Profiling & Low level optimisation, apply more resources
+* Compiler daemons
+* Gradle Daemon improvements
+* Faster test execution
+* Much faster dependency resolution
+* Much smarter file system locking
 
 ## Parallel execution
 
-* --parallel 
-* --parallel-threads=«num»
-* Incubating!
+Multi project builds can now be executed in parallel.
 
----
+    gradle build --parallel
 
-This is not a stable feature, and has structural requirements.
+* Incubating feature
+* Respects dependencies between projects
 
-# Compiler Daemons
+## Configure on demand
 
-For Java, Groovy, Scala
+Partially builds the Gradle object model. 
 
----
-
-Compile processes = submodules * 2
-
-Should be forked (leaks, clean classpath, health checks)
-
-Groovy is always forked.
-
-Particularly relevant if warm up phase is expensive
-
-# Incremental Scala Compile
-
-Zinc (SBT) integration
-
----
-
-Scala first class platform 
-Cooperation with Typesafe
-
-# Native integration
-
-A platform wonderland
-
----
-
-* Works with Java 5
-* dynamic console output
-* native client
-* local/remote filesystem
-* permissions
-* keystores
-* proxy settings
-* events
-* native client
-* dog food for Gradle C++/JNI support.
+    gradle :libs:awesomeLib:build --configure-on-demand
+    
+* Incubating feature
+* Useful for extremely large projects
+* Reduces start up time and memory consumption
 
 ## Continue on failure
 
-Live Demo
+Don't stop when something fails. 
+
+    gradle build --continue
+
+* Respects failures in task dependencies    
+* Almost always what you want for CI
+
+Now with more fail!
+
+## Scala support
+
+Improved Scala plugin.
+
+* Incremental compilation
+* Better IDE support 
+
+## C & C++
+
+“Native” code support.
+
+* Incubating feature
+* Under very active development
+* Portable building (not portable code)
+* Ambitious goals
 
 ## Android
 
-    apply plugin: 'android'
+The new Android SDK is based on Gradle.
 
-    version = '1.0'
+    apply plugin: 'android'
 
     android {
       target 'android-16'
@@ -151,8 +143,36 @@ Live Demo
       buildTypes { custom }
     }
 
-    sourceSets {
-      main.java.srcDir 'some-dir'
-      main.resources.srcDir 'some-resources'
-      free.java.srcDir 'some-free-dir'
+## Task Ordering
+
+You can now influence the ordering of tasks, without requiring dependencies.
+
+    integTest {
+        mustRunAfter unitTest
     }
+
+Ensures that integ tests run after unit tests.
+
+Just the beginning of ordering optimizations.
+
+## Task finalizers
+
+Force some task to run after another, regardless of failure.
+
+    task integTest {
+        finalizedBy stopWebService
+    }
+
+Useful for cleaning up resources used by tasks, or mandatory post processing.
+
+## More stuff…
+
+* JaCoCo code coverage
+* New publishing plugins
+* Aggregate test reports
+* Duplicate handling for copy/archive operations
+* Bintray JCenter support
+* Fine grained incremental tasks
+* Build dashboard plugin
+* Tooling API improvements
+

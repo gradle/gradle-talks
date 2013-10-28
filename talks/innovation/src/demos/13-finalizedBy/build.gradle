@@ -1,0 +1,12 @@
+task startContainer {}
+task stopContainer {}
+  
+task test {
+  dependsOn startContainer
+  finalizedBy stopContainer
+  
+  doLast {
+    // throw new GradleException()
+  }
+}
+

@@ -1,0 +1,3 @@
+println "Root build script"
+
+task hello

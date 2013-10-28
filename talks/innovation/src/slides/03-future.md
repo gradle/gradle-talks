@@ -12,14 +12,6 @@ Also working on a new model to cover:
 * Publication types (beyond single file)
 * Context sensitive dependency consumption
 
-## Implicit plugins
-
-Being able to have plugins applied automatically. 
-
-For example, based on the name of a requested task.
-
-That is, no need to add `wrapper` or `compareGradleBuilds` tasks.
-
 ## JavaScript
 
 Improving the documentation for the existing JavaScript support in Gradle.
@@ -31,19 +23,18 @@ Improving the documentation for the existing JavaScript support in Gradle.
 
 All based on a general purpose JavaScript tool toolkit (based on Rhino).
 
-# C/C++
+## IDE Support
 
----
+Android SDK is pushing the boundaries of build/IDE integration.
 
-Variants
-Incremental compile/parallel compile
+Expect to see many improvements in next 12 months.
 
-# Plugin Developers
+## Community Plugins
 
----
+Sharing infrastructure to make it easier to find and use Gradle plugins.
 
-Plugin portal
+## Enterprise scalability
 
+Gradle 2.0 will support very large scale projects.
 
-# Enterprise scalability
-
+This will also benefit smaller projects.
