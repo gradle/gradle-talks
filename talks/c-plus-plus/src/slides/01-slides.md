@@ -22,9 +22,10 @@ Creating a world-class C++ Build System
 
 Here's what Gradle can do now:
 
-* Build executables, shared librares and static libraries
+* Build executables, shared libraries and static libraries
+* Compile C++, C and assembler
 * Windows, Linux, OS X
-* Visual C++, GCC (Cygwin and MinGW)
+* Visual C++, GCC (plus Cygwin and MinGW), Clang
 * Some support for publishing binaries to a repository
 * Eclipse CDT integration
 
@@ -32,26 +33,32 @@ Here's what Gradle can do now:
 
 Current support is _incubating_. It's a work in progress
 
-Lots of good stuff coming in the next 3 - 4 months
+Lots of changes over the last 3 releases, expect more in the next few releases.
 
-Demos are from master and these features will be included in Gradle 1.7
+Demos are from master and these features will be included in Gradle 1.10
 
 ## Building an executable
 
-    apply plugin: 'cpp-exe'
+    apply plugin: 'cpp'
+
+    executables {
+        helloWorld
+    }
 
 Build by convention:
 
-* C++ source files under `src/main/cpp`
-* Headers under `src/main/headers`
+* C++ source files under `src/helloWorld/cpp`
+* Headers under `src/helloWorld/headers`
 * Builds an executable binary from these
 * Uses whichever toolchain is available in the `PATH`
-* Wired into the standard lifecycle
+
+## Building an executable
 
 Customisation:
 
-* Compiler and linker settings
 * Source directory layout
+* Compiler and linker settings
+* Which toolchain(s) to use
 
 ---
 
@@ -62,20 +69,18 @@ Customisation:
 
 ## Building a library
 
-    apply plugin: 'cpp-lib'
+    apply plugin: 'cpp'
+
+    libraries {
+        helloWorld
+    }
 
 Build by convention:
 
-* C++ source files under `src/main/cpp`
-* Headers under `src/main/headers`
+* C++ source files under `src/helloWorld/cpp`
+* Headers under `src/helloWorld/headers`
 * Builds a shared library or static library binary from these
 * Uses whichever toolchain is available in the `PATH`
-* Wired into the standard lifecycle
-
-Customisation:
-
-* Compiler and linker settings, per binary
-* Source directory layout
 
 ---
 
@@ -100,26 +105,6 @@ C++ source and headers are arranged into _source sets_.
 A component or binary can take source sets, libraries and binaries as input.
 
 ![source sets](img/sourcesets.svg)
-
-## Cpp Plugin
-
-General purpose `cpp` plugin provides all these concepts:
-
-    apply plugin: `cpp`
-
-    cpp {
-        sourceSets {
-            ...
-        }
-    }
-
-    libraries {
-        ...
-    }
-
-    executables {
-        ...
-    }
 
 ## Multiple platforms
 
@@ -147,12 +132,12 @@ Incremental build takes care of:
 * Changes to compile and link settings
 * Changes to dependencies
 * Change of platform and toolchain
-* Cleans up stale object files, executables, debug files
+* Tracking header file dependencies
 
-What's missing:
+When something changes:
 
 * Recompile individual changed source files
-* Track header file dependencies
+* Clean up stale object files, executables, debug files
 
 ---
 
@@ -167,7 +152,7 @@ What's missing:
 
 Usually more than one output is produced for a C/C++ component. Each such output is a _variant_
 
-Variants may differ in any or all of:
+Variants may differ in any of:
 
 * Operating system
 * Architecture
@@ -178,19 +163,11 @@ Variants may differ in any or all of:
 * Pre- or post- profiling
 * And ...
 
-## Variants
-
-Coming soon
-
-* Declare which dimensions are relevant
-* Infer those that are not
-* Wire up binaries and dependencies based on this
-
 ## Dependency management
 
 Each binary takes source sets, libraries or binaries as input
 
-Each C++ source set takes zero or more libraries or binaries as input
+Each source set takes zero or more libraries or binaries as dependencies
 
 Dependencies can come from:
 
@@ -213,21 +190,6 @@ Coming soon:
 * Usage aware dependency resolution: compile-time vs link-time vs runtime vs debug
 * 'Must use' dependencies: must use same version of headers and binary at compile and runtime.
 
-## Standardization
-
-Gradle has plenty to help you define your own standards and conventions:
-
-* Configuration injection for multi-project builds
-* Define up your conventions in a plugin and share this across builds
-* Shared lifecycle for JVM and native projects
-* Use the wrapper for reproducible and zero-admin builds
-
-## IDE integration
-
-Eclipse CDT integration
-
-Visual Studio coming soon ...
-
 # Why Gradle for C/C++?
 
 ## Why Gradle?
@@ -238,9 +200,13 @@ Here are some of the reasons we've seen:
 * Portable build logic
 * Customisation and flexible
 * Accurate incremental build
+* Build variants
 * Dependency management
+
+---
+
+Plus:
 * Standardization
-* Mix of native and JVM based projects
 * IDE integration
 
 # The roadmap
@@ -249,14 +215,13 @@ Here are some of the reasons we've seen:
 
 Some things we want to do:
 
-* Building for multiple operating systems, architectures, tool chains
+* Parallel compilation
+* Publish and resolve native packages
 * Variant aware dependency management
-* Incremental compilation
 * Visual Studio integration
 * Testing
-* Other languages: C, assembler, Objective-C, C#
+* Other languages: Objective-C, C#
 * Integrate with the application plugin and extend to installers, native packages
-* Publish and resolve native packages
 * Remote builds using CI infrastructure
 
 And plenty more...

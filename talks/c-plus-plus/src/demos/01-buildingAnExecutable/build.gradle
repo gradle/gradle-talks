@@ -1,1 +1,5 @@
-apply plugin: 'cpp-exe'
+apply plugin: 'cpp'
+
+executables {
+    helloWorld
+}

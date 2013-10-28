@@ -1,5 +1,14 @@
 apply plugin: 'cpp'
 
+targetPlatforms {
+	i386 {
+		architecture "i386"
+	}
+	amd64 {
+		architecture "x86_64"
+	}
+}
+
 libraries {
     greeting {
         binaries.withType(SharedLibraryBinary) {
@@ -22,10 +31,10 @@ sources {
 }
 
 binaries.all {
+    if (targetPlatform == targetPlatforms.amd64) {
+        cppCompiler.define "BUILD_AMD64"
+    }
     if (toolChain in VisualCpp) {
-        cppCompiler.args '/Zi', '/RTC1', '/EHs'
-        linker.args '/DEBUG'
-    } else {
-        cppCompiler.args '-g'
+        cppCompiler.args '/EHs'
     }
 }
