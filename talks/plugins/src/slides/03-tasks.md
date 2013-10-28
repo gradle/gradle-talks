@@ -15,7 +15,7 @@ They integrate functionality into the execution model and the build language.
         into "another-dir"
     }
 
-Ideally, they provide a domain specific declarative configuration interface.
+Task API becomes part of the DSL.
 
 ## Custom Tasks
 

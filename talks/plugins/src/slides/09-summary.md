@@ -10,14 +10,10 @@
     * Self contained
 * Extensions
 * Plugin Stacks (Capability vs. Convention)
-* Testing
-    * Unit, Configuration, Functional
 
 ## Distribution
 
-Use Maven Central for now.
-
-We'll be building out sharing/hosting infrastructure over the coming releases.
+Publish your plugins to Bintray.
 
 # Thank You
 

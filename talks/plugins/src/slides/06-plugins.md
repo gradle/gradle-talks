@@ -6,7 +6,7 @@ Tasks add new functionality, extensions add new build language elements.
 
 One of the things that plugins often do is *wire* these things together. 
 
-A common pattern is to use the DSL extension as a kind of defaults registry, which we'll see shortly.
+A common pattern is to use the DSL extension as a kind of defaults registry.
 
 ## Containers
 
@@ -44,7 +44,7 @@ See [`NamedDomainObjectContainer`](http://gradle.org/docs/current/javadoc/org/gr
 
 ## Convention Mapping
 
-The convention mapping mechanism allows for *dynamic* defaults.
+The convention mapping mechanism allows for dynamically derived values.
 
     someModelElement {
         someSetting = "someValue"

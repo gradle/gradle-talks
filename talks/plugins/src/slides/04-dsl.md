@@ -19,13 +19,9 @@ Implication is that Gradle has to control instantiation.
 * extensions.create()
 * project.container()
 
-No public API for arbitrary instantiation.
-
-It's coming.
-
 ## “set methods”
 
-Gradle generates “set methods” for all properties.
+Gradle generates “set methods” for properties.
 
     class SomeTask {
       String foo

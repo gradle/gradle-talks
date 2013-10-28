@@ -79,11 +79,10 @@ That is, plugins inject a DSL interface into the build script.
 
 Why bother with declarativeness, DSLs, plugins etc?
 
-1. Audience (what the build does usually more important than the how)
-2. Integrity (naturally resists ball of mud syndrome)
-3. Reuse (no copy/paste)
-4. Maintenance (decoupled code is easier to maintain)
-5. Understandability (small components are easier to understand)
+1. Audience
+1. Extensibility
+1. Maintainability
+1. Comprehensibility
 
 ## Gradle Plugins
 
@@ -95,7 +94,7 @@ This is valid plugin code…
         println "Hello world!"
     }
 
-**Conceptually**, plugins can add a new *class* of functionality to a build.
+**Conceptually**, plugins can add new functionality to a build.
 
 ## Script plugins
 
@@ -136,17 +135,15 @@ Future versions of Gradle will be smart about caching.
 
 ## Binary Plugins
 
-They come in an object wrapper.
+Logic packaged as an object.
 
-    package org.gradle.api
+    package org.gradle.api;
 
     public interface Plugin<T> {
         void apply(T item);
     }
 
-Just a class loaded from the classpath.
-
-## Object Plugins (cont.)
+## Binary Plugins (cont.)
 
 Applied with a different syntax.
 
