@@ -3,7 +3,7 @@ apply plugin: "base"
 version = "0.1"
 
 task downloadGradle(type: DownloadGradle) {
-    gradleVersion "1.6"
+    gradleVersion "1.8"
     destinationDir file("gradle-downloads")
 }
 
