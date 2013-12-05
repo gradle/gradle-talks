@@ -21,6 +21,7 @@ class RunningApplicationFactory {
         app.start()
         new RunningApplication() {
             String getBaseUrl() {
+                println findLocalAddress()
                 "http://${findLocalAddress()}:$app.address.port"
             }
         }

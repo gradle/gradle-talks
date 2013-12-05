@@ -8,8 +8,8 @@ repositories {
 dependencies {
     testCompile localGroovy()
     testCompile 'org.testng:testng:6.8.5'
-    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
-    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.32.0'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.37.1'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.37.1'
 }
 
 test {
@@ -31,16 +31,16 @@ subprojects {
         classpath = rootProject.test.classpath
 
         reports {
-            html.destination = rootProject.reporting.file("$name/html")
-            junitXml.destination = file("$rootProject.buildDir/test-results/$name")
+            html.destination = rootProject.reporting.file("$project.name/html")
+            junitXml.destination = file("$rootProject.buildDir/test-results/$project.name")
         }
-        binResultsDir = rootProject.file("$rootProject.buildDir/test-results-bin/$name")
+        binResultsDir = rootProject.file("$rootProject.buildDir/test-results-bin/$project.name")
 
         systemProperty "driver", driver
-        systemProperty "reports", "$rootProject.buildDir/browser-reports/$name"
-        systemProperty "seleniumServerUrl", "http://172.20.102.102:4444/wd/hub"
+        systemProperty "reports", "$rootProject.buildDir/browser-reports/$project.name"
+        systemProperty "seleniumServerUrl", "http://localhost:4444/wd/hub"
 
-        maxParallelForks 3
+        maxParallelForks 1
         jvmArgs "-Xmx64m"
     }
 }

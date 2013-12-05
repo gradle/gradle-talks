@@ -8,8 +8,8 @@ repositories {
 dependencies {
     testCompile localGroovy()
     testCompile 'org.testng:testng:6.8.5'
-    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.32.0'
-    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.32.0'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.37.0'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.37.0'
 }
 
 tasks.withType(Test) {
@@ -31,7 +31,7 @@ test {
         }
         systemProperty "driver", driver
         systemProperty "reports", "$buildDir/browser-reports/$name"
-        systemProperty "seleniumServerUrl", "http://172.20.102.102:4444/wd/hub"
+        systemProperty "seleniumServerUrl", "http://localhost:4444/wd/hub"
 
         maxParallelForks 3
         jvmArgs "-Xmx64m"

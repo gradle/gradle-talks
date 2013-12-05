@@ -2,15 +2,6 @@
 
 With Gradle and Selenium
 
-## About Me
-
-Luke Daley.
-
-* Principal Engineer @ Gradleware
-* @ldaley
-* Founder of Geb - Groovy based browser automation
-* Functional testing advocate
-
 ## Agenda
 
 * Using Selenium 2

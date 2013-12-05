@@ -235,8 +235,6 @@ So far…
 
 ## Groovier Tools
 
-Gradleware “endorsed”:
-
 **Spock Framework** for test execution.
 
 **Geb** for browser automation.
