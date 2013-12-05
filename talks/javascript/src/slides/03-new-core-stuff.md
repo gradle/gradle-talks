@@ -6,9 +6,8 @@ The new Gradle core JS support
 
 Very new and still incubating (No API guarantees).
 
-The goal is to be the foundation for other JS plugins, by providing reusable infrastructure.
-
-Over time, this will expand to dependency management and opinionated conventions.
+* reusable infrastructure.
+* eventually opinionated conventions.
 
 ## What does it do?
 
@@ -38,19 +37,14 @@ Over time, this will expand to dependency management and opinionated conventions
 
 ## Rhino Integration
 
-Provides support for running Rhino code in forked JVMs with arbitrary versions of Rhino.
+* An “embedded” JavaScript runtime
+* Rich data exchange
 
-Why?
-
-* Not tied to a Rhino version (via forked JVM)
-* Allows access to the JavaScript runtime
-* Richer datatypes than String
-
-Designed to make it cheap to support JavaScript based tooling in a forward compatible way.
+Supports JavaScript based tooling in a forward compatible way.
 
 ## CoffeeScript
 
-Alternative JavaScript language. Transpiles to JavaScript.
+Alternative JavaScript language.
 
 Plugin configures everything out of the box, allows user to override CoffeeScript impl/version.
 

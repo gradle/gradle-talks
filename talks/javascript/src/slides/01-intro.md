@@ -2,23 +2,12 @@
 
 Managing JavaScript
 
-## About Me
-
-* Principal Engineer, Trainer, Consultant
-* [luke.daley@gradleware.com](mailto:luke.daley@gradleware.com)
-* [@ldaley](http://twitter.com/ldaley)
-* Gradle core developer
-* Former web app developer
-* Not a JS ninja
-
 # Gradle & JS?
 
 ## JavaScript…
 
 * Growing relevance, to everyone
 * Weak history of tooling and build automation
-* No build time dependency management conventions
-* No well established structural/process conventions
 
 ## Automation…
 
@@ -26,7 +15,35 @@ Managing JavaScript
 * Minification
 * Testing
 * Code Analysis 
-* Transpiling
 * *Reuse*
 
-We now create JavaScript libraries, not scripts. This has drastic implications.
+We now create JavaScript libraries, not scripts.
+
+## then (1 year ago) …
+
+* No build time dependency management conventions
+* No well established structural/process conventions
+
+Adhoc automation.
+
+## now…
+
+* Node.js
+* NPM
+* GruntJS
+* Yeoman
+* Bower.js
+* JamJS
+
+Maturing quickly.
+
+## Gradle? 
+
+* Who orchestrates the entire project?
+* How do you provision the backend?
+
+Front end tools don't do whole project automation.
+
+## Gradle? 
+
+Where specialist tools exist, integrate instead of replace.

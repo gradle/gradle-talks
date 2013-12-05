@@ -4,8 +4,6 @@ Gradle is a capable general automation platform.
 
 It's a toolkit the empowers you to solve your own problems.
 
-In the absence of plugins, do it yourself!
-
 ## Publishing
 
 Gradle makes it easy to “publish” your JS to a binary repository.
@@ -169,3 +167,17 @@ You can drive GruntJS from Gradle.
 # DEMO
 
 gradle-gruntjs
+
+## gradle-gruntjs-plugin
+
+https://github.com/srs/gradle-grunt-plugin
+
+Dynamic tasks…
+
+    gradle grunt_compile
+
+Or…
+
+    task gruntBuildWithOpts(type: GruntTask) {
+       args = ["build", "arg1", "arg2"]
+    }

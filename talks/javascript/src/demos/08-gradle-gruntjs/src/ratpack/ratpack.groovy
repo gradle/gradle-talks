@@ -1,12 +1,9 @@
-import org.ratpackframework.groovy.templating.TemplateRenderer
-
-import static org.ratpackframework.groovy.RatpackScript.ratpack
+import static ratpack.groovy.Groovy.*
 
 ratpack {
     handlers {
         get {
-            get(TemplateRenderer).render "index.html",
-                    message: "Watching resources with Gradle"
+            render groovyTemplate("index.html", message: "Watching resources with Gradle!!!!!!!!!!!!!")
         }
         assets "public"
     }
