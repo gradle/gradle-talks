@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: "project-report"
 
 repositories {
     maven { url "http://repo.gradle.org/gradle/repo" }

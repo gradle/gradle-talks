@@ -1,65 +1,17 @@
 ## Build pipeline
 
-* Runs on every push 
-* Identical on both branches
 * TeamCity
+* Binary reuse
+* Continuous Delivery
+* Promote passed builds
+* 1 click release promotion
 
-## Pipeline structure
+## Release time
 
-* Static analysis
-* Quick, less accurate tests (small number of platforms)
-* Build production like distributions
-* Platform tests
-* Execution mode tests
-* Performance test
-* Promote (?)
-
-## Reusing binaries
-
-* Production like binaries built at start of pipeline
-* CI server pushes binaries to downstream builds
-* Rebuilding was problematic
-
-## On pipelines
-
-* Optimising the feedback loop
-* Visualising change impact
-* Tools are not change oriented
-
-## Release cycle
-
-A cycle is ~ 6 weeks.
-
-* Move to release branch after ~ 4 weeks
-* Plan new release ~ 4 weeks
-* Promote RC ~ 5 weeks
-* Promote final (end)
-* Merge release branch back to master (final)
-
---- 
-
-Important to strongly define the version model.
-
-## Promotion
-
-* Separate “build” for promotion
-* Automatically checks out specific revision
-* Programatically rebuilds Gradle
-* Imposes the version number
-* Triggered by 1 click @ CI server
-
-## Delivery
-
-* Build, smoke test
-* Decorate docs with Google Analytics JS
-* Upload to `repo.gradle.org` (some bits)
-* Upload dists and decorated docs to Amazon S3
-* Checkout website repo, update data, push
-* Trigger pull new docs
-* Smoke test delivered distributions
-* Send notification email to team
-* Finish with manual processes
-
-## Updating the build tool
-
-Frequently need to update our Gradle version.
+1. Rebuild with final version number
+2. Quick smoke test
+3. Upload binaries (Artifactory and Amazon S3)
+4. Checkout website repo, update, push
+5. Trigger doc pull
+6. Smoke test released binaries
+7. Send email with announcement instructions

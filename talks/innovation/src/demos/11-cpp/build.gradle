@@ -1,47 +1,37 @@
 apply plugin: 'cpp'
 
-cpp {
-    sourceSets {
-        exe {}
-        lib {}
-    }
-}
-
 libraries {
-    hello {
-        source cpp.sourceSets.lib
-    }
+    hello {}
 }
 
 executables {
+    main {}
+}
+
+sources {
     main {
-        source cpp.sourceSets.exe
-        binaries.all {
-            // Each executable binary produced uses the 'hello' shared library binary
-            lib libraries.hello.shared
+        cpp {
+            lib libraries.hello
         }
     }
 }
 
 binaries.all {
-    // Define a preprocessor macro for every binary
-    define "NDEBUG"
+    cppCompiler.define "NDEBUG"
 
-    // Define toolchain-specific compiler and linker options
-    if (toolChain == toolChains.gcc) {
-        compilerArgs "-O2", "-fno-access-control"
-        linkerArgs "-S"
+    if (toolChain in Gcc) {
+        cppCompiler.args "-O2", "-fno-access-control"
+        linker.args "-S"
     }
-    if (toolChain == toolChains.visualCpp) {
-        compilerArgs "/Z7"
-        linkerArgs "/DEBUG"
+    if (toolChain in VisualCpp) {
+        cppCompiler.args "/Zi"
+        linker.args "/DEBUG"
     }
 }
 
-// For any shared library binaries built with Visual C++, define the DLL_EXPORT macro
 binaries.withType(SharedLibraryBinary) {
-    if (toolChain == toolChains.visualCpp) {
-        define "DLL_EXPORT"
+    if (toolChain in VisualCpp) {
+        cppCompiler.define "DLL_EXPORT"
     }
 }
 

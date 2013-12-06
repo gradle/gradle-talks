@@ -1,4 +1,5 @@
 apply plugin: "java"
+apply plugin: "project-report"
 
 repositories {
   mavenCentral()

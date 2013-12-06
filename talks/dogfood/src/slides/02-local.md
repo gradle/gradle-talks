@@ -1,4 +1,4 @@
-## Development Process
+## Design Process
 
 * Some design up front
 * Every commit is reviewed (http://code-review.gradle.org)
@@ -21,34 +21,18 @@
 
 Automating the day-to-day
 
-## IDE/Editor
+## Dev environment
 
-* Automate the “import” process
-* Provide a consistent setup
-* Make it possible to run frequent tasks via the IDE
+* ./gradlew idea
+* OS images (coming)
+* No external dependencies
 
----
+## Testing
 
-* IDE metadata generation/import (i.e. run task)
-* gradle/idea.gradle
-* run configurations
-* runners in IDEA
-
-## Local testing
-
-* Running tests must be trivially easy
-* Sacrifice accuracy for convenience (dev builds)
-* Build in testability - often not free
-
-## Testing types
-
-* Unit
-* Integration
-    * Functional
-    * Execution modes (in process, forking, daemon)
-    * Cross version
-* Distribution
-* Performance
+* IDE execution
+* Custom runners
+* Investment in fixtures
+* Performance (historical)
 
 ## Documentation
 
@@ -57,10 +41,18 @@ Automating the day-to-day
 * Userguide
 * Samples
 * Release notes
+* Analytics
+
+## Release notes
+
+* Markdown
+* Structure
+* “Checkstyle”
+* “Fixed issues”
 
 ## Code Quality
 
 * Ensure public API is documented
 * License headers
 * Cyclical package dependencies
-* Static analysis (Checkstyle & Codenarc)
+* Static analysis (Checkstyle & Codenarc) 

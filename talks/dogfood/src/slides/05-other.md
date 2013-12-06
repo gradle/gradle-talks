@@ -1,19 +1,10 @@
-## Talk/webinar material
+## Other things…
 
-* Developed collaboratively
-* Changes over time
-* Binary formats suck
-* Willing to sacrifice bling for productivity
-
-## Things to do…
-
-* Reduce change feedback time
-* Automate testing training material
-* Avoid rebuild on promotion
-* Make documentation easier
-* Improve planning transparency
-* Make it easier to contribute
-* Automate more communication
+* Gradle builds for training material and talks
+* Forums (/contribute, /news)
+* RC banner
+* Design docs
+* Site smoke tests
 
 # Questions?
 

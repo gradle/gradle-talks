@@ -14,14 +14,8 @@ Also working on a new model to cover:
 
 ## JavaScript
 
-Improving the documentation for the existing JavaScript support in Gradle.
-
-* Minification/Compression
-* Static Analysis (e.g. JSHint)
-* Transpiling (e.g. CoffeeScript)
-* Test Execution (e.g. Jasmine)
-
-All based on a general purpose JavaScript tool toolkit (based on Rhino).
+* Improved core support
+* Improved integration with JS tools (e.g. GruntJS, NPM)
 
 ## IDE Support
 

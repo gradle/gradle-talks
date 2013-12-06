@@ -12,15 +12,15 @@ This makes it much easier to open.
 
 Small feature, surprisingly useful.
 
-## Build Setup support
+## Build init support
 
 Assistance for creating new Gradle builds.
 
-    gradle setupBuild
+    gradle init
 
 Initial support for types…
 
-    gradle setupBuild --type java-library
+    gradle init --type java-library
 
 ## Maven Import
 
@@ -28,7 +28,7 @@ Convert a Maven project to Gradle.
 
 In a directory with a pom.xml:
 
-    gradle setupBuild
+    gradle init
 
 * Doesn't handle exotic plugins
 * Not a 100% solution
@@ -73,8 +73,6 @@ New [`ResolutionResult`](http://www.gradle.org/docs/current/javadoc/org/gradle/a
 ## Performance
 
 Lots of work on making Gradle faster.
-
-Gradle 1.7 fastest yet.
 
 * Compiler daemons
 * Gradle Daemon improvements
