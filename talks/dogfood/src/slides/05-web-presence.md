@@ -12,7 +12,7 @@ Three levels:
 
 * forums.gradle.org -> entry point
 * issues.gradle.org -> acknowledged defects
-* Pivotal Labs -> team planning
+* Trello -> team planning
 
 Automated move/sync data between systems.
 
