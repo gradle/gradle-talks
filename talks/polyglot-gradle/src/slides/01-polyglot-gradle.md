@@ -2,6 +2,13 @@
 
 Building Java, Groovy, Scala, and beyond!
 
+<div id="images" style="width: 900px;height: 200px;overflow: hidden;
+white-space: nowrap;">
+  <img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/java_logo.jpeg" style="display: inline-block">
+  <img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/groovy_logo.svg" height=200 width=200 style="display: inline-block">
+  <img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/scala_logo.png" style="display: inline-block">
+</div>
+
 ## About Me
 
 * Peter Niederwieser
@@ -12,16 +19,9 @@ Building Java, Groovy, Scala, and beyond!
 * <peter.niederwieser@gradleware.com>
 * [@pniederw](https://twitter.com/pniederw)
 
-## Agenda
+# Building
 
-* Java
-* Groovy
-* Scala
-* Other Languages
-
-Along the way: compiler daemons, joint compilation, incremental compilation
-
-# Building Java
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/java_logo.jpeg">
 
 ## JavaCompile Task
 
@@ -93,14 +93,15 @@ Introduces concept of *source sets*
             java {
                 srcDirs = ["src/main/java"]
                 // exclude "**/jdk8/**"
+                // srcDir "$buildDir/generated-sources"
             }
             
             classesDir = "$buildDir/classes/main"
             resourcesDir = "$buildDir/resources/main"
-            // dir("$buildDir/classes/generated")
+            // dir("$buildDir/generated-resources")
             
             compileClasspath = configurations.compile
-            runtimeClasspath = configurations.runtime
+            runtimeClasspath = output + configurations.runtime
         }
     }
    
@@ -154,6 +155,8 @@ Also used for Groovy and Scala
 
 Java Compiler Daemon
 
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/java_logo.jpeg">
+
 ## Java Outlook
 
 * New source set model
@@ -164,6 +167,8 @@ Java Compiler Daemon
 * Incremental compilation (JDK8, `ScalaCompile`)
 
 # Building Groovy
+
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/groovy_logo.svg" width=300 height=300>
 
 ## GroovyCompile Task
 
@@ -179,7 +184,7 @@ Can compile Groovy and Java (!)
             // Java compile options
         }
                 
-        groovyCompileOptions.with {
+        groovyOptions.with {
             // Groovy compile options (ctd.)
         }
     }
@@ -188,13 +193,13 @@ Can compile Groovy and Java (!)
 
     task compileGroovy(type: GroovyCompile) {
         ...
-        groovyCompileOptions.with {
+        groovyOptions.with {
             encoding = "utf-8" // defaults to platform encoding
             fork = true
+            useAnt = false
             keepStubs = false
             fileExtensions = ["java", "groovy"]
             optimizationOptions.indy = true
-            useAnt = false
         }
     }
     
@@ -295,12 +300,16 @@ Joint compilation algorithm (grooyvc):
 
 Groovy Java joint compilation
 
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/groovy_logo.svg" width=300 height=300>
+
 ## Groovy Outlook
 
 * Support Groovy-Eclipse compiler
 * Groovy REPL/Console tasks
 
 # Building Scala
+
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/scala_logo.png">
 
 ## ScalaCompile Task
 
@@ -451,6 +460,8 @@ Wish:
 # Demo
 
 Targeting multiple Scala versions
+
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/scala_logo.png">
     
 ## Incremental Scala Compilation
 
@@ -465,6 +476,8 @@ Works across projects in multi-project build
 # Demo
 
 Incremental Scala compilation
+
+<img src="/swd/prj/gradle-talks/talks/polyglot-gradle/src/scala_logo.png">
 
 ## Scala Outlook
 

@@ -1,7 +1,8 @@
-Clone https://github.com/SpringSource/spring-integration-dsl-scala, update it to use latest Gradle, and add the following to the top-level build.gradle:
+Clone https://github.com/SpringSource/spring-integration-dsl-scala, update it to use latest Gradle, and locate the following in the top-level build.gradle:
 
-tasks.withType(ScalaCompile) {
-  scalaCompileOptions.useAnt = true
-}
+...
+  tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = true
+  }
 
 Run a clean compile (`gradlew cleanCompileScala compileScala`). Make a source code change to the `core` project and recompile (`gradlew compileScala`). Repeat with `useAnt = false`, which will make use of compiler daemon and Zinc incremental compiler.

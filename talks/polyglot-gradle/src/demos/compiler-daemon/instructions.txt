@@ -7,4 +7,4 @@ allprojects {
     }
 }
 
-First run with `useAnt = true`, then with `useAnt = false`. THe latter will use the compiler daemon.
+First run `gradlew compileJava` with `useAnt = true`, then with `useAnt = false`. The latter will use the compiler daemon.
