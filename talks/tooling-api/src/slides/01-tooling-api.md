@@ -44,7 +44,7 @@ Start with [user guide](http://www.gradle.org/docs/current/userguide/embedding.h
 * Get a model
     - Predefined models exposing project structure: Eclipse and IDEA support, project structure, publications  
     - Custom models registered by users code
-* Run an action (run more builds, get more actions)
+* Execute an action (run more builds, get more actions)
 
 ## Tooling API cross-version support
 
@@ -60,7 +60,7 @@ Dependencies visualisation
 ## Case study
 
 * Create an application visualizing project dependencies
-* Initial code at https://github.com/radimk/gradle-toolingApi-demo
+* Initial code at [https://github.com/radimk/gradle-toolingApi-demo](https://github.com/radimk/gradle-toolingApi-demo)
 
 ## Case study - beginnings
 
@@ -70,6 +70,18 @@ Project structure
 * Client side accessing the model
 * Sample project used for testing
 
+## Case study - beginnings
+
+Project structure
+
+* Custom tooling model builder
+    - Define a plugin
+    - Design model interface
+    - Register [ToolingModelBuilder](http://www.gradle.org/docs/current/javadoc/org/gradle/tooling/provider/model/ToolingModelBuilder.html)
+    - Add model implementation
+* Publish the plugin and then run the client  
+   `./gradlew :dependencyPlugin:publish :dependencyClient:run`
+
 ## Case study - cont'd
 
 Wrap the client into a webapp.
@@ -78,9 +90,23 @@ Wrap the client into a webapp.
 
 More realistic model provided from plugin.
 
+* Project -> subprojects
+* Project -> configurations
+* Configuration -> dependency resolution returned as [ResolutionResult](http://www.gradle.org/docs/current/javadoc/org/gradle/api/artifacts/result/ResolutionResult.html)
+* Shortcut: internal class `RenderableModuleResult` used in `:dependencies` task (from `org.gradle.api.tasks.diagnostics.internal.graph.nodes` package)
+
 ## Case study - cont'd
 
 Use init script to extend any Gradle build.
+
+* No need for changes in project code.
+* Classpath same for plugin and client
+* Init script created on the fly and passed as an argument to [LongRunningOperation](http://www.gradle.org/docs/current/javadoc/org/gradle/tooling/LongRunningOperation.html)  
+
+## Case study
+
+![LightTable](img/lighttable.png)
+[LightTable integration](https://twitter.com/mrundberget/status/473054214273642496/photo/1) by Magnus Rundberget
 
 # Case study 2
 
@@ -88,7 +114,7 @@ Testing custom Gradle plugin
 
 ## Plugin testing
 
-https://github.com/radimk/gradle-nbm-plugin
+Example [https://github.com/radimk/gradle-nbm-plugin](https://github.com/radimk/gradle-nbm-plugin)
 
 # Plans
 
