@@ -80,7 +80,7 @@ IDEA in Action
 
 ## NetBeans
 
-* Separately release plugin, improving continuously
+* Separately released plugin, improving continuously
 
 Capabilities:
 
@@ -108,7 +108,6 @@ NetBeans in Action
 
 * Installation
 * Initial import
-* Reimport with changed scope
 * Executing builds
 * Testing and debugging
 * Gradle as the build engine
@@ -137,7 +136,7 @@ Domain vocabularies
 | --- | --- |
 | Gradle build |  | 
 | Gradle project | Eclipse project |
-| Configurations | *no match* |
+| Configurations | *no match*, one classpath |
 | Runs the build and tests | Repeats the build and launch configuration |
 
 **Beware:** `eclipse` vs. `eclipse-wtp`
@@ -152,11 +151,8 @@ Eclipse in Action
 * Initial import
 * Reimport with changed scope
 * Sync after dependency change
+* Container vs. libraries
 * Executing Builds
-* Tool configurations
-* Editing support
-* Dealing with generated sources
-* Dealing with generated resources
 
 # Generating Project Files
 
@@ -177,3 +173,4 @@ Generating Project Files
 * Well-defined entry point for all tools
 * Builds always run in Gradle Daemon
 * Can also be used for testing plugins
+* More in Get insight into your Gradle build with Tooling API talk tomorrow

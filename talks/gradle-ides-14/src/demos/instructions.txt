@@ -1,0 +1,2 @@
+* Clone https://github.com/pniederw/spring-petclinic
+* Demo various ways of working with the project in IDEs

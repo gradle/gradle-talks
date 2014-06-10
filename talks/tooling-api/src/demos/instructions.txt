@@ -1,0 +1,2 @@
+* Clone https://github.com/radimk/gradle-toolingApi-demo
+* Starting version is in master branch
