@@ -1,0 +1,8 @@
+rootProject.name = 'webinar-parent'
+include ':webinar-api'
+include ':webinar-impl'
+include ':webinar-war'
+
+project(':webinar-api').projectDir = "$rootDir/webinar-api" as File
+project(':webinar-impl').projectDir = "$rootDir/webinar-impl" as File
+project(':webinar-war').projectDir = "$rootDir/webinar-war" as File
