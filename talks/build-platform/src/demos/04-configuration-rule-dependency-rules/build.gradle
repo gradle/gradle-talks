@@ -1,0 +1,23 @@
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    all { Configuration configuration ->
+        configuration.incoming.afterResolve {
+            def hibernateDependencies = compile.resolvedConfiguration.resolvedArtifacts.findAll {
+                it.moduleVersion.id.group == "org.codehaus.plexus"
+            }
+
+            if (hibernateDependencies) {
+                throw new Exception("Found plexus dependencies! - ${hibernateDependencies*.moduleVersion*.id}")
+            }
+        }
+    }
+}
+
+dependencies {
+    testRuntime 'com.nitorcreations:cloudy-plugin:1.0'
+}

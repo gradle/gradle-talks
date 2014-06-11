@@ -1,0 +1,11 @@
+
+apply plugin: "corporate"
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+compileTestJava {
+    // sourceCompatibility = "1.7"
+}

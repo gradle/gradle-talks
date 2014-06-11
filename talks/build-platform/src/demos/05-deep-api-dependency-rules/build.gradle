@@ -1,0 +1,47 @@
+apply plugin: "java"
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile "org.spockframework:spock-core:0.7-groovy-2.0"
+  compile "org.codehaus.groovy:groovy-all:2.1.0"
+}
+
+configurations.all {
+  // (1) Replace a dependency wherever it appears
+  resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+    if (details.requested.name == 'groovy-all') {
+      details.useTarget group: details.requested.group, name: 'groovy', version: details.requested.version
+    }
+  }
+
+  // (2) Fail if upgrading past a major version boundary
+  incoming.resolutionResult.allDependencies { DependencyResult dependencyResult ->
+    if (!SemanticVersion.isMatch(dependencyResult.requested.version) || !SemanticVersion.isMatch(dependencyResult.selected.id.version)) {
+      return
+    }
+
+    def requested = new SemanticVersion(dependencyResult.requested.version)
+    def selected = new SemanticVersion(dependencyResult.selected.id.version)
+
+    if (requested.major != selected.major) {
+      throw new Exception("Dependency $dependencyResult has a different selected major version than was requested")
+    }
+  }
+}
+
+class SemanticVersion {
+  int major
+  int minor
+  int patch
+
+  SemanticVersion(String version) {
+    (major, minor, patch) = version.split("\\.")
+  }
+
+  static boolean isMatch(String version) {
+    version ==~ /\d+\.\d+\.\d+/
+  }
+}

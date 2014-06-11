@@ -1,0 +1,30 @@
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile "junit:junit:4.10"
+}
+
+task otherTest(type: Test) {
+    classpath = test.classpath
+    testSrcDirs = test.testSrcDirs
+}
+
+def forks = Math.max(2, (int) (Runtime.runtime.availableProcessors() / 2))
+
+// Attempt 1.
+
+test {
+    maxParallelForks = forks
+}
+
+
+// Attempt 2.
+/*
+tasks.withType(Test) {
+    maxParallelForks = forks
+}
+*/
